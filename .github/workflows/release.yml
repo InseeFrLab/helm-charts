@@ -1,4 +1,4 @@
-name: Release Charts
+name: Update pages
 
 on:
   push:
