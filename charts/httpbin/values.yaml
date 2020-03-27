@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   name: kennethreitz/httpbin
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
