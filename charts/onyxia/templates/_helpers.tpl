@@ -63,36 +63,59 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "onyxia.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- define "onyxia.api.chart" -}}
+{{- printf "onyxia-api" -}}
 {{- end -}}
 
-{{/*
-Common labels
-*/}}
-{{- define "onyxia.labels" -}}
-helm.sh/chart: {{ include "onyxia.chart" . }}
-{{ include "onyxia.selectorLabels" . }}
+{{- define "onyxia.ui.chart" -}}
+{{- printf "onyxia-ui" -}}
+{{- end -}}
+
+
+{{/*Common labels*/}}
+
+{{- define "onyxia.api.labels" -}}
+helm.sh/chart: {{ include "onyxia.api.chart" . }}
+{{ include "onyxia.api.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{/*
-Selector labels
-*/}}
-{{- define "onyxia.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "onyxia.name" . }}
+{{- define "onyxia.ui.labels" -}}
+helm.sh/chart: {{ include "onyxia.ui.chart" . }}
+{{ include "onyxia.ui.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*Selector labels*/}}
+{{- define "onyxia.api.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "onyxia.api.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "onyxia.serviceAccountName" -}}
+{{- define "onyxia.ui.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "onyxia.ui.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{/*Create the name of the service account to use*/}}
+
+{{- define "onyxia.api.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "onyxia.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "onyxia.api.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{- define "onyxia.ui.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "onyxia.ui.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

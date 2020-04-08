@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "onyxia.fullname" . }}-test-connection"
+  name: "{{ include "onyxia.api.fullname" . }}-test-connection"
   labels:
-    {{- include "onyxia.labels" . | nindent 4 }}
+    {{- include "onyxia.api.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "onyxia.fullname" . }}:{{ .Values.api.service.port }}']
+      args: ['{{ include "onyxia.api.fullname" . }}:{{ .Values.api.service.port }}']
   restartPolicy: Never

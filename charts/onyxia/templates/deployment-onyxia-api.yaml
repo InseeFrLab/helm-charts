@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "onyxia.fullname" . }}
+  name: {{ include "onyxia.api.fullname" . }}
   labels:
-    {{- include "onyxia.labels" . | nindent 4 }}
+    {{- include "onyxia.api.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.api.replicaCount }}
   selector:
     matchLabels:
-      {{- include "onyxia.selectorLabels" . | nindent 6 }}
+      {{- include "onyxia.api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "onyxia.selectorLabels" . | nindent 8 }}
+        {{- include "onyxia.api.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.api.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "onyxia.serviceAccountName" . }}
+      serviceAccountName: {{ include "onyxia.api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
       containers:
@@ -26,6 +26,11 @@ spec:
           securityContext:
             {{- toYaml .Values.api.securityContext | nindent 12 }}
           image: "{{ .Values.api.image.name }}:{{ .Chart.AppVersion }}"
+          env: 
+          {{- range .Values.env.ui }}
+            - name: {{ .name }}
+              value: {{ .value }}
+           {{- end }}
           imagePullPolicy: {{ .Values.api.image.pullPolicy }}
           ports:
             - name: http

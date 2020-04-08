@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "onyxia.api.fullname" . }}
   labels:
-    {{- include "onyxia.labels" . | nindent 4 }}
+    {{- include "onyxia.api.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.api.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "onyxia.selectorLabels" . | nindent 4 }}
+    {{- include "onyxia.api.selectorLabels" . | nindent 4 }}

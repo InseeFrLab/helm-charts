@@ -1,5 +1,5 @@
 {{- if .Values.ui.ingress.enabled -}}
-{{- $fullName := include "onyxia.fullname" . -}}
+{{- $fullName := include "onyxia.ui.fullname" . -}}
 {{- $svcPort := .Values.ui.service.port -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
@@ -10,7 +10,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "onyxia.labels" . | nindent 4 }}
+    {{- include "onyxia.ui.labels" . | nindent 4 }}
   {{- with .Values.ui.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
