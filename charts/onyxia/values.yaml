@@ -144,7 +144,7 @@ env:
     - name: keycloak.auth-server-url
       value: ""
     - name: keycloak.ssl-required
-      value: "external"
+      value: ""
     - name: keycloak.public-client
       value: "true"
     - name: keycloak.enable-basic-auth
