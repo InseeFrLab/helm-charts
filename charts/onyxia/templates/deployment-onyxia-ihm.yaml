@@ -30,7 +30,7 @@ spec:
           env:
             {{- range .Values.env.ui }}
             - name: {{ .name }}
-              value: {{ .value }}
+              value: {{ .value | quote}}
            {{- end }}
           ports:
             - name: http

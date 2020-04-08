@@ -138,121 +138,121 @@ api:
 env:
   api:
     - name: keycloak.realm
-      value:
+      value: ""
     - name: keycloak.resource
-      value:
+      value: ""
     - name: keycloak.auth-server-url
-      value:
+      value: ""
     - name: keycloak.ssl-required
-      value: external
+      value: "external"
     - name: keycloak.public-client
-      value: true
+      value: "true"
     - name: keycloak.enable-basic-auth
-      value: true
+      value: "true"
     - name: keycloak.bearer-only
-      value: true
+      value: "true"
     - name: keycloak.disable-trust-manager
-      value: true
+      value: "true"
     - name: keycloak.enabled
-      value: false
+      value: "false"
     - name: springdoc.swagger-ui.path
-      value: /
+      value: "/"
     - name: marathon.url
-      value:
+      value: ""
     - name: marathon.auth.token
-      value:
+      value: ""
     - name: marathon.auth.basic.username
-      value:
+      value: ""
     - name: marathon.auth.basic.password
-      value:
+      value: ""
     - name: marathon.group.name
-      value: users
+      value: "users"
     - name: marathon.dns.suffix
-      value: marathon.containerip.dcos.thisdcos.directory
+      value: "marathon.containerip.dcos.thisdcos.directory"
     - name: marathon.publish.domain
-      value: selfservice.example.com
+      value: "selfservice.example.com"
     - name: mesos.url
-      value:
+      value: ""
     - name: catalogs.configuration
-      value: classpath:multiverse.json
+      value: "classpath:multiverse.json"
     - name: catalog.refresh.ms
-      value: 300000
+      value: "300000"
     - name: userdata.source
-      value: none
+      value: "none"
     - name: cassandra.hosts
-      value:
+      value: ""
     - name: cassandra.port
-      value:
+      value: ""
     - name: debug.http.log
-      value: false
+      value: "false"
     - name: s3.url.alpha
-      value:
+      value: ""
     - name: s3.url.stable
-      value:
+      value: ""
     - name: s3.accesskey
-      value:
+      value: ""
     - name: s3.secretkey
-      value:
+      value: ""
     - name: s3.region
-      value: us-east-1
+      value: "us-east-1"
   ui:
     - name: REACT_APP_BASE_API_URL
-      value:
+      value: ""
     - name: REACT_APP_SERVICES_URL
-      value:
+      value: ""
     - name: REACT_APP_HOMEPAGE_URL
-      value:
+      value: ""
     - name: REACT_APP_DNS
-      value:
+      value: ""
     - name: REACT_APP_GIT_PATH
-      value:
+      value: ""
     - name: REACT_APP_PASSWORD
-      value:
+      value: ""
     - name: REACT_APP_GRAFANA_BASE_URI
-      value:
+      value: ""
     - name: REACT_APP_MINIO_BASE_URI
-      value:
+      value: ""
     - name: REACT_APP_MINIO_END_POINT
-      value:
+      value: ""
     - name: REACT_APP_MINIO_PORT
-      value:
+      value: ""
     - name: REACT_APP_MINIO_END_MINIMUM_DURATION_MS
-      value: 36000000
+      value: "36000"
     - name: REACT_APP_SALON_ROCKETCHAT
-      value:
+      value: ""
     - name: REACT_APP_VAULT_BASE_URI
-      value:
+      value: ""
     - name: REACT_APP_INSTANCES_MAX
-      value: 100
+      value: "100"
     - name: REACT_APP_ONYXIA_GIT
-      value: https://github.com/inseefrlab/onyxia-ui
+      value: "https://github.com/inseefrlab/onyxia-ui"
     - name: REACT_APP_ONYXIA_ROCKETCHAT
-      value:
+      value: ""
     - name: REACT_APP_SWAGGER_API
-      value: https://github.com/inseefrlab/onyxia-api
+      value: "https://github.com/inseefrlab/onyxia-api"
     - name: REACT_APP_GHOST_URL
-      value:
+      value: ""
     - name: REACT_APP_GRAFANA_URL
-      value:
+      value: ""
     - name: REACT_APP_KUB_KC_CLIENT_ID
-      value:
+      value: ""
     - name: REACT_APP_KUB_KC_URL
-      value:
+      value: ""
     - name: REACT_APP_KUB_APISERVER_URL
-      value:
+      value: ""
     - name: REACT_APP_AUTH_TYPE
-      value: none
+      value: "none"
     - name: REACT_APP_AUTH_OIDC_CLIENT_ID
-      value:
+      value: ""
     - name: REACT_APP_AUTH_OIDC_REALM
-      value:
+      value: ""
     - name: REACT_APP_AUTH_OIDC_URL
-      value:
+      value: ""
     - name: REACT_APP_AUTH_OIDC_SSL_REQUIRED
-      value:
+      value: ""
     - name: REACT_APP_AUTH_OIDC_RESOURCE
-      value:
+      value: ""
     - name: REACT_APP_AUTH_OIDC_PUBLIC_CLIENT
-      value:
+      value: ""
     - name: REACT_APP_AUTH_OIDC_CONFIDENTIAL_PORT
-      value: 0
+      value: "0"
