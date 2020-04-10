@@ -1,7 +1,7 @@
 apiVersion: v2
 name: onyxia
-description: A Helm chart for Kubernetes
-
+description: deploy onyxia in kubernetes
+icon: https://onyxia.lab.sspcloud.fr/onyxia.svg
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -18,4 +18,4 @@ version: 1.0.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: latest
+appVersion: 1.0.0

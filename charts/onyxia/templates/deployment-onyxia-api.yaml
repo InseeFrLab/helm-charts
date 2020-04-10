@@ -25,7 +25,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.api.securityContext | nindent 12 }}
-          image: "{{ .Values.api.image.name }}:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.api.image.name }}:{{ .Values.api.image.version }}"
           env: 
           {{- range .Values.env.api }}
             - name: {{ .name }}

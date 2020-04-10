@@ -34,62 +34,11 @@ ui:
 
   image:
     name: inseefrlab/onyxia-ui
+    version: latest
     pullPolicy: IfNotPresent
 
   nameOverride: "onyxia-ui"
   fullnameOverride: "onyxia-ui"
-
-  podSecurityContext:
-    {}
-    # fsGroup: 2000
-
-  securityContext:
-    {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
-
-  service:
-    type: ClusterIP
-    port: 80
-
-  ingress:
-    enabled: true
-    tls: true
-    hostname: onyxia-api.com
-    annotations:
-      kubernetes.io/ingress.class: nginx
-
-  resources:
-    {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-api:
-  replicaCount: 1
-  image:
-    name: inseefrlab/onyxia-api
-    pullPolicy: IfNotPresent
-
-  nameOverride: "onyxia-api"
-  fullnameOverride: "onyxia-api"
 
   podSecurityContext:
     {}
@@ -134,125 +83,64 @@ api:
 
   affinity: {}
 
+api:
+  replicaCount: 1
+  image:
+    name: inseefrlab/onyxia-api
+    version: latest
+    pullPolicy: IfNotPresent
+
+  nameOverride: "onyxia-api"
+  fullnameOverride: "onyxia-api"
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: true
+    tls: true
+    hostname: onyxia-api.com
+    annotations:
+      kubernetes.io/ingress.class: nginx
+
+  resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
 ## env variable for onyxia api and onyxia ui
 env:
   api:
-    - name: keycloak.realm
-      value: ""
-    - name: keycloak.resource
-      value: ""
-    - name: keycloak.auth-server-url
-      value: ""
-    - name: keycloak.ssl-required
-      value: ""
-    - name: keycloak.public-client
-      value: "true"
-    - name: keycloak.enable-basic-auth
-      value: "true"
-    - name: keycloak.bearer-only
-      value: "true"
-    - name: keycloak.disable-trust-manager
-      value: "true"
-    - name: keycloak.enabled
-      value: "false"
-    - name: springdoc.swagger-ui.path
-      value: "/"
-    - name: marathon.url
-      value: ""
-    - name: marathon.auth.token
-      value: ""
-    - name: marathon.auth.basic.username
-      value: ""
-    - name: marathon.auth.basic.password
-      value: ""
-    - name: marathon.group.name
-      value: "users"
-    - name: marathon.dns.suffix
-      value: "marathon.containerip.dcos.thisdcos.directory"
-    - name: marathon.publish.domain
-      value: "selfservice.example.com"
-    - name: mesos.url
-      value: ""
-    - name: catalogs.configuration
-      value: "classpath:multiverse.json"
-    - name: catalog.refresh.ms
-      value: "300000"
-    - name: userdata.source
-      value: "none"
-    - name: cassandra.hosts
-      value: ""
-    - name: cassandra.port
-      value: ""
-    - name: debug.http.log
-      value: "false"
-    - name: s3.url.alpha
-      value: ""
-    - name: s3.url.stable
-      value: ""
-    - name: s3.accesskey
-      value: ""
-    - name: s3.secretkey
-      value: ""
-    - name: s3.region
-      value: "us-east-1"
+    # - name: marathon.url
+    #   value: ""
   ui:
-    - name: REACT_APP_BASE_API_URL
-      value: ""
-    - name: REACT_APP_SERVICES_URL
-      value: ""
-    - name: REACT_APP_HOMEPAGE_URL
-      value: ""
-    - name: REACT_APP_DNS
-      value: ""
-    - name: REACT_APP_GIT_PATH
-      value: ""
-    - name: REACT_APP_PASSWORD
-      value: ""
-    - name: REACT_APP_GRAFANA_BASE_URI
-      value: ""
-    - name: REACT_APP_MINIO_BASE_URI
-      value: ""
-    - name: REACT_APP_MINIO_END_POINT
-      value: ""
-    - name: REACT_APP_MINIO_PORT
-      value: ""
-    - name: REACT_APP_MINIO_END_MINIMUM_DURATION_MS
-      value: "36000"
-    - name: REACT_APP_SALON_ROCKETCHAT
-      value: ""
-    - name: REACT_APP_VAULT_BASE_URI
-      value: ""
-    - name: REACT_APP_INSTANCES_MAX
-      value: "100"
-    - name: REACT_APP_ONYXIA_GIT
-      value: "https://github.com/inseefrlab/onyxia-ui"
-    - name: REACT_APP_ONYXIA_ROCKETCHAT
-      value: ""
-    - name: REACT_APP_SWAGGER_API
-      value: "https://github.com/inseefrlab/onyxia-api"
-    - name: REACT_APP_GHOST_URL
-      value: ""
-    - name: REACT_APP_GRAFANA_URL
-      value: ""
-    - name: REACT_APP_KUB_KC_CLIENT_ID
-      value: ""
-    - name: REACT_APP_KUB_KC_URL
-      value: ""
-    - name: REACT_APP_KUB_APISERVER_URL
-      value: ""
-    - name: REACT_APP_AUTH_TYPE
-      value: "none"
-    - name: REACT_APP_AUTH_OIDC_CLIENT_ID
-      value: ""
-    - name: REACT_APP_AUTH_OIDC_REALM
-      value: ""
-    - name: REACT_APP_AUTH_OIDC_URL
-      value: ""
-    - name: REACT_APP_AUTH_OIDC_SSL_REQUIRED
-      value: ""
-    - name: REACT_APP_AUTH_OIDC_RESOURCE
-      value: ""
-    - name: REACT_APP_AUTH_OIDC_PUBLIC_CLIENT
-      value: ""
-    - name: REACT_APP_AUTH_OIDC_CONFIDENTIAL_PORT
-      value: "0"
+    # - name: REACT_APP_BASE_API_URL
+    #   value: ""
