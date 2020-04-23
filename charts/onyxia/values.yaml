@@ -31,19 +31,15 @@ serviceAccount:
 
 ui:
   replicaCount: 1
-
   image:
     name: inseefrlab/onyxia-ui
     version: latest
-    pullPolicy: IfNotPresent
-
+    pullPolicy: always
   nameOverride: "onyxia-ui"
   fullnameOverride: "onyxia-ui"
-
   podSecurityContext:
     {}
     # fsGroup: 2000
-
   securityContext:
     {}
     # capabilities:
@@ -52,18 +48,9 @@ ui:
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
     # runAsUser: 1000
-
   service:
     type: ClusterIP
     port: 80
-
-  ingress:
-    enabled: true
-    tls: true
-    hostname: onyxia.com
-    annotations:
-      kubernetes.io/ingress.class: nginx
-
   resources:
     {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -88,15 +75,12 @@ api:
   image:
     name: inseefrlab/onyxia-api
     version: latest
-    pullPolicy: IfNotPresent
-
+    pullPolicy: always
   nameOverride: "onyxia-api"
   fullnameOverride: "onyxia-api"
-
   podSecurityContext:
     {}
     # fsGroup: 2000
-
   securityContext:
     {}
     # capabilities:
@@ -105,18 +89,9 @@ api:
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
     # runAsUser: 1000
-
   service:
     type: ClusterIP
     port: 80
-
-  ingress:
-    enabled: true
-    tls: true
-    hostname: onyxia-api.com
-    annotations:
-      kubernetes.io/ingress.class: nginx
-
   resources:
     {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -129,13 +104,9 @@ api:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
-
   nodeSelector: {}
-
   tolerations: []
-
   affinity: {}
-
 ## env variable for onyxia api and onyxia ui
 env:
   api:
@@ -144,3 +115,11 @@ env:
   ui:
     # - name: REACT_APP_BASE_API_URL
     #   value: ""
+
+
+ingress:
+  enabled: true
+  tls: true
+  hostname: onyxia.com
+  annotations:
+    kubernetes.io/ingress.class: nginx

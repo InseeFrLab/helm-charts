@@ -63,6 +63,10 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
+{{- define "onyxia.chart" -}}
+{{- printf "onyxia" -}}
+{{- end -}}
+
 {{- define "onyxia.api.chart" -}}
 {{- printf "onyxia-api" -}}
 {{- end -}}
@@ -73,6 +77,15 @@ Create chart name and version as used by the chart label.
 
 
 {{/*Common labels*/}}
+
+{{- define "onyxia.labels" -}}
+helm.sh/chart: {{ include "onyxia.chart" . }}
+{{ include "onyxia.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
 
 {{- define "onyxia.api.labels" -}}
 helm.sh/chart: {{ include "onyxia.api.chart" . }}
@@ -93,6 +106,12 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*Selector labels*/}}
+{{- define "onyxia.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "onyxia.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+
 {{- define "onyxia.api.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "onyxia.api.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
