@@ -34,7 +34,7 @@ ui:
   image:
     name: inseefrlab/onyxia-ui
     version: latest
-    pullPolicy: always
+    pullPolicy: Always
   nameOverride: "onyxia-ui"
   fullnameOverride: "onyxia-ui"
   podSecurityContext:
@@ -75,7 +75,7 @@ api:
   image:
     name: inseefrlab/onyxia-api
     version: latest
-    pullPolicy: always
+    pullPolicy: Always
   nameOverride: "onyxia-api"
   fullnameOverride: "onyxia-api"
   podSecurityContext:
@@ -123,3 +123,5 @@ ingress:
   hostname: onyxia.com
   annotations:
     kubernetes.io/ingress.class: nginx
+    # nginx.ingress.kubernetes.io/use-regex: "true"
+

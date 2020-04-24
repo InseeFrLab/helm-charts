@@ -10,4 +10,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ include "onyxia.api.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
 {{- end -}}
