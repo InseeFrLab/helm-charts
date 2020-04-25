@@ -1,0 +1,109 @@
+api:
+  image:
+    name: inseefrlab/onyxia-api
+    pullPolicy: Always
+    version: latest
+  replicaCount: 1
+env:
+  api:
+  - name: keycloak.realm
+    value: sspcloud
+  - name: keycloak.resource
+    value: onyxia-gke
+  - name: keycloak.auth-server-url
+    value: https://auth.lab.sspcloud.fr/auth
+  - name: keycloak.ssl-required
+    value: external
+  - name: keycloak.public-client
+    value: "true"
+  - name: keycloak.enable-basic-auth
+    value: "true"
+  - name: keycloak.bearer-only
+    value: "true"
+  - name: keycloak.disable-trust-manager
+    value: "true"
+  - name: authentication.mode
+    value: openidconnect
+  - name: springdoc.swagger-ui.path
+    value: /
+  - name: springdoc.swagger-ui.oauth.clientId
+    value: onyxia
+  - name: marathon.enabled
+    value: "false"
+  - name: kubernetes.enabled
+    value: "true"
+  - name: kubernetes.namespace.prefix
+    value: user-
+  - name: catalogs.configuration
+    value: classpath:multiverse.json
+  - name: catalog.refresh.ms
+    value: "300000"
+  - name: userdata.source
+    value: none
+  - name: debug.http.log
+    value: "false"
+  ui:
+  - name: BASE_API_URL
+    value: https://onyxia-argo.demo.dev.sspcloud.fr/api
+  - name: DNS
+    value: onyxia.demo.dev.sspcloud.fr
+  - name: SWAGGER_API
+    value: https://onyxia-api.demo.dev.sspcloud.fr
+  - name: SERVICES_URL
+    value: https://innovation.pages.lab.sspcloud.fr/plateforme-onyxia/services-ressources/services.json
+  - name: HOMEPAGE_URL
+    value: https://innovation.pages.lab.sspcloud.fr/plateforme-onyxia/services-ressources/accueil.json
+  - name: TRAININGS_URL
+    value: https://innovation.pages.lab.sspcloud.fr/plateforme-onyxia/services-ressources/formations.json
+  - name: ONYXIA_GIT
+    value: https://github.com/InseeFrLab/onyxia-ui
+  - name: PASSWORD
+    value: change-me
+  - name: MINIO_BASE_URI
+    value: https://minio.lab.sspcloud.fr
+  - name: MINIO_END_POINT
+    value: minio.lab.sspcloud.fr
+  - name: MINIO_PORT
+    value: "443"
+  - name: MINIO_END_MINIMUM_DURATION_MS
+    value: "36000000"
+  - name: VAULT_BASE_URI
+    value: https://vault.lab.sspcloud.fr
+  - name: VAULT_KV_ENGINE
+    value: onyxia-kv
+  - name: KUB_SERVER_URL
+    value: https://oidc.demo.dev.sspcloud.fr
+  - name: KUB_SERVER_NAME
+    value: google-cloud-demo
+  - name: INSTANCES_MAX
+    value: "100"
+  - name: ONYXIA_GIT
+    value: https://github.com/inseefrlab/onyxia-ui
+  - name: AUTH_TYPE
+    value: oidc
+  - name: AUTH_OIDC_CLIENT_ID
+    value: onyxia-gke
+  - name: AUTH_OIDC_REALM
+    value: sspcloud
+  - name: AUTH_OIDC_URL
+    value: https://auth.lab.sspcloud.fr/auth
+  - name: AUTH_OIDC_SSL_REQUIRED
+    value: external
+  - name: AUTH_OIDC_RESOURCE
+    value: onyxia
+  - name: AUTH_OIDC_PUBLIC_CLIENT
+    value: "true"
+  - name: AUTH_OIDC_CONFIDENTIAL_PORT
+    value: "0"
+ui:
+  image:
+    name: inseefrlab/onyxia-ui
+    pullPolicy: Always
+    version: latest
+
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  enabled: true
+  hostname: onyxia-argo.demo.dev.sspcloud.fr
+  tls: true
