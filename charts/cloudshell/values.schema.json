@@ -2,15 +2,6 @@
   "$schema": "http://json-schema.org/schema#",
   "type": "object",
   "properties": {
-    "replicaCount": {
-      "type": "integer",
-      "title": "Replica count",
-      "form": true,
-      "description": "Number of replicas",
-      "x-form": {
-        "hidden":true
-      }
-    },
     "ingress": {
       "type": "object",
       "form": true,
@@ -20,10 +11,7 @@
           "type": "boolean",
           "form": true,
           "title": "Use a custom hostname",
-          "description": "Enable the ingress resource that exposes the application to the world.",
-          "x-form": {
-            "hidden":true
-          }
+          "description": "Enable the ingress resource that exposes the application to the world."
         },
         "hostname": {
           "type": "string",
@@ -32,21 +20,16 @@
           "hidden": {
             "condition": false,
             "value": "ingress.enabled"
-          },
-          "x-form": {
-            "hidden":true
           }
         },
         "tls": {
           "type": "boolean",
           "form": true,
           "title": "Use TLS",
+          "default": true,
           "hidden": {
             "condition": false,
             "value": "ingress.enabled"
-          },
-          "x-form": {
-            "hidden":true
           }
         }
       }
