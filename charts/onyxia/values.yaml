@@ -107,3 +107,7 @@ ingress:
     kubernetes.io/ingress.class: nginx
     # nginx.ingress.kubernetes.io/use-regex: "true"
 
+# Onyxia can deploy it's own minio storage
+minio:
+  # If disabled, external minio URL should be added to the UI env
+  enabled: false

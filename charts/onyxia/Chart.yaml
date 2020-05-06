@@ -19,3 +19,9 @@ version: 1.0.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
 appVersion: 1.0.0
+
+dependencies:
+  - name: minio
+    version: 5.0.25
+    repository: https://kubernetes-charts.storage.googleapis.com
+    condition: minio.enabled
