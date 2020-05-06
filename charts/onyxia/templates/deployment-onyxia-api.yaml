@@ -31,6 +31,8 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote}}
            {{- end }}
+            - name: regions
+              value: {{ .Values.api.regions | toJson | quote }}
           imagePullPolicy: {{ .Values.api.image.pullPolicy }}
           ports:
             - name: http

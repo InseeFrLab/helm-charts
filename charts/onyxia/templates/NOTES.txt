@@ -1,1 +1,7 @@
 
+1. Get the application URL by running these commands:
+{{- if .Values.ingress.enabled }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .Values.ingress.hostname }}
+{{ else }}
+  The application is running but not exposed by ingress
+{{ end }}
