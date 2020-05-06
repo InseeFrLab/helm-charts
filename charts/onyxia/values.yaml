@@ -12,31 +12,14 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
-  api:
-    # Specifies whether a service account should be created
-    create: true
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name:
-  ui:
-    # Specifies whether a service account should be created
-    create: true
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name:
 
 ui:
+  name: ui
   replicaCount: 1
   image:
     name: inseefrlab/onyxia-ui
     version: latest
     pullPolicy: Always
-  nameOverride: "onyxia-ui"
-  fullnameOverride: "onyxia-ui"
   podSecurityContext:
     {}
     # fsGroup: 2000
@@ -70,14 +53,17 @@ ui:
 
   affinity: {}
 
+  env: 
+    # - name: AUTH_TYPE
+    #   value: "none"
+
 api:
+  name: api
   replicaCount: 1
   image:
     name: inseefrlab/onyxia-api
     version: latest
     pullPolicy: Always
-  nameOverride: "onyxia-api"
-  fullnameOverride: "onyxia-api"
   podSecurityContext:
     {}
     # fsGroup: 2000
@@ -107,47 +93,16 @@ api:
   nodeSelector: {}
   tolerations: []
   affinity: {}
-  regions: [
-  {
-    "regionId": "kub",
-    "type": "KUBERNETES",
-    "namespace-prefix": "user-",
-    "publish-domain": "fakedomain.kub.example.com",
-    "cloudshell": {
-      "catalogId": "inseefrlab-helm-charts",
-      "packageName": "cloudshell"
-    }
-  },
-  {
-    "regionId": "marathon",
-    "type": "MARATHON",
-    "serverUrl": "",
-    "publish-domain": "fakedomain.marathon.example.com",
-    "namespace-prefix": "users",
-    "marathon-dns-suffix": "marathon.containerip.dcos.thisdcos.directory",
-    "cloudshell": {
-      "catalogId": "internal",
-      "packageName": "shelly"
-    },
-    "auth": {
-      "token": "xxxxx"
-    }
-  }
-]
-## env variable for onyxia api and onyxia ui
-env:
-  api:
-    # - name: marathon.url
-    #   value: ""
-  ui:
-    # - name: REACT_APP_BASE_API_URL
-    #   value: ""
+  env: 
+    # - name: authentication.mode
+    #   value: "none"
+  regions:
 
 
 ingress:
   enabled: true
   tls: true
-  hostname: onyxia.com
+  hostname: example.com
   annotations:
     kubernetes.io/ingress.class: nginx
     # nginx.ingress.kubernetes.io/use-regex: "true"

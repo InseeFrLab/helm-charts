@@ -7,11 +7,12 @@ Expand the name of the chart.
 {{- end -}}
 
 {{- define "onyxia.ui.name" -}}
-{{- default .Chart.Name .Values.ui.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" (include "onyxia.name" .) .Values.ui.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+
 {{- define "onyxia.api.name" -}}
-{{- default .Chart.Name .Values.api.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" (include "onyxia.name" .) .Values.api.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
@@ -34,30 +35,12 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{- define "onyxia.ui.fullname" -}}
-{{- if .Values.ui.fullnameOverride -}}
-{{- .Values.ui.fullnameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- $name := default .Chart.Name .Values.ui.nameOverride -}}
-{{- if contains $name .Release.Name -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-{{- end -}}
+{{- printf "%s-%s" (include "onyxia.fullname" .) .Values.ui.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
 {{- define "onyxia.api.fullname" -}}
-{{- if .Values.api.fullnameOverride -}}
-{{- .Values.api.fullnameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- $name := default .Chart.Name .Values.api.nameOverride -}}
-{{- if contains $name .Release.Name -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-{{- end -}}
+{{- printf "%s-%s" (include "onyxia.fullname" .) .Values.api.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*

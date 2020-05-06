@@ -28,10 +28,10 @@ spec:
           image: "{{ .Values.ui.image.name }}:{{ .Values.ui.image.version }}"
           imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
           env:
-            {{- range .Values.env.ui }}
-            - name: {{ .name }}
-              value: {{ .value | quote}}
-           {{- end }}
+           {{- range $key, $val := .Values.api.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
           ports:
             - name: http
               containerPort: 80
