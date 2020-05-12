@@ -1,0 +1,41 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullNameApi := include "onyxia.api.fullname" . -}}
+{{- $fullNameUi := include "onyxia.ui.fullname" . -}}
+{{- $fullName := include "onyxia.fullname" . -}}
+{{- $svcPortApi := .Values.api.service.port -}}
+{{- $svcPortUi := .Values.api.service.port -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "onyxia.labels" . | nindent 4 }}
+  annotations:
+  {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+
+spec:
+{{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.hostname | quote }}
+{{- end }}
+  rules:
+    - host: {{ .Values.ingress.hostname | quote }}
+      http:
+        paths:
+          - path: /api/(.*)
+            backend:
+              serviceName: {{ $fullNameApi }}
+              servicePort: {{ $svcPortApi }}
+          - path: /(.*)
+            backend: 
+              serviceName: {{$fullNameUi}}
+              servicePort: {{$svcPortUi}}
+{{- end }}
