@@ -30,22 +30,24 @@ spec:
       volumes:
         - emptyDir: {}
           name: rules
+      {{- if .Values.rules.url }}
       initContainers:
         - name: fetch
           image: mwendler/wget
-          command: ["wget","--no-check-certificate","https://innovation.pages.lab.sspcloud.fr/opa/rules.tar","-O","/data/rules.tar"]
+          command: ["wget","--no-check-certificate",{{ .Values.rules.url | quote }},"-O","/rules/rules.rego"]
           volumeMounts:
-            - mountPath: /data
+            - mountPath: /rules
               name: rules
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           volumeMounts:
-            - mountPath: /data
+            - mountPath: /rules
               name: rules
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          args: ["run","--server", "--watch", "--log-level","debug","/mnt/data/rules.tar"]
+          args: ["run","--server", "--watch", "--log-level","debug","/rules"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
