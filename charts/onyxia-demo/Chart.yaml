@@ -34,3 +34,11 @@ dependencies:
   version: "0.1.0"
   repository: file://../opa
   condition: opa.enabled
+- name: vault
+  version: "0.5.0"
+  repository: "https://helm.releases.hashicorp.com"
+  condition: vault.enabled
+- name: keycloak
+  version: "8.0.0"
+  repository: "https://codecentric.github.io/helm-charts"
+  condition: keycloak.enabled

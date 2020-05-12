@@ -59,3 +59,30 @@ opa:
     enabled: true
     rules:
         url: https://git.lab.sspcloud.fr/innovation/opa/-/raw/master/rules/minio.rego
+    ingress:
+        enabled: false
+        annotations: 
+            kubernetes.io/ingress.class: nginx
+        path: /
+        hosts:
+            host: chart-example.local
+        tls:
+        - hosts:
+            - minio.example.com
+    ingress:
+        enabled: false
+        annotations: 
+            kubernetes.io/ingress.class: nginx
+        hosts:
+            - host: opa.demo.dev.sspcloud.fr
+              paths: []
+        tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+vault:
+    enabled: true
+
+keycloak:
+    enabled: true

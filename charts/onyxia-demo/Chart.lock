@@ -8,5 +8,11 @@ dependencies:
 - name: opa
   repository: file://../opa
   version: 0.1.0
-digest: sha256:505230fb6c8b5cc96f4cb0daf1a865bd81a9fc79f85c69b981ef23ddd6f5d19b
-generated: "2020-05-12T14:20:19.927120425+02:00"
+- name: vault
+  repository: https://helm.releases.hashicorp.com
+  version: 0.5.0
+- name: keycloak
+  repository: https://codecentric.github.io/helm-charts
+  version: 8.0.0
+digest: sha256:ca73e1ce4520fd324d530b9d9b7b0368af4478d0e32074e988a8cd69da97aad8
+generated: "2020-05-12T14:35:33.104827439+02:00"
