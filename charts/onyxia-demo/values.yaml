@@ -53,3 +53,9 @@ minio:
         ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).
         ##
         subPath: ""
+
+# OPA (Minio permissions)  
+opa:
+    enabled: true
+    rules:
+        url: https://git.lab.sspcloud.fr/innovation/opa/-/raw/master/rules/minio.rego

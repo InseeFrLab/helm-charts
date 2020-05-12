@@ -30,3 +30,7 @@ dependencies:
   version: "5.0.25"
   repository: "https://kubernetes-charts.storage.googleapis.com"
   condition: minio.enabled
+- name: opa
+  version: "0.1.0"
+  repository: file://../opa
+  condition: opa.enabled
