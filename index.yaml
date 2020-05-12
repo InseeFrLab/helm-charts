@@ -32,4 +32,16 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/httpbin-1.1/httpbin-1.1.tgz
     version: "1.1"
+  onyxia:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2020-05-12T08:52:32.294803746Z"
+    description: Onyxia is your datalab's hub.
+    digest: 5b72f3254484b389d7e35b8e1995db698eb4a560bdf694e16be509c638f65007
+    icon: https://onyxia.lab.sspcloud.fr/onyxia.svg
+    name: onyxia
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/onyxia-1.0.0/onyxia-1.0.0.tgz
+    version: 1.0.0
 generated: "2020-03-27T22:46:19.192701581Z"
