@@ -1,0 +1,6 @@
+Enjoy Onyxia :)  
+{{- if .Values.minio.ingress.enabled }}
+  http{{ if $.Values.minio.ingress.tls }}s{{ end }}://{{ index .Values.minio.ingress.hosts 0 }}
+{{ else }}
+  The application is running but not exposed by ingress
+{{ end }}

@@ -1,1 +1,55 @@
-baseDomain: "example.fr"
+
+# Minio (S3 Storage)  
+minio:
+    ingress:
+        enabled: true
+        labels: {}
+        # node-role.kubernetes.io/ingress: platform
+
+        annotations:
+            kubernetes.io/ingress.class: nginx
+            # kubernetes.io/tls-acme: "true"
+            # kubernetes.io/ingress.allow-http: "false"
+            # kubernetes.io/ingress.global-static-ip-name: ""
+            #nginx.ingress.kubernetes.io/secure-backends: "true"
+            #nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            #nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+        path: /
+        hosts:
+        - minio.example.com
+        tls:
+        - hosts:
+            - minio.example.com
+
+    ## Set default accesskey, secretkey, Minio config file path, volume mount path and
+    ## number of nodes (only used for Minio distributed mode)
+    ## AccessKey and secretKey is generated when not set
+    ## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
+    accessKey: "2ujCyeFw3uG8WkMT"
+    secretKey: "EDwAt5zzhNzMq58yAp2gY6jxbxJCLQtkcgPfSdVHFtVQyAadjTYp5jJKZqW5pNwH"
+    persistence:
+        enabled: true
+
+        ## A manually managed Persistent Volume and Claim
+        ## Requires persistence.enabled: true
+        ## If defined, PVC must be created manually before volume will be bound
+        existingClaim: ""
+
+        ## minio data Persistent Volume Storage Class
+        ## If defined, storageClassName: <storageClass>
+        ## If set to "-", storageClassName: "", which disables dynamic provisioning
+        ## If undefined (the default) or set to null, no storageClassName spec is
+        ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+        ##   GKE, AWS & OpenStack)
+        ##
+        ## Storage class of PV to bind. By default it looks for standard storage class.
+        ## If the PV uses a different storage class, specify that here.
+        storageClass: ""
+        VolumeName: ""
+        accessMode: ReadWriteOnce
+        size: 10Gi
+
+        ## If subPath is set mount a sub folder of a volume instead of the root of the volume.
+        ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).
+        ##
+        subPath: ""
