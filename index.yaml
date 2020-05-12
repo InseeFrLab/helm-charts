@@ -44,4 +44,15 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/onyxia-1.0.0/onyxia-1.0.0.tgz
     version: 1.0.0
+  opa:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2020-05-12T13:10:00.124044659Z"
+    description: Simple OPA server
+    digest: 699388cf989af8cb3e4484b97717b172b0a771e3c735f87b4c89d973cbd4e4f7
+    name: opa
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/opa-0.1.0/opa-0.1.0.tgz
+    version: 0.1.0
 generated: "2020-03-27T22:46:19.192701581Z"
