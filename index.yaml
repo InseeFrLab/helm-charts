@@ -32,6 +32,20 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/httpbin-1.1/httpbin-1.1.tgz
     version: "1.1"
+  kube-oidc-proxy:
+  - apiVersion: v1
+    appVersion: v0.3.0
+    created: "2020-10-10T17:09:53.379829951Z"
+    description: A Helm chart for kube-oidc-proxy
+    digest: 21933d15c02b78c369116df8b328f5d17b019f8a667bb24a3a56fae8fb855ae1
+    home: https://github.com/jetstack/kube-oidc-proxy
+    maintainers:
+    - name: mhrabovcin
+    - name: joshvanl
+    name: kube-oidc-proxy
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/kube-oidc-proxy-0.3.1/kube-oidc-proxy-0.3.1.tgz
+    version: 0.3.1
   onyxia:
   - apiVersion: v2
     appVersion: 1.0.0
