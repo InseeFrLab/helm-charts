@@ -1,0 +1,80 @@
+{{- $fullName := include "tomcat.fullname" . -}}
+{{- $volumeName := printf "%s-%s" $fullName "data" | trunc 63 | trimSuffix "-" -}}
+{{- $initContainerName := printf "%s-%s" $fullName "init-data" | trunc 63 | trimSuffix "-" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tomcat.fullname" . }}
+  labels:
+    {{- include "tomcat.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "tomcat.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "tomcat.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: {{$volumeName}}
+          emptyDir: {}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "tomcat.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.image.containerPort }}
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /usr/local/tomcat/webapps
+              name: {{$volumeName}}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.image.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.image.containerPort }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.init.warUrl }}
+      initContainers:
+        - name: download-war
+          image: "curlimages/curl"
+          command: ["curl"]
+          args: ["-o","/data/ROOT.war","-L", {{ .Values.init.warUrl | quote }}]
+          volumeMounts:
+          - mountPath: /data
+            name: {{$volumeName}}          
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
