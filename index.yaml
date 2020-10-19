@@ -69,4 +69,15 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/opa-0.1.0/opa-0.1.0.tgz
     version: 0.1.0
+  tomcat:
+  - apiVersion: v2
+    appVersion: "8.5"
+    created: "2020-10-19T12:44:41.342965155Z"
+    description: A Helm chart for Kubernetes
+    digest: 0ebec25143831e1c61f7a4d3a8be80d7593c1e99a20dbc8f3c1d3b78ed60ca76
+    name: tomcat
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/tomcat-0.1.0/tomcat-0.1.0.tgz
+    version: 0.1.0
 generated: "2020-03-27T22:46:19.192701581Z"
