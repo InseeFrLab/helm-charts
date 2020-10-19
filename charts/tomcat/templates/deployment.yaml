@@ -56,12 +56,21 @@ spec:
               port: {{ .Values.image.containerPort }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      {{- if .Values.init.warUrl }}
+      {{- if .Values.init.enabled }}
       initContainers:
         - name: download-war
-          image: "curlimages/curl"
-          command: ["curl"]
-          args: ["-o","/data/ROOT.war","-L", {{ .Values.init.warUrl | quote }}]
+          image: {{ .Values.init.image | quote }}
+          command: {{- range .Values.init.command }}
+          - {{ . | quote }}
+          {{- end }}
+          args: {{- range .Values.init.args }} 
+          - {{ . | quote }}
+          {{- end }}
+          env: 
+            {{- range $key, $val := .Values.init.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
           volumeMounts:
           - mountPath: /data
             name: {{$volumeName}}          

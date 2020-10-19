@@ -12,7 +12,12 @@ image:
   containerPort: 8080
 
 init:
-  warUrl: "https://tomcat.apache.org/tomcat-9.0-doc/appdev/sample/sample.war"
+  enabled: true
+  image: curlimages/curl
+  command: ["curl"]
+  args: ["-o", "/data/ROOT.war", "-L", "$WAR_URL"]
+  env:
+    WAR_URL: "https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war"
 
 imagePullSecrets: []
 nameOverride: ""
