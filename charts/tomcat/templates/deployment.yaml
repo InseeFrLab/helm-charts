@@ -39,11 +39,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.env }}
           env: 
-            {{- range $key, $val := .Values.tomcat.env }}
+            {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end}}
+          {{- end}}
           ports:
             - name: http
               containerPort: {{ .Values.image.containerPort }}
@@ -51,14 +53,22 @@ spec:
           volumeMounts:
             - mountPath: /usr/local/tomcat/webapps
               name: {{$volumeName}}
+          {{- if .Values.liveness.enabled }}
           livenessProbe:
             httpGet:
-              path: /
+              path: {{ .Values.liveness.path }}
               port: {{ .Values.image.containerPort }}
+            initialDelaySeconds: {{ .Values.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.liveness.periodSeconds }}
+          {{- end }}
+          {{- if .Values.readiness.enabled }}
           readinessProbe:
             httpGet:
-              path: /
+              path: {{ .Values.readiness.path }}
               port: {{ .Values.image.containerPort }}
+            initialDelaySeconds: {{ .Values.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readiness.periodSeconds }}  
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.init.enabled }}
@@ -71,11 +81,13 @@ spec:
           args: {{- range .Values.init.args }} 
           - {{ . | quote }}
           {{- end }}
+          {{- if .Values.init.env }}
           env: 
             {{- range $key, $val := .Values.init.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end}}
+          {{- end}}
           volumeMounts:
           - mountPath: /data
             name: {{$volumeName}}          

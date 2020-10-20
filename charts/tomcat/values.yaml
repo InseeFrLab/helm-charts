@@ -10,9 +10,20 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "8.5"
   containerPort: 8080
-tomcat:
-  env:
-    TEST: "test"
+env:
+  KEY: "value"
+
+liveness:
+  enabled: true
+  path: "/"
+  initialDelaySeconds: 30
+  periodSeconds: 5
+
+readiness:
+  enabled: true
+  path: "/"
+  initialDelaySeconds: 30
+  periodSeconds: 5
 
 init:
   enabled: true
