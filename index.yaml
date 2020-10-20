@@ -72,6 +72,16 @@ entries:
   tomcat:
   - apiVersion: v2
     appVersion: "8.5"
+    created: "2020-10-20T13:59:02.672868235Z"
+    description: A Helm chart for Kubernetes
+    digest: cc088e1458bfcd504ac1947267288e3d9d38b73c5164d7bf7fe2e38e16959cc0
+    name: tomcat
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/tomcat-0.1.3/tomcat-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: "8.5"
     created: "2020-10-20T13:18:05.761226883Z"
     description: A Helm chart for Kubernetes
     digest: c145d2f7edf02323d9b87fce33b7b1412bee8c019e6cb508b569b033581a9752
