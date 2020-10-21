@@ -22,13 +22,10 @@ postgres:
   postgresDatabase: postgres
 
 init:
-  enabled: true
-  image: minio/mc
-  command: ["/bin/sh", "-c"]
-  args:
-    [
-      "curl https://minio.lab.sspcloud.fr/pra-elire/dump_elire.sql -o /data/dump.sql"
-    ]
+  enabled: false
+  image: curimages/curl
+  command: ["curl"]
+  args: ["https://example.com/example.sql", "-o", "/data/dump.sql"]
 
 imagePullSecrets: []
 nameOverride: ""
