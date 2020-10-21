@@ -69,6 +69,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/opa-0.1.0/opa-0.1.0.tgz
     version: 0.1.0
+  openldap:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2020-10-21T15:44:39.408227585Z"
+    description: A Helm chart for Kubernetes
+    digest: ec27d86d26e8c8277bd0adc789d82688e39f9389b9e200a10f0982ede726540e
+    name: openldap
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/openldap-0.1.0/openldap-0.1.0.tgz
+    version: 0.1.0
   postgres:
   - apiVersion: v2
     appVersion: "9.6"
