@@ -5,11 +5,13 @@ metadata:
   labels:
     {{- include "postgres.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": test-success
+    "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "postgres.fullname" . }}:{{ .Values.service.port }}']
+    - name: select
+      image:  {{ .Values.image.repository }}:{{ .Values.image.tag }}
+      env:
+        - name: PGPASSWORD
+          value: {{ .Values.postgres.postgresPassword | quote }}
+      command: ["psql", "-h", {{ include "postgres.fullname" . | quote }}, "-U", {{ .Values.postgres.postgresUser | quote }}, "-d", {{ .Values.postgres.postgresDatabase | quote }}, "-c", "SELECT 1"]
   restartPolicy: Never
