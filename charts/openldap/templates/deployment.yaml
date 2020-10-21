@@ -1,0 +1,107 @@
+{{- $fullName := include "openldap.fullname" . -}}
+{{- $volumeName := printf "%s-%s" $fullName "data" | trunc 63 | trimSuffix "-" -}}
+{{- $initContainerName := printf "%s-%s" $fullName "init-data" | trunc 63 | trimSuffix "-" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "openldap.fullname" . }}
+  labels:
+    {{- include "openldap.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "openldap.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "openldap.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: {{$volumeName}}
+          emptyDir: {}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "openldap.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - -l
+            - {{ .Values.logLevel }}
+          ports:
+            - name: ldap
+              containerPort: 389
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: ldap
+          readinessProbe:
+            tcpSocket:
+              port: ldap
+          volumeMounts:
+            - mountPath: /bootstrap
+              name: {{$volumeName}}
+          env: 
+            - name: LDAP_ADMIN_PASSWORD
+              value: {{ randAlphaNum 20 | quote }}
+            - name: LDAP_CONFIG_PASSWORD
+              value: {{ randAlphaNum 20 | quote }}
+            {{- range $key, $val := .Values.image.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
+            {{- if .Values.init.schema }}
+            - name: LDAP_SEED_INTERNAL_SCHEMA_PATH
+              value: /bootstrap
+            {{- end}}
+            {{- if .Values.init.ldif }}
+            - name: LDAP_SEED_INTERNAL_LDIF_PATH
+              value: /bootstrap
+            {{- end}}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.init.enabled }}
+      initContainers:
+        - name: download-ldif-schema
+          image: {{ .Values.init.image | quote }}
+          command: {{- range .Values.init.command }}
+          - {{ . | quote }}
+          {{- end }}
+          args: {{- range .Values.init.args }} 
+          - {{ . | quote }}
+          {{- end }}
+          env: 
+            {{- range $key, $val := .Values.init.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
+          volumeMounts:
+          - mountPath: /boostrap/
+            name: {{$volumeName}}          
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
