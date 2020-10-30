@@ -32,6 +32,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/httpbin-1.1/httpbin-1.1.tgz
     version: "1.1"
+  k8s-onboarding:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2020-10-30T14:30:31.613408826Z"
+    description: A Helm chart for Kubernetes
+    digest: c1ab5b84ffd6c5d5a98e0d00aaff301ce0f517d11347e28a3573092c4d73eb3c
+    name: k8s-onboarding
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/k8s-onboarding-0.1.0/k8s-onboarding-0.1.0.tgz
+    version: 0.1.0
   kube-oidc-proxy:
   - apiVersion: v1
     appVersion: v0.3.0
