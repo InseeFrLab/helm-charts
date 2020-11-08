@@ -94,6 +94,16 @@ entries:
   postgres:
   - apiVersion: v2
     appVersion: "9.6"
+    created: "2020-11-08T17:04:23.560680145Z"
+    description: A Helm chart for Kubernetes
+    digest: a222fc05191c6b89cb4840a4123632ff2071c0166d7f5dd6ab57c3d73fb1c2ec
+    name: postgres
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/postgres-0.1.1/postgres-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: "9.6"
     created: "2020-10-21T07:46:43.433000306Z"
     description: A Helm chart for Kubernetes
     digest: 3d4d09e6826dc7a3ccb3831953c7e994d88952015787f688eb308d3c979e04c4
