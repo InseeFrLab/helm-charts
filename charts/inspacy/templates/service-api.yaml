@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "inspacy.api.fullname" . }}
+  labels: {{- include "inspacy.api.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.api.service.type }}
+  ports:
+    - port: {{ .Values.api.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector: {{- include "inspacy.api.selectorLabels" . | nindent 4 }}

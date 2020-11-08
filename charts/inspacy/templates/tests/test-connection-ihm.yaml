@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "inspacy.ui.fullname" . }}-test-connection"
+  labels:
+    {{- include "inspacy.ui.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "inspacy.ui.fullname" . }}:{{ .Values.ui.service.port }}']
+  restartPolicy: Never
