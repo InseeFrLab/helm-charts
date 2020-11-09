@@ -6,9 +6,9 @@ replicaCount: 1
 
 image:
   repository: inseefrlab/sugoi-ui
-  pullPolicy: always
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "main"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -75,3 +75,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+env:
+  # - name: KEYCLOAK_REALM
+  #   value: ""
