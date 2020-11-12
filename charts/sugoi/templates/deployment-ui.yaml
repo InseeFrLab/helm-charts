@@ -28,6 +28,15 @@ spec:
           image: "{{ .Values.ui.image.name }}:{{ .Values.ui.image.version }}"
           imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
           env:
+          {{- if .Values.ingress.enabled }}
+            {{- if .Values.ingress.tls }}
+            - name: API_URL_CI
+              value: {{ printf "https://%s/%s" .Values.ingress.hostname "api/" | quote }}
+              {{- else }}
+            - name: API_URL_CI
+              value: {{ printf "http://%s/%s" .Values.ingress.hostname "api/" | quote }}
+            {{- end}}
+          {{- end}}
             {{- range .Values.ui.env }}
           - name: {{ .name }}
             value: {{ .value }}
