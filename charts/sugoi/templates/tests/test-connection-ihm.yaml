@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "sugoi-ui.fullname" . }}-test-connection"
+  name: "{{ include "sugoi.ui.fullname" . }}-test-connection"
   labels:
-    {{- include "sugoi-ui.labels" . | nindent 4 }}
+    {{- include "sugoi.ui.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "sugoi-ui.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "sugoi.ui.fullname" . }}:{{ .Values.ui.service.port }}']
   restartPolicy: Never
