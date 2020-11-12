@@ -123,6 +123,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/postgres-0.1.0/postgres-0.1.0.tgz
     version: 0.1.0
+  sugoi:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2020-11-12T20:59:26.627163224Z"
+    description: A Helm chart for Kubernetes
+    digest: 70a1b9edaec6f79788ad22f8b316e335e2de46381376353ab535264731618737
+    name: sugoi
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/sugoi-1.0.0/sugoi-1.0.0.tgz
+    version: 1.0.0
   sugoi-ui:
   - apiVersion: v2
     appVersion: 1.0.0
