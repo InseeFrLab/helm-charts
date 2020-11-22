@@ -67,8 +67,7 @@ ui:
   affinity: {}
 
   env:
-    # - name: AUTH_TYPE
-    #   value: "none"
+    #AUTH_TYPE: "none"
 
 api:
   name: api
@@ -107,18 +106,27 @@ api:
   tolerations: []
   affinity: {}
   env:
-    # - name: authentication.mode
-    #   value: "none"
+    #authentication.mode: "openidconnect"
   regions: #[
-#   {
-#     "regionId": "kub",
-#     "type": "KUBERNETES",
-#     "namespace-prefix": "user-",
-#     "publish-domain": "fakedomain.kub.example.com",
-#     "cloudshell": {
-#       "catalogId": "inseefrlab-helm-charts-datascience",
-#       "packageName": "cloudshell"
-#     }
-#   }
-# ]
-
+  #   {
+  #     "regionId": "kub",
+  #     "type": "KUBERNETES",
+  #     "namespace-prefix": "user-",
+  #     "publish-domain": "fakedomain.kub.example.com",
+  #     "cloudshell": {
+  #       "catalogId": "inseefrlab-helm-charts-datascience",
+  #       "packageName": "cloudshell"
+  #     }
+  #   }
+  # ]
+  catalogs: # [
+    #   {
+    #     "id": "inseefrlab-helm-charts-datascience",
+    #     "name": "Inseefrlab datascience",
+    #     "description": "Services for datascientists. https://github.com/InseeFrLab/helm-charts-datascience",
+    #     "maintainer": "innovation@insee.fr",
+    #     "location": "https://inseefrlab.github.io/helm-charts-datascience",
+    #     "status": "PROD",
+    #     "type": "helm",
+    #   }
+    # ]

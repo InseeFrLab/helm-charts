@@ -26,15 +26,9 @@ spec:
           securityContext:
             {{- toYaml .Values.api.securityContext | nindent 12 }}
           image: "{{ .Values.api.image.name }}:{{ .Values.api.image.version }}"
-          env: 
-           {{- range $key, $val := .Values.api.env }}
-            - name: {{ $key }}
-              value: {{ $val | quote }}
-            {{- end}}
-           {{- if .Values.api.regions }}
-            - name: regions
-              value: {{ .Values.api.regions | toJson | quote }}
-            {{- end}}
+          envFrom:
+            - configMapRef:
+                name: {{ template "onyxia.fullname" . }}
           imagePullPolicy: {{ .Values.api.image.pullPolicy }}
           ports:
             - name: http
