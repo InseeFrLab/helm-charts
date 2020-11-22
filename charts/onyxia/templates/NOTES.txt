@@ -1,7 +1,1 @@
-
-1. Enjoy Onyxia :)
-{{- if .Values.ingress.enabled }}
-  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .Values.ingress.hostname }}
-{{ else }}
-  The application is running but not exposed by ingress
-{{ end }}
+Enjoy Onyxia :)

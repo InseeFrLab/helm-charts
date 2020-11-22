@@ -31,16 +31,18 @@ spec:
            {{- if .Values.ingress.enabled }}
             {{- if .Values.ingress.tls }}
             - name: BASE_API_URL
-              value: {{ printf "https://%s/%s" .Values.ingress.hostname "api" | quote }}
+              value: {{ printf "https://%s/%s" (index .Values.ingress.hosts 0).host "api" | quote }}
               {{- else }}
             - name: BASE_API_URL
-              value: {{ printf "http://%s/%s" .Values.ingress.hostname "api" | quote }}
+              value: {{ printf "http://%s/%s" (index .Values.ingress.hosts 0).host "api" | quote }}
             {{- end}}
            {{- end}}
-           {{- range $key, $val := .Values.ui.env }}
+           {{- if .Values.ui.env }}
+            {{- range $key, $value := .Values.ui.env }}
             - name: {{ $key }}
-              value: {{ $val | quote }}
-            {{- end}}
+              value: {{ $value | quote }}
+            {{- end -}}
+            {{- end }}
           ports:
             - name: http
               containerPort: 80
