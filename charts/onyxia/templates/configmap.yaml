@@ -14,8 +14,8 @@ data:
 {{- end -}}
 {{- end -}}
 {{- if .Values.api.regions }}
-  regions: {{ .Values.onyxia.api.regions | toJson | quote }}
+  regions: {{ .Values.api.regions | toJson | quote }}
 {{- end}}
 {{- if .Values.api.catalogs }}
-  catalogs: {{ .Values.onyxia.api.catalogs | toJson | quote }}
+  catalogs: {{ .Values.api.catalogs | toJson | quote }}
 {{- end}}
