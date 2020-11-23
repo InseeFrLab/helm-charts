@@ -145,6 +145,19 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/postgres-0.1.0/postgres-0.1.0.tgz
     version: 0.1.0
+  provisioner:
+  - apiVersion: v1
+    appVersion: 2.3.4
+    created: "2020-11-23T13:55:43.82663564Z"
+    description: local provisioner chart
+    digest: 1aeb761c8f8b66a54357aa91ed5b9f69c529b920c8b3050b47da5a6ad654133f
+    keywords:
+    - storage
+    - local
+    name: provisioner
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/provisioner-3.0.0/provisioner-3.0.0.tgz
+    version: 3.0.0
   sugoi:
   - apiVersion: v2
     appVersion: 1.0.0
