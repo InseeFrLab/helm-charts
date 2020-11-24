@@ -11,6 +11,21 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/cloudshell-1.1/cloudshell-1.1.tgz
     version: "1.1"
+  docker-registry:
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2020-11-24T10:06:10.251710539Z"
+    deprecated: true
+    description: DEPRECATED A Helm chart for Docker Registry
+    digest: 0d9639801ce1ed9bafa10ed7998081239dbb618f9bbeac21d8b649869446690c
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/docker-registry-1.9.6/docker-registry-1.9.6.tgz
+    version: 1.9.6
   httpbin:
   - apiVersion: v2
     appVersion: latest
