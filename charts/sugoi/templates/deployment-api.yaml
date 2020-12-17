@@ -27,7 +27,7 @@ spec:
             {{- toYaml .Values.api.securityContext | nindent 12 }}
           image: "{{ .Values.api.image.name }}:{{ .Values.api.image.version }}"
           env: 
-            {{- range .Values.ui.env }}
+            {{- range .Values.api.env }}
           - name: {{ .name }}
             value: {{ .value }}
             {{- end }}
