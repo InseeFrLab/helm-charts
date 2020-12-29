@@ -1,3 +1,4 @@
+{{- $rules := .Files.Glob "files/rules.rego" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,10 +28,19 @@ spec:
       serviceAccountName: {{ include "opa.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{ if $rules }}
+      volumes:
+        - name: rules
+          secret:
+            secretName: {{ .Release.Name }}-secret      
+            items:
+              - key: rule
+                path: rules.rego
+      {{- end }}  
+      {{- if .Values.rules.url }}
       volumes:
         - emptyDir: {}
           name: rules
-      {{- if .Values.rules.url }}
       initContainers:
         - name: fetch
           image: mwendler/wget
@@ -44,10 +54,11 @@ spec:
           volumeMounts:
             - mountPath: /rules
               name: rules
+              readOnly: true
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          args: ["run","--server", "--watch", "--log-level","debug","/rules"]
+          args: ["run","--server", "--watch", "--log-level","debug","/rules/rules.rego"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
