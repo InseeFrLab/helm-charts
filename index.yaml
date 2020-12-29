@@ -120,6 +120,16 @@ entries:
   opa:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2020-12-29T16:32:35.632802917Z"
+    description: Simple OPA server
+    digest: 55917cf96f3430d284fbd1f4077a9386b2bbdcdc4dc9d522c2a55f3103c7d6b9
+    name: opa
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/opa-0.3.0/opa-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2020-12-29T16:12:47.467188925Z"
     description: Simple OPA server
     digest: 7219d1a5a0b0970e4e5ba5b1c9121792d7c6a76d473252dd40a4756d594d53a5
