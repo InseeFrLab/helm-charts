@@ -1,4 +1,3 @@
-{{- $rules := .Files.Glob "files/rules.rego" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,13 +27,13 @@ spec:
       serviceAccountName: {{ include "opa.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{ if $rules }}
+      {{ if .Values.rules.raw }}
       volumes:
         - name: rules
           secret:
-            secretName: {{ .Release.Name }}-secret      
+            secretName: {{ .Release.Name }}-rules      
             items:
-              - key: rule
+              - key: rules
                 path: rules.rego
       {{- end }}  
       {{- if .Values.rules.url }}

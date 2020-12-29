@@ -85,3 +85,10 @@ affinity: {}
 rules:
   # Either specify url below or put a rules.rego file inside files (doing both is not supported)
   url:
+  #raw: >
+    #package httpapi.authz
+
+    # HTTP API request
+    #import input as http_api
+
+    #default allow = false

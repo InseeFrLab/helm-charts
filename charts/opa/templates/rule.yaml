@@ -1,11 +1,10 @@
-{{- $rules := .Files.Glob "files/rules.rego" }}
-{{ if $rules }}
+{{ if .Values.rules.raw }}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ .Release.Name }}-secret
+  name: {{ .Release.Name }}-rules
 type: Opaque
 data:
-  rule: |-
-    {{ .Files.Get "files/rules.rego" | b64enc }}
+  rules: |-
+    {{ .Values.rules.raw  | b64enc }}
 {{ end }}
