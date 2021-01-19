@@ -13,6 +13,14 @@ image:
 env:
   webConcurrency: 4
 
+init:
+  enabled: false
+  image: curlimages/curl
+  command: ["curl"]
+  args: ["-o", "/data/model.bin", "-L", "$MODEL_URL"]
+  env:
+    MODEL_URL: "https://example.com/model.bin"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

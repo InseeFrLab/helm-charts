@@ -1,3 +1,6 @@
+{{- $fullName := include "predicat.fullname" . -}}
+{{- $volumeName := printf "%s-%s" $fullName "data" | trunc 63 | trimSuffix "-" -}}
+{{- $initContainerName := printf "%s-%s" $fullName "init-data" | trunc 63 | trimSuffix "-" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,6 +23,9 @@ spec:
       labels:
         {{- include "predicat.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: {{$volumeName}}
+          emptyDir: {}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -27,12 +33,36 @@ spec:
       serviceAccountName: {{ include "predicat.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+       {{- if .Values.init.enabled }}
+      initContainers:
+        - name: download-model
+          image: {{ .Values.init.image | quote }}
+          command: {{- range .Values.init.command }}
+          - {{ . | quote }}
+          {{- end }}
+          args: {{- range .Values.init.args }} 
+          - {{ . | quote }}
+          {{- end }}
+          {{- if .Values.init.env }}
+          env: 
+            {{- range $key, $val := .Values.init.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
+          {{- end}}
+          volumeMounts:
+          - mountPath: /data
+            name: {{$volumeName}}          
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /app/model
+              name: {{$volumeName}}
           env:
             - name: WEB_CONCURRENCY
               value: {{ .Values.env.webConcurrency | quote }}
