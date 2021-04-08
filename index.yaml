@@ -267,4 +267,15 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/tomcat-0.1.0/tomcat-0.1.0.tgz
     version: 0.1.0
+  twitter-engine:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-04-08T12:13:36.776959669Z"
+    description: A Helm chart for Kubernetes
+    digest: 1bcb4282e51318ea56137649c1a3d13615ed983bc5ecfd7fc93273df1f3cf215
+    name: twitter-engine
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/twitter-engine-0.1.0/twitter-engine-0.1.0.tgz
+    version: 0.1.0
 generated: "2020-03-27T22:46:19.192701581Z"
