@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "twitter-engine.configMap" . }}
+  labels:
+    {{- include "twitter-engine.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    twitter:
+        consumer_key: {{ .Values.twitter.consumer_key }}
+        consumer_secret: {{ .Values.twitter.consumer_secret }}
+        api_key: {{ .Values.twitter.api_key }}
+        api_secret: {{ .Values.twitter.api_secret }}
+        track_words:
+        {{- range .Values.twitter.track_words }}
+          - {{ . }}
+        {{- end }}
+
+    #kafka ou s3
+    output:
+        type : {{ .Values.output.type }}
+    
+    kafka:
+        url: {{ .Values.kafka.url }}
+        topic: {{ .Values.kafka.topic }}
+
+    s3:
+        path: {{ .Values.s3.path }}
+        delay: {{ .Values.s3.delay }}
+        key: {{ .Values.s3.key }}
+        secret: {{ .Values.s3.secret }}
+        token: {{ .Values.s3.token }}
+        endpoint: {{ .Values.s3.endpoint }}
