@@ -270,6 +270,16 @@ entries:
   twitter-engine:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2021-04-23T09:04:49.916285992Z"
+    description: A Helm chart for Kubernetes
+    digest: 5cfbbc870ceeb77dc5c99a2a2e33ebb6132f7a7cf77fffb08d6ff0bf0acbb604
+    name: twitter-engine
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/twitter-engine-0.4.0/twitter-engine-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2021-04-23T08:21:35.99355328Z"
     description: A Helm chart for Kubernetes
     digest: 2a14acfdc013713834b4277dbe6eb44e0f5e6a211135acdcab782f898a9aa779
