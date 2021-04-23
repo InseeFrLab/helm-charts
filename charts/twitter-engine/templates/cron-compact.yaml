@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: compact-tweet
+spec:
+  schedule: {{ .Values.compact.schedule }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Chart.Name }}-compact
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy:  {{ .Values.image.pullPolicy }}
+            command:
+            - python3
+            - -u
+            - /app/compact-tweets.py
+          restartPolicy: OnFailure
