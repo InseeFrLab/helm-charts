@@ -10,13 +10,20 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
+s3:
+  key: 
+  secret: 
+  token: 
+  endpoint: minio.lab.sspcloud.fr
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+configMapName: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.

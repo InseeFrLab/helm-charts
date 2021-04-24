@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "deltalake.configMap" . }}
+  labels:
+    {{- include "deltalake.labels" . | nindent 4 }}
+data:
+  thrift-server-config.yaml: |
+    sparkConf:
+      master: "k8s://https://kubernetes.default.svc:443"
+      props:
+        - "spark.kubernetes.container.image": "inseefrlab/jupyter-datascience:master"
+        - "spark.kubernetes.namespace": "user-alexisdondon"
+        - "spark.executor.instances": "5"
+        - "spark.executor.memory": "4g"
+        - "spark.jars.packages": "io.delta:delta-core_2.12:0.8.0"
+        - "spark.kubernetes.memoryOverheadFactor": "0.5"
+        - "spark.sql.extensions": "io.delta.sql.DeltaSparkSessionExtension" 
+        - "spark.sql.catalog.spark_catalog": "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+        - "spark.sql.legacy.timeParserPolicy": "LEGACY"
+        - "spark.databricks.delta.retentionDurationCheck.enabled": "false"
+        - "spark.sql.hive.thriftServer.singleSession": "true"
+        - "spark.hadoop.fs.s3a.endpoint": "minio.lab.sspcloud.fr"
+        - "spark.kubernetes.executor.deleteOnTermination": "false"

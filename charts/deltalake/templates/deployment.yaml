@@ -20,6 +20,10 @@ spec:
       labels:
         {{- include "deltalake.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: deltalake-config
+          configMap:
+            name: {{ include "deltalake.configMap" . }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -33,20 +37,35 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:          
+            - name: "AWS_SECRET_ACCESS_KEY"
+              value: {{ .Values.s3.secret }}
+            - name: "AWS_ACCESS_KEY_ID"
+              value: {{ .Values.s3.key }}
+            - name: KUBERNETES_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           ports:
             - name: http
               containerPort: 4040
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 120
             httpGet:
               path: /
               port: http
           readinessProbe:
+            initialDelaySeconds: 120
             httpGet:
               path: /
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: deltalake-config
+              mountPath: /app/thrift-server-config.yaml
+              subPath: thrift-server-config.yaml
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

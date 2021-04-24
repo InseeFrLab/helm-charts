@@ -60,3 +60,8 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "deltalake.configMap" -}}
+{{- $name:= (printf "%s-configmap" (include "deltalake.fullname" .) )  }}
+{{- default $name .Values.configMapName }}
+{{- end }}
