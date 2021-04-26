@@ -11,6 +11,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/cloudshell-1.1/cloudshell-1.1.tgz
     version: "1.1"
+  deltalake:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-04-26T06:12:03.864687873Z"
+    description: A Helm chart for Kubernetes
+    digest: 65817e7e6249cfbcb0b0745a2a049c79fc7068aa2d5d7a72c605a38b234d4a3f
+    name: deltalake
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/deltalake-0.1.0/deltalake-0.1.0.tgz
+    version: 0.1.0
   docker-registry:
   - apiVersion: v1
     appVersion: 2.7.1
