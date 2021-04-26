@@ -1,9 +1,28 @@
 # Default values for deltalake.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+global:
+  postgresql:
+    postgresqlDatabase: "redash"
+    postgresqlUsername: "admin"
+    postgresqlPassword: "changeme"
+
+redash:
+  image:
+    repository: inseefrlab/redash
+    tag: master
+  externalPostgreSQLSecret:
+    name: redash-postgres
+    key: connectionString
+  redash:
+    cookieSecret: changeme
+    secretKey: changeme
+  postgresql:
+    enabled: false
+  ingress:
+    hostname: spark-lab-redash.lab.sspcloud.fr
 
 replicaCount: 1
-
 sparkConf:
   master: "k8s://https://kubernetes.default.svc:443"
   props:
@@ -23,7 +42,8 @@ sparkConf:
     "spark.hadoop.fs.s3a.endpoint": "minio.lab.sspcloud.fr"
     "spark.hadoop.fs.s3a.access.key": "spark-lab"
     "spark.hadoop.fs.s3a.secret.key": "secret"
-    
+    "spark.sql.warehouse.dir": "s3://projet-spark-lab/diffusion/warehouse"
+
 image:
   repository: git-registry.lab.sspcloud.fr/spark-lab/deltalake
   pullPolicy: Always
@@ -59,7 +79,6 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
 
 ingress:
   enabled: true
