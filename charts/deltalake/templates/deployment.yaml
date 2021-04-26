@@ -40,10 +40,6 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:          
-            - name: "AWS_SECRET_ACCESS_KEY"
-              value: {{ .Values.s3.secret }}
-            - name: "AWS_ACCESS_KEY_ID"
-              value: {{ .Values.s3.key }}
             - name: KUBERNETES_POD_NAME
               valueFrom:
                 fieldRef:
@@ -53,15 +49,17 @@ spec:
               containerPort: 4040
               protocol: TCP
           livenessProbe:
-            initialDelaySeconds: 120
-            httpGet:
-              path: /
-              port: http
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - " ps -A | grep python3"
           readinessProbe:
-            initialDelaySeconds: 120
-            httpGet:
-              path: /
-              port: http
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - " ps -A | grep python3"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
