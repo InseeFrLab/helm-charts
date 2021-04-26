@@ -5,11 +5,11 @@ metadata:
   labels:
     {{- include "deltalake.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
+  clusterIP: None
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 4040
+      targetPort: 4040
       protocol: TCP
-      name: http
   selector:
     {{- include "deltalake.selectorLabels" . | nindent 4 }}

@@ -31,6 +31,8 @@ spec:
       serviceAccountName: {{ include "deltalake.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      subdomain: {{ include "deltalake.fullname" . }}
+      hostname: deltalake
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
