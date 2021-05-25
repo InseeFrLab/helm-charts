@@ -59,11 +59,11 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
-      {{- with .Values.api.nodeSelector }}
       volumes:
         - name: {{ include "vtl-lab.fullname" . }}
           configMap:
             name: {{ include "vtl-lab.fullname" . }}
+      {{- with .Values.api.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
