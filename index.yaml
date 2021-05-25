@@ -324,4 +324,15 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/twitter-engine-0.1.0/twitter-engine-0.1.0.tgz
     version: 0.1.0
+  vtl-lab:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2021-05-25T13:56:02.807289729Z"
+    description: Lab for VTL
+    digest: 59b889da666a870cee9ba92db4c5a6e2c026e39996876e3abf36ee55aedef71a
+    name: vtl-lab
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
+    version: 0.0.1
 generated: "2020-03-27T22:46:19.192701581Z"
