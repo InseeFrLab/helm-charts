@@ -1,0 +1,194 @@
+# Default values for vtl-lab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+ui:
+  replicaCount: 1
+
+  image:
+    repository: inseefrlab/vtl-lab-ui
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: false
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    MODULES: "in-memory,spark-kube,build-parquet"
+    # Dynamic Ingress API ?
+    API_BASE_URL: "API_BASE_URL"
+    CONFIGURATION_URL: "CONFIGURATION_URL"
+      # NONE or OIDC
+    AUTH_MODE: "NONE"
+    OIDC_AUTHORITY: "OIDC_AUTHORITY"
+    OIDC_CLIENT_ID: "OIDC_CLIENT_ID"
+
+api:
+  replicaCount: 1
+
+  image:
+    repository: vtl-lab
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  securityContext:
+    {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: false
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources:
+    {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    # NONE or OIDC
+    AUTH_MODE: "NONE"
+    SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER-URI: ""
+
+  spark:
+    enabled: true
+    directory: "/spark/conf"
+    conf:
+      spark.app.name: "VTL Lab"
+      spark.driver.memory: "1g"
+      spark.executor.memory: "1g"
+      spark.rpc.message.maxSize: ""
+      spark.kubernetes.executor.request.cores: "100m"
+      spark.kubernetes.container.image: "inseefrlab/spark-hadoop:latest"
+      spark.kubernetes.container.image.pullPolicy: "IfNotPresent"
+
+      spark.shuffle.service.enabled: "true"
+
+      spark.dynamicAllocation.enabled: "true"
+      spark.dynamicAllocation.minExecutors: "10"
+      spark.dynamicAllocation.maxExecutors: "20"
+      spark.dynamicAllocation.initialExecutors: "15"
+      #spark.dynamicAllocation.shuffleTracking.enabled: "true"
+      spark.dynamicAllocation.executorAllocationRatio: "0.5"
+
+      spark.hadoop.fs.s3a.endpoint: ""
+      spark.hadoop.fs.s3a.access.key: ""
+      spark.hadoop.fs.s3a.secret.key: ""
+      spark.hadoop.fs.s3a.path.style.access: "true"
+      spark.hadoop.fs.s3a.connection.ssl.enabled: "true"
+      spark.hadoop.fs.s3a.aws.credentials.provider: "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"

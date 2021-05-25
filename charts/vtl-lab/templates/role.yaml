@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "vtl-lab.fullname" . }}
+  labels:
+    {{- include "vtl-lab.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - "pods"
+      - "services"
+      - "configmaps"
+    verbs:
+      - "list"
+      - "create"
+      - "delete"
+      - "watch"
+      - "update"
+      - "get"
+      - "patch"

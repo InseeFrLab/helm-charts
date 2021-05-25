@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "vtl-lab.ui.fullname" . }}
+  labels: {{- include "vtl-lab.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.ui.service.type }}
+  ports:
+    - port: {{ .Values.ui.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector: {{- include "vtl-lab.selectorLabels" . | nindent 4 }}
