@@ -1,0 +1,14 @@
+{{- if .Values.api.spark.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vtl-lab.fullname" . }}
+data:
+  spark.conf: |
+    {{- if .Values.api.spark.conf }}
+        {{- range $key, $value := .Values.api.spark.conf }}
+            {{ $key }} {{ $value | quote }}
+        {{- end -}}
+    {{- end -}}
+    spark.kubernetes.namespace: {{ .Release.namespace }}
+{{- end -}}
