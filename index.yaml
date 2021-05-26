@@ -327,6 +327,16 @@ entries:
   vtl-lab:
   - apiVersion: v2
     appVersion: latest
+    created: "2021-05-26T07:15:31.239758999Z"
+    description: Lab for VTL
+    digest: 9d40ded985c4d068cd0f9e594f3b8e042799f832147c936d8ffab276584b2227
+    name: vtl-lab
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.4/vtl-lab-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: latest
     created: "2021-05-25T14:10:22.197344918Z"
     description: Lab for VTL
     digest: 7d7a911a68368aa92dadbd9a2d7627d70603ec2d731e8cb60f9d0e7de610daaf
