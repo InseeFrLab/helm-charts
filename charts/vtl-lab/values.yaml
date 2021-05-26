@@ -51,7 +51,6 @@ ui:
       # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: []
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -90,7 +89,7 @@ api:
   replicaCount: 1
 
   image:
-    repository: vtl-lab
+    repository: inseefrlab/vtl-lab
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
@@ -135,7 +134,6 @@ api:
       # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: []
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
