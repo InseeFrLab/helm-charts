@@ -6,8 +6,8 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "onyxia.ui.name" -}}
-{{- printf "%s-%s" (include "onyxia.name" .) .Values.ui.name | trunc 63 | trimSuffix "-" -}}
+{{- define "onyxia.web.name" -}}
+{{- printf "%s-%s" (include "onyxia.name" .) .Values.web.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
@@ -34,8 +34,8 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 {{- end -}}
 
-{{- define "onyxia.ui.fullname" -}}
-{{- printf "%s-%s" (include "onyxia.fullname" .) .Values.ui.name | trunc 63 | trimSuffix "-" -}}
+{{- define "onyxia.web.fullname" -}}
+{{- printf "%s-%s" (include "onyxia.fullname" .) .Values.web.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
@@ -54,8 +54,8 @@ Create chart name and version as used by the chart label.
 {{- printf "onyxia-api" -}}
 {{- end -}}
 
-{{- define "onyxia.ui.chart" -}}
-{{- printf "onyxia-ui" -}}
+{{- define "onyxia.web.chart" -}}
+{{- printf "onyxia-web" -}}
 {{- end -}}
 
 
@@ -79,9 +79,9 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
-{{- define "onyxia.ui.labels" -}}
-helm.sh/chart: {{ include "onyxia.ui.chart" . }}
-{{ include "onyxia.ui.selectorLabels" . }}
+{{- define "onyxia.web.labels" -}}
+helm.sh/chart: {{ include "onyxia.web.chart" . }}
+{{ include "onyxia.web.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -100,8 +100,8 @@ app.kubernetes.io/name: {{ include "onyxia.api.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
-{{- define "onyxia.ui.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "onyxia.ui.name" . }}
+{{- define "onyxia.web.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "onyxia.web.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
@@ -115,9 +115,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 {{- end -}}
 
-{{- define "onyxia.ui.serviceAccountName" -}}
+{{- define "onyxia.web.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "onyxia.ui.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "onyxia.web.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

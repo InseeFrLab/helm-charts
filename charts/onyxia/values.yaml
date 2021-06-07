@@ -26,11 +26,11 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-ui:
-  name: ui
+web:
+  name: web
   replicaCount: 1
   image:
-    name: inseefrlab/onyxia-ui
+    name: inseefrlab/onyxia-web
     version: latest
     pullPolicy: Always
   podSecurityContext:

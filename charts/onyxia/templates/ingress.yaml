@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullNameApi := include "onyxia.api.fullname" . -}}
-{{- $fullNameUi := include "onyxia.ui.fullname" . -}}
+{{- $fullNameUi := include "onyxia.web.fullname" . -}}
 {{- $fullName := include "onyxia.fullname" . -}}
 {{- $svcPortApi := .Values.api.service.port -}}
 {{- $svcPortUi := .Values.api.service.port -}}
