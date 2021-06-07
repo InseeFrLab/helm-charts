@@ -30,7 +30,7 @@ ui:
   name: ui
   replicaCount: 1
   image:
-    name: inseefrlab/onyxia-ui
+    name: inseefrlab/onyxia-web
     version: latest
     pullPolicy: Always
   podSecurityContext:
