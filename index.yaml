@@ -112,6 +112,17 @@ entries:
   onyxia:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2021-06-16T09:16:39.528449622Z"
+    description: Onyxia is your datalab's hub.
+    digest: 74250f4b8e29777c316e3e37efeafc151e7f4da9c2b1a8e359339f5137be2dc2
+    icon: https://onyxia.lab.sspcloud.fr/onyxia.svg
+    name: onyxia
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/onyxia-1.2.2/onyxia-1.2.2.tgz
+    version: 1.2.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-06-07T02:37:57.426921095Z"
     description: Onyxia is your datalab's hub.
     digest: 72a33b5330d95aab0057823e0d5a5505c46f6c57f4ab6961982d16649528881a
@@ -229,6 +240,18 @@ entries:
     - https://github.com/InseeFrLab/helm-charts/releases/download/predicat-0.3.0/predicat-0.3.0.tgz
     version: 0.3.0
   provisioner:
+  - apiVersion: v1
+    appVersion: 2.4.0
+    created: "2021-06-16T09:16:39.684640506Z"
+    description: local provisioner chart
+    digest: 691a4df3521d878b7a7f062efa8b8ad25abc148c3e76652894040fea2a89c164
+    keywords:
+    - storage
+    - local
+    name: provisioner
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/provisioner-2.5.0/provisioner-2.5.0.tgz
+    version: 2.5.0
   - apiVersion: v1
     appVersion: 2.4.0
     created: "2020-12-07T16:39:37.599289965Z"
@@ -376,4 +399,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2020-03-27T22:46:19.192701581Z"
+generated: "2021-06-16T09:16:39.684698807Z"
