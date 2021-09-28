@@ -7,6 +7,7 @@ imagePullSecrets: []
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
+  clusterAdmin: false # If true, give cluster admin permissions. Otherwise, be admin scoped to the namespace
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
