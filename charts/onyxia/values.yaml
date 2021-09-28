@@ -120,7 +120,7 @@ api:
   #     }
   #   }
   # ]
-  catalogs:# [
+  catalogs: # [
     #   {
     #     "id": "inseefrlab-helm-charts-datascience",
     #     "name": "Inseefrlab datascience",
