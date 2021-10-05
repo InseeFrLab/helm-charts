@@ -275,6 +275,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/provisioner-2.4.0/provisioner-2.4.0.tgz
     version: 2.4.0
+  shiny:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-10-05T16:44:55.623269708Z"
+    description: A Helm chart for shiny
+    digest: 15273d751aff59665c698a2c386b77d23baef9efd099bdc2da7502924ed86cf4
+    name: shiny
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/shiny-0.1.0/shiny-0.1.0.tgz
+    version: 0.1.0
   sugoi:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -410,4 +421,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2021-09-28T20:32:26.945913411Z"
+generated: "2021-10-05T16:44:55.623317908Z"
