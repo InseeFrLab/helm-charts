@@ -270,6 +270,16 @@ entries:
   predicat:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-10-25T20:47:36.802379784Z"
+    description: A Helm chart for Kubernetes
+    digest: d0a4c5aa4415822930760d83cddf24bb0304d6b719fd6ca2c3c97f3717be5b02
+    name: predicat
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/predicat-0.3.1/predicat-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-01-19T13:00:32.518291509Z"
     description: A Helm chart for Kubernetes
     digest: 9238f0d50f0ec8b067a8512eca1a947f577673cd9e727ce07c81ffabb6b8b367
@@ -449,4 +459,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-18T12:53:03.166684221Z"
+generated: "2021-10-25T20:47:36.802649786Z"
