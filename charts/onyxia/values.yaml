@@ -45,7 +45,7 @@ ui:
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
     # runAsUser: 1000
-  containerPort: 80
+  containerPort: 8080
   service:
     type: ClusterIP
     port: 80
