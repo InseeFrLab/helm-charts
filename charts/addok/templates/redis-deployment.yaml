@@ -1,32 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: {{ $fullname := printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
-  name: {{ $fullname }}
-  labels:
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+metadata:
+  name: {{ include "addok.redis.fullname" . }}
 spec:
+  replicas: 1
   selector:
-    matchLabels:
-      app: {{ $fullname }}
-  replicas: {{ default 1 .Values.replicaCount | int }}
+    matchLabels: {{- include "addok.redis.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels:
-        app: {{ $fullname }}
+      labels: {{- include "addok.redis.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - name: {{ .Chart.Name }}
-        image: "{{ .Values.image }}"
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: {{ .Values.service.internalPort | int }}
-        livenessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.service.internalPort | int }}
-        readinessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.service.internalPort | int }}
-        resources:
-{{ toYaml .Values.resources | indent 10 }}
+        - name: redis
+          image: "etalab/addok-redis"
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP

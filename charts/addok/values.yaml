@@ -4,10 +4,7 @@
 
 replicaCount: 1
 
-redis:
-  architecture: standalone
-
-workers: 21
+workers: "21"
 
 image:
   repository: etalab/addok

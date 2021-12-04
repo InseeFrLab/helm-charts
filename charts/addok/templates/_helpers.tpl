@@ -5,6 +5,10 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{- define "addok.redis.name" -}}
+{{- printf "%s-%s" (include "addok.name" .) "redis" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -22,6 +26,11 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 {{- end }}
+
+
+{{- define "addok.redis.fullname" -}}
+{{- printf "%s-%s" (include "addok.fullname" .) "redis" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
@@ -54,6 +63,11 @@ Selector labels
 */}}
 {{- define "addok.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "addok.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "addok.redis.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "addok.redis.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

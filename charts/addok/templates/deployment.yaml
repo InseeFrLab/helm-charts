@@ -20,6 +20,13 @@ spec:
       labels:
         {{- include "addok.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: conf
+          configMap:
+            name: {{ .Release.Name }}-configmap
+            items:
+              - key: addok.conf
+                path: addok.conf
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -35,22 +42,26 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: WORKERS
-              value: {{ .Values.workers }}
+              value: {{ .Values.workers | quote }}
             - name: REDIS_HOST
-              value: {{ include "addok.redis.svc" . }}
+              value: {{ include "addok.redis.fullname" . | quote }}
             - name: REDIS_PORT
-              value: 6379
+              value: "6379"
+          volumeMounts:
+            - mountPath: /etc/addok/addok.conf
+              subPath: addok.conf
+              name: conf
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 7878
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /search?q=18+boulevard+Adolphe+Pinard+paris
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /search?q=18+boulevard+Adolphe+Pinard+paris
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
