@@ -5,7 +5,30 @@
 replicaCount: 1
 
 workers: "21"
+init:
+  enabled: true
+  image: curlimages/curl
+  command: ["curl"]
+  args:
+    [
+      "-o",
+      "/data/addok.db",
+      "-L",
+      "https://minio.lab.sspcloud.fr/projet-addok/addok-ban.db",
+    ]
 
+redis:
+  init:
+    enabled: true
+    image: curlimages/curl
+    command: ["curl"]
+    args:
+      [
+        "-o",
+        "/data/dump.rdb",
+        "-L",
+        "https://minio.lab.sspcloud.fr/projet-addok/dump-ban.rdb",
+      ]
 image:
   repository: etalab/addok
   pullPolicy: IfNotPresent

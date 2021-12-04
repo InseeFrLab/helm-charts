@@ -10,9 +10,36 @@ spec:
     metadata:
       labels: {{- include "addok.redis.selectorLabels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+      {{- if .Values.redis.init.enabled }}
+      initContainers:
+        - name: download-data
+          image: {{ .Values.redis.init.image | quote }}
+          command: {{- range .Values.redis.init.command }}
+          - {{ . | quote }}
+          {{- end }}
+          args: {{- range .Values.redis.init.args }} 
+          - {{ . | quote }}
+          {{- end }}
+          {{- if .Values.redis.init.env }}
+          env: 
+            {{- range $key, $val := .Values.redis.init.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
+          {{- end}}
+          volumeMounts:
+            - mountPath: /data
+              name: data          
+      {{- end }}
       containers:
         - name: redis
           image: "etalab/addok-redis"
+          volumeMounts:
+            - mountPath: /data
+              name: data
           ports:
             - name: redis
               containerPort: 6379

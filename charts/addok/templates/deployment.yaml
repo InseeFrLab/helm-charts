@@ -21,6 +21,8 @@ spec:
         {{- include "addok.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
+        - name: data
+          emptyDir: {}
         - name: conf
           configMap:
             name: {{ .Release.Name }}-configmap
@@ -34,6 +36,27 @@ spec:
       serviceAccountName: {{ include "addok.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.init.enabled }}
+      initContainers:
+        - name: download-data
+          image: {{ .Values.init.image | quote }}
+          command: {{- range .Values.init.command }}
+          - {{ . | quote }}
+          {{- end }}
+          args: {{- range .Values.init.args }} 
+          - {{ . | quote }}
+          {{- end }}
+          {{- if .Values.init.env }}
+          env: 
+            {{- range $key, $val := .Values.init.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end}}
+          {{- end}}
+          volumeMounts:
+            - mountPath: /data
+              name: data          
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -51,6 +74,8 @@ spec:
             - mountPath: /etc/addok/addok.conf
               subPath: addok.conf
               name: conf
+            - mountPath: /data
+              name: data  
           ports:
             - name: http
               containerPort: 7878
