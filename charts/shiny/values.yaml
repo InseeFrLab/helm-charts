@@ -73,3 +73,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+vault:
+  # Specifies whether a config map should be created
+  enabled: false
+  # The name of the configmap to use.
+  # If not set and create is true, a name is generated using the fullname template
+  configMapName: ""
+  token: ""
+  url: ""
+  mount: ""
+  secret: ""
+  directory: ""
