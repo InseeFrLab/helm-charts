@@ -37,8 +37,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
+          {{- if .Values.externalPostgreSQL.enabled }}
           - secretRef:
               name: {{ .Values.externalPostgreSQL.credentialsSecretName }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 3838
