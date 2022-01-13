@@ -37,10 +37,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
-            {{- if .Values.vault.enabled }}
-            - configMapRef:
-                name: {{ include "library-chart.configMapNameVault" . }}
-            {{- end }}
+          - secretRef:
+              name: {{ .Values.externalPostgreSQL.credentialsSecretName }}
           ports:
             - name: http
               containerPort: 3838
