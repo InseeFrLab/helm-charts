@@ -81,13 +81,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
-
-conn <- dbConnect(
-  RPostgres::Postgres(),
-  dbname = "mydb",
-  host = "postgresql-701478",
-  port = 5432,
-  user = $DB_,
-  password = "5qntavo5sj1li56e6jqs"
-)
