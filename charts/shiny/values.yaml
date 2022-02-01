@@ -76,4 +76,7 @@ affinity: {}
 
 externalPostgreSQL:
   enabled: false
-  credentialsSecretName: ""
+  database: "" 
+  hostname: ""
+  port: ""
+  secretName: ""

@@ -36,10 +36,24 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          envFrom:
+          env:
           {{- if .Values.externalPostgreSQL.enabled }}
-          - secretRef:
-              name: {{ .Values.externalPostgreSQL.credentialsSecretName }}
+          - name: DB_NAME
+            value: {{ .Values.externalPostgreSQL.database }}
+          - name: DB_HOST
+            value: {{ .Values.externalPostgreSQL.hostname }}
+          - name: DB_PORT
+            value: {{ .Values.externalPostgreSQL.port | quote }}
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalPostgreSQL.secretName }}
+                key: DB_USER
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.externalPostgreSQL.secretName }}
+                key: DB_PASSWORD
           {{- end }}
           ports:
             - name: http
@@ -67,3 +81,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+
+
+conn <- dbConnect(
+  RPostgres::Postgres(),
+  dbname = "mydb",
+  host = "postgresql-701478",
+  port = 5432,
+  user = $DB_,
+  password = "5qntavo5sj1li56e6jqs"
+)
