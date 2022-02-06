@@ -51,6 +51,20 @@ entries:
   docker-registry:
   - apiVersion: v1
     appVersion: 2.7.1
+    created: "2022-02-06T22:08:41.980007079Z"
+    deprecated: true
+    description: DEPRECATED A Helm chart for Docker Registry
+    digest: 502af47e3ddd262dc4796617d1467fb2ecabfdb87a8b34faf3095957eed2d538
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/docker-registry-1.9.9/docker-registry-1.9.9.tgz
+    version: 1.9.9
+  - apiVersion: v1
+    appVersion: 2.7.1
     created: "2021-10-18T12:53:03.166519119Z"
     deprecated: true
     description: DEPRECATED A Helm chart for Docker Registry
@@ -583,4 +597,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-01T16:12:25.716305351Z"
+generated: "2022-02-06T22:08:41.980083879Z"
