@@ -384,6 +384,20 @@ entries:
   shiny:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-02-08T09:24:08.538022491Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-datascience
+      version: 2.0.20
+    description: A Helm chart for shiny
+    digest: 44d7483f2c56bb2f12553469cebc0c8f461eb071a25341e12f9c09b85c67f2db
+    name: shiny
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/shiny-0.4.0/shiny-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-02-01T16:12:25.716163651Z"
     dependencies:
     - name: library-chart
@@ -597,4 +611,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-06T22:08:41.980083879Z"
+generated: "2022-02-08T09:24:08.538115791Z"
