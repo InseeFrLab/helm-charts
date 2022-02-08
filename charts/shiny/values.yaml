@@ -74,9 +74,6 @@ tolerations: []
 
 affinity: {}
 
-externalPostgreSQL:
-  enabled: false
-  database: "" 
-  hostname: ""
-  port: ""
-  secretName: ""
+externalPostgreSQLSecret:
+  name: shiny-postgresql
+  key: connectionString
