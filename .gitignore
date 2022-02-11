@@ -1,3 +1,4 @@
 *.tgz
+*.lock
 index.yaml
 */my-values.yml

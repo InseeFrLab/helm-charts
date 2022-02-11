@@ -74,6 +74,12 @@ tolerations: []
 
 affinity: {}
 
-externalPostgreSQLSecret:
-  name: shiny-postgresql
-  key: connectionString
+postgresql:
+  enabled: false
+  auth:
+    username: user
+    database: defaultdb
+    existingSecret: postgresql-secret
+  containerPorts:
+    postgresql: 5432
+  fullnameOverride: postgresql-db
