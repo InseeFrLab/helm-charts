@@ -6,9 +6,11 @@ replicaCount: 1
 
 image:
   repository: rocker/shiny
-  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "4.0.5"
+  # Overrides default entrypoint
+  command: []
+  pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
