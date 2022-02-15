@@ -35,10 +35,6 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          {{- if .Values.image.command }}
-          command:
-            {{ toYaml .Values.image.command | nindent 12 }}
-          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           {{- if .Values.postgresql.enabled }}
@@ -75,6 +71,20 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      {{- if .Values.postgresql.enabled }}
+      initContainers:
+        - name: wait-for-postgresql
+          image: "alpine"
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              until printf "." && nc -z -w 2 {{ .Values.postgresql.fullnameOverride }} {{ .Values.postgresql.containerPorts.postgresql }}; do
+                  sleep 2;
+              done;
+              echo 'PostgreSQL OK ✓'
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
