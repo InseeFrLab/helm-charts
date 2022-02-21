@@ -74,10 +74,13 @@ tolerations: []
 
 affinity: {}
 
+s3:
+  enabled: false
+
 postgresql:
   enabled: false
   auth:
-    username: user
+    username: myusername
     database: defaultdb
     existingSecret: postgresql-secret
   containerPorts:
