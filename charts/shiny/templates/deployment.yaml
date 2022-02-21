@@ -59,8 +59,9 @@ spec:
           {{- end }}
           envFrom: 
             {{- if .Values.s3.enabled }}
-            - configMapRef:
-                name: {{ include "library-chart.configMapNameS3" . }}
+            # TODO : provide values when no existing secret exists
+            - secretRef:
+                name: {{ .Values.s3.existingSecret }}
             {{- end }}
           ports:
             - name: http

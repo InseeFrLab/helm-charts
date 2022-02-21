@@ -76,13 +76,19 @@ affinity: {}
 
 s3:
   enabled: false
+  existingSecret: ""
+  endpoint: ""
+  defaultRegion: ""
+  accessKeyId: ""
+  secretAccessKey: ""
+  sessionToken: ""
 
 postgresql:
   enabled: false
   auth:
-    username: myusername
-    database: defaultdb
-    existingSecret: postgresql-secret
+    username: ""
+    database: ""
+    existingSecret: ""
   containerPorts:
     postgresql: 5432
-  fullnameOverride: postgresql-db
+  fullnameOverride: ""
