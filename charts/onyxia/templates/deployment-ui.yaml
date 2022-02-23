@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         {{- include "onyxia.ui.selectorLabels" . | nindent 8 }}
+{{- with .Values.ui.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:

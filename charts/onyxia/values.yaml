@@ -34,6 +34,8 @@ ui:
     name: inseefrlab/onyxia-web
     version: latest
     pullPolicy: Always
+  podLabels:
+    {}
   podSecurityContext:
     {}
     # fsGroup: 2000
@@ -78,6 +80,8 @@ api:
     name: inseefrlab/onyxia-api
     version: latest
     pullPolicy: Always
+  podLabels:
+    {}
   podSecurityContext:
     {}
     # fsGroup: 2000
