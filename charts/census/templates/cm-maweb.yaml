@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-maweb 
+  labels:
+data:
+  async.properties: {{ $.Files.Get "files/ma-params/async.properties" | toYaml | nindent 4 }} 
+  default-options-config.json: {{ $.Files.Get "files/ma-params/default-options-config.json" | toYaml | nindent 4 }}
+  ms-config.xml: {{ $.Files.Get "files/ma-params/ms-config.xml" | toYaml | nindent 4 }}
+  authdb-config.xml: {{ $.Files.Get "files/ma-params/authdb-config.xml" | toYaml | nindent 4 }}

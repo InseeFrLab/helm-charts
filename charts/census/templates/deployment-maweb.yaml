@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "census-maweb.fullname" . }}
+  labels:
+    {{- include "census-maweb.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "census-maweb.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "census-maweb.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.maweb.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "census-maweb.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.maweb.image.repository }}:{{ .Values.maweb.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ .Values.maweb.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          volumeMounts: 
+          - mountPath: /usr/local/tomcat/classpath/ma-params
+            name: config-pvc-ma-params
+      initContainers:
+      - name: setup-configs
+        args:
+        - ' echo ''Setting configmaps''  && cp -n /tmp/configmapfolder/async.properties /usr/local/tomcat/classpath/ma-params/async.properties  
+          && cp -n  /tmp/configmapfolder/default-options-config.json /usr/local/tomcat/classpath/ma-params/default-options-config.json
+          && cp -n  /tmp/configmapfolder/ms-config.xml /usr/local/tomcat/classpath/ma-params/ms-config.xml
+          && cp -n  /tmp/configmapfolder/authdb-config.xml /usr/local/tomcat/classpath/ma-params/authdb-config.xml'
+        command:
+        - sh
+        - -c
+        image: busybox:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /tmp/configmapfolder/
+          name: config-props
+        - mountPath: /usr/local/tomcat/classpath/ma-params
+          name: config-pvc-ma-params
+      volumes:      
+      - name: config-props
+        configMap:
+          name: cm-maweb
+      - name: config-pvc-ma-params  
+        persistentVolumeClaim:
+          claimName: maweb-config-pvc
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
