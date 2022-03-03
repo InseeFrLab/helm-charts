@@ -119,14 +119,17 @@ mariadb:
       - name: dump
         emptyDir: {}
     # initContainers: 
-      # - name: load-dump
-        # image: curlimages/curl
-        # imagePullPolicy: Always
-        # command: ["curl"]
-        # args: ["-o", "/data/dump.sql", "-L", "https://exemple/dump.sql"]
-        # volumeMounts:
-          # - mountPath: /data
-            # name: dump
+    #   - name: load-dump
+    #     image: minio/mc
+    #     imagePullPolicy: Always
+    #     command: ["mc"]
+    #     args: ["cp", "s3/myminio/dump.sql", "/data/dump.sql"]
+    #     env:
+    #       - name: MC_HOST_s3
+    #         value: "https://id:pwd@minio.example.fr"
+    #     volumeMounts:
+    #       - mountPath: /data
+    #         name: dump
     extraVolumeMounts: 
       - mountPath: /docker-entrypoint-initdb.d
         name: dump
