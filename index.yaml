@@ -11,6 +11,20 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/addok-0.1.0/addok-0.1.0.tgz
     version: 0.1.0
+  census:
+  - apiVersion: v2
+    created: "2022-03-03T09:49:15.89413915Z"
+    dependencies:
+    - name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.3.2
+    description: A Helm chart for mariaDB and maweb
+    digest: 0058f798f65b44435a65ca5cdd21c5dbb1af7405b9104fed4bb7385d198e8fd5
+    name: census
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/census-0.1.0/census-0.1.0.tgz
+    version: 0.1.0
   cloudshell:
   - apiVersion: v2
     appVersion: latest
@@ -727,4 +741,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-24T10:02:29.01960736Z"
+generated: "2022-03-03T09:49:15.894282451Z"
