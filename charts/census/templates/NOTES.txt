@@ -1,0 +1,22 @@
+CHART NAME: {{ .Chart.Name }}
+CHART VERSION: {{ .Chart.Version }}
+APP VERSION: {{ .Chart.AppVersion }}
+
+** Please be patient while the chart is being deployed **
+
+Watch the deployment status using the command: 
+kubectl get pods -w --namespace {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+1. Database  
+To connect to your database:
+        mysql -h {{ .Release.Name }}-mariadb.{{ .Release.Namespace }}.svc.{{ .Values.mariadb.clusterDomain }} -uroot -p {{ .Values.mariadb.auth.database }}
+
+2. Maweb
+Get the application URL by running these commands:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+  {{- range .paths }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
+  {{- end }}
+{{- end }}
+{{- end }}

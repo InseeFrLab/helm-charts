@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Mapping stores configuration file. -->
+<!-- Database Types: Oracle, MySQL, SqlServer-->
+
+<mapping-stores>
+	<!-- Oracle Database Server
+	<mapping-store database-type="Oracle"
+				   jdbc_connection_string="jdbc:oracle:thin:@localhost:1521:xe"
+				   password="123"
+				   store-id="oracle_test"
+				   username="MASTORE"/> -->
+
+	<!-- MySQL Database Server
+	<mapping-store database-type="MySQL"
+				   jdbc_connection_string="jdbc:mysql://localhost:3306/mastore"
+				   password="sdmxpass"
+				   store-id="testadd"
+				   username="sdmxuser"/> -->
+
+	<!-- SqlServer Database Server
+	<mapping-store database-type="SqlServer"
+				   jdbc_connection_string="jdbc:sqlserver://localhost:1433;DatabaseName=mastore"
+				   password="sdmxpass1!"
+				   store-id="sqlserver"
+				   username="sa"/> -->
+	
+</mapping-stores>
