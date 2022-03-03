@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: maweb
-  name: maweb-config-pvc
+  name: {{ include "census-maweb.pvc" . }}
 spec:
   accessModes:
   - ReadWriteOnce

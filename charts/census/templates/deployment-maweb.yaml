@@ -54,10 +54,10 @@ spec:
       volumes:      
       - name: config-props
         configMap:
-          name: cm-maweb
+          name: {{ include "census-maweb.configMapName" . }}
       - name: config-pvc-ma-params  
         persistentVolumeClaim:
-          claimName: maweb-config-pvc
+          claimName: {{ include "census-maweb.pvc" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

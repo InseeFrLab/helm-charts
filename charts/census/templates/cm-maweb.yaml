@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cm-maweb 
+  name: {{ include "census-maweb.configMapName" . }}
   labels:
 data:
   async.properties: {{ $.Files.Get "files/ma-params/async.properties" | toYaml | nindent 4 }} 

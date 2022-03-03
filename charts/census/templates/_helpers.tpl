@@ -75,6 +75,14 @@ Expand the name of the chart.
 {{- printf "%s-%s" (include "census.fullname" .) .Values.maweb.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "census-maweb.configMapName" -}}
+{{- printf "%s-cm-%s" (include "census.fullname" .) .Values.maweb.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "census-maweb.pvc" -}}
+{{- printf "%s-pvc-%s" (include "census.fullname" .) .Values.maweb.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
 {{- define "census-maweb.chart" -}}
 {{- printf "census-maweb" -}}
 {{- end }}
@@ -93,6 +101,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/name: {{ include "census-maweb.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
+
 
 {{/*
 Create the name of the service account to use
