@@ -71,7 +71,6 @@ ui:
   affinity: {}
 
   env:
-    #AUTH_TYPE: "none"
 
 api:
   name: api
