@@ -84,26 +84,13 @@ maweb :
 
 
 nsiws :
+  name: nsiws
   image:
     repository: inseefrlab/census-hub-nsiws
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: latest
-    # env: 
-    # - name : DB_ADDRESS
-    #   value : "xx.xx.xxx.xx adresse du serveur de bdd"
-    # - name : DB_MS_NAME
-    #   value : "msdb"
-    # - name : DB_MS_USER
-    #   value : "root"
-    # - name : DB_MS_PWD
-    #   value : "mariadbpwd"
-    # - name : DB_AUTH_NAME
-    #   value : "authdb"
-    # - name : DB_AUTH_USER
-    #   value : "root"
-    # - name : DB_AUTH_PWD
-    #   value : "mariadbpwd"
+  
 
 
   imagePullSecrets: []
@@ -137,13 +124,13 @@ nsiws :
     port: 80
 
   ingress:
-    enabled: true
+    enabled: false
     className: ""
     annotations: {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     hosts:
-      - host: user-agathe-census-nsiws-data2011.kub.sspcloud.fr
+      - host: example.com
         paths:
           - path: /
             pathType: Prefix
