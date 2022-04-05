@@ -80,6 +80,7 @@ postgresql:
     username: ""
     database: ""
     password: ""
+    postgresPassword: ""
     existingSecret: ""
   containerPorts:
     postgresql: 5432
