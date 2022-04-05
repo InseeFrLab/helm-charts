@@ -47,21 +47,33 @@ spec:
           - name: POSTGRESQL_DB_USER
             value: {{ .Values.postgresql.auth.username }}
           - name: POSTGRESQL_DB_PASSWORD
+            {{- if .Values.postgresql.auth.existingSecret }}
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.postgresql.auth.existingSecret }}
                 key: password
+            {{- else }}
+            value: {{ .Values.postgresql.auth.password }}
+            {{- end }}
           - name: POSTGRESQL_DB_ADMIN_PASSWORD
+            {{- if .Values.postgresql.auth.existingSecret }}
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.postgresql.auth.existingSecret }}
                 key: postgres-password
+            {{- else }}
+            value: {{ .Values.postgresql.auth.password }}
+            {{- end }}
           {{- end }}
-          envFrom: 
+          envFrom:
             {{- if .Values.s3.enabled }}
-            # TODO : provide values when no existing secret exists
+            {{- if .Values.s3.existingSecret }}
             - secretRef:
                 name: {{ .Values.s3.existingSecret }}
+            {{- else }}
+            - configMapRef:
+                name: {{ include "library-chart.configMapNameS3" . }}
+            {{- end }}
             {{- end }}
           ports:
             - name: http
