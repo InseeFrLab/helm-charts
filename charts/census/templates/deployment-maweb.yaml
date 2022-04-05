@@ -5,15 +5,15 @@ metadata:
   labels:
     {{- include "census-maweb.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.maweb.autoscaling.enabled }}
+  replicas: {{ .Values.maweb.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "census-maweb.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.maweb.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -58,15 +58,15 @@ spec:
       - name: config-pvc-ma-params  
         persistentVolumeClaim:
           claimName: {{ include "census-maweb.pvc" . }}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.maweb.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.maweb.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.maweb.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

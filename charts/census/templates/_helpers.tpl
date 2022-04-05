@@ -102,14 +102,64 @@ app.kubernetes.io/name: {{ include "census-maweb.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
-
 {{/*
 Create the name of the service account to use
 */}}
 {{- define "census-maweb.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "census-maweb.fullname" .) .Values.serviceAccount.name }}
+{{- if .Values.maweb.serviceAccount.create }}
+{{- default (include "census-maweb.fullname" .) .Values.maweb.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- default "default" .Values.maweb.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+
+{{/* Pour nsi-ws */}}
+
+
+{{- define "census-nsiws.name" -}}
+{{- printf "%s-%s" (include "census.name" .) .Values.nsiws.name | trunc 63 | trimSuffix "-" -}}
+{{- end }}
+
+{{- define "census-nsiws.fullname" -}}
+{{- printf "%s-%s" (include "census.fullname" .) .Values.nsiws.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "census-nsiws.configMapName" -}}
+{{- printf "%s-cm-%s" (include "census.fullname" .) .Values.nsiws.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "census-nsiws.pvc" -}}
+{{- printf "%s-pvc-%s" (include "census.fullname" .) .Values.nsiws.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "census-nsiws.chart" -}}
+{{- printf "census-nsiws" -}}
+{{- end }}
+
+{{- define "census-nsiws.labels" -}}
+helm.sh/chart: {{ include "census-nsiws.chart" . }}
+{{ include "census-nsiws.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+
+{{- define "census-nsiws.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "census-nsiws.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "census-nsiws.serviceAccountName" -}}
+{{- if .Values.nsiws.serviceAccount.create }}
+{{- default (include "census-nsiws.fullname" .) .Values.nsiws.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.nsiws.serviceAccount.name }}
 {{- end }}
 {{- end }}

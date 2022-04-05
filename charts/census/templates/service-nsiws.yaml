@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "census-nsiws.fullname" . }}
+  labels:
+    {{- include "census-nsiws.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.nsiws.service.type }}
+  ports:
+    - port: {{ .Values.nsiws.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "census-nsiws.selectorLabels" . | nindent 4 }}
