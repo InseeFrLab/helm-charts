@@ -33,19 +33,19 @@ spec:
               containerPort: 8080
           env:
           - name : DB_ADDRESS
-            value : "census11-mariadb"
+            value : {{ .Release.Name }}-mariadb
           - name : DB_MS_NAME
             value : "msdb"
           - name : DB_MS_USER
             value : "root"
           - name : DB_MS_PWD
-            value : "mariadbpwd"
+            value : {{.Values.mariadb.auth.rootPassword}}
           - name : DB_AUTH_NAME
             value : "authdb"
           - name : DB_AUTH_USER
             value : "root"
           - name : DB_AUTH_PWD
-            value : "mariadbpwd"
+            value : {{.Values.mariadb.auth.rootPassword}}
           # volumeMounts: 
           # - mountPath: /usr/local/tomcat/classpath/nsiws-params
           #   name: config-pvc-nsiws-params
