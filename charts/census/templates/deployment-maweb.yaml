@@ -30,7 +30,7 @@ spec:
           image: {{ .Values.maweb.image.repository }}:{{ .Values.maweb.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.maweb.image.pullPolicy }}
           ports:
-              containerPort: 8080
+            - containerPort: 8080
           volumeMounts: 
           - mountPath: /usr/local/tomcat/classpath/ma-params
             name: config-pvc-ma-params

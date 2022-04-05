@@ -30,7 +30,7 @@ spec:
           image: {{ .Values.nsiws.image.repository }}:{{ .Values.nsiws.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.nsiws.image.pullPolicy }}
           ports:
-              containerPort: 8080
+            - containerPort: 8080
           env:
           - name : DB_ADDRESS
             value : {{ .Release.Name }}-mariadb
