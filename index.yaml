@@ -21,6 +21,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/addok-0.1.0/addok-0.1.0.tgz
     version: 0.1.0
+  arc:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-04-07T12:38:42.859193816Z"
+    description: A Helm chart for Kubernetes
+    digest: b56af705a1191feadc299b5b30f262a03b92c1a2b480e523e30ca56df9297b14
+    name: arc
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/arc-0.1.0/arc-0.1.0.tgz
+    version: 0.1.0
   census:
   - apiVersion: v2
     created: "2022-03-03T09:49:15.89413915Z"
@@ -805,4 +816,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-04-05T14:54:48.102852533Z"
+generated: "2022-04-07T12:38:42.859774808Z"
