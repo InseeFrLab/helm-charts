@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "arcDb.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "arcDb.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "arcDb.fullname" . }}
+    spec:
+      containers:
+      - name: {{ include "arcDb.fullname" . }}
+        image: {{ .Values.imageDb.repository }}:{{ .Values.imageDb.tag }}
+        env:
+          {{- range $key, $val := .Values.envDb }}
+          - name: {{ $key }}
+            value: {{ $val }}
+          {{- end}}
+        ports:
+        - containerPort: {{ .Values.imageDb.port }}
