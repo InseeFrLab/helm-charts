@@ -1,14 +1,26 @@
-# Default values for shiny.
+# Default values for arc.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
-image:
-  repository: rocker/shiny
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "4.0.5"
+imageWeb:
+  repository: inseefr/arc
   pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+  port: 8080
+  
+imageWs:
+  repository: inseefr/arc-ws
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+  port: 8080
+
+imageDb:
+    repository: postgres
+    tag: 11
 
 imagePullSecrets: []
 nameOverride: ""
@@ -22,6 +34,11 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+env: {}
+  # DATABASE_URL:
+  # DATABASE_USER:
+  # DATABASE_PASSWORD:
 
 podAnnotations: {}
 
@@ -40,13 +57,6 @@ service:
   type: ClusterIP
   port: 80
 
-ingress:
-  enabled: true
-  tls: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-  hostname: chart-example.local
-
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -59,29 +69,46 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
 
-s3:
-  enabled: false
-  existingSecret: ""
-  endpoint: ""
-  defaultRegion: ""
-  accessKeyId: ""
-  secretAccessKey: ""
-  sessionToken: ""
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+  tls:
+    - hosts:
+        - arc-web.i3s.ninja
+        - arc-ws.i3s.ninja
+  hosts:
+    - host: arc-web.i3s.ninja
+      paths:
+        - path: /
+          serviceName: arc-web
+          servicePort: http
+    - host: arc-ws.i3s.ninja
+      paths:
+        - path: /
+          serviceName: arc-ws
+          servicePort: http
 
-postgresql:
-  enabled: false
-  auth:
-    username: ""
-    database: ""
-    password: ""
-    postgresPassword: ""
-    existingSecret: ""
-  containerPorts:
-    postgresql: 5432
-  fullnameOverride: ""
+
+arcWs:
+  applicationSuffix: ws
+
+arcWeb:
+  applicationSuffix: web
+
+arcDb:
+  applicationSuffix: db

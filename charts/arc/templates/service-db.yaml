@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "arcDb.fullname" . }}
+spec:
+  ports:
+    - name: {{ include "arcDb.fullname" . }}
+      targetPort: {{ .Values.imageDb.port }}
+      port: {{ .Values.imageDb.port }}
+  selector:
+    app: {{ include "arcDb.fullname" . }}
