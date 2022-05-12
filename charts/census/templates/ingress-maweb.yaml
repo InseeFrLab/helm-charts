@@ -20,6 +20,8 @@ metadata:
     {{- include "census-maweb.labels" . | nindent 4 }}
   {{- with .Values.maweb.ingress.annotations }}
   annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"    
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:

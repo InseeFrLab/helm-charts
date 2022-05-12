@@ -8,8 +8,8 @@ spec:
   type: {{ .Values.maweb.service.type }}
   ports:
     - port: {{ .Values.maweb.service.port }}
-      targetPort: 8080
+      targetPort: 8443
       protocol: TCP
-      name: http
+      name: https
   selector:
     {{- include "census-maweb.selectorLabels" . | nindent 4 }}
