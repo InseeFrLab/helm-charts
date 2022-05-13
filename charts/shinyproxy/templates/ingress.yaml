@@ -1,6 +1,6 @@
-{{- if .Values.ingress.enabled -}}
+{{- if .Values.proxy.ingress.enabled -}}
 {{- $fullName := include "library-chart.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $svcPort := .Values.proxy.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -8,15 +8,15 @@ metadata:
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
   annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- toYaml .Values.proxy.ingress.annotations | nindent 4 }}
 spec:
-{{- if .Values.ingress.tls }}
+{{- if .Values.proxy.ingress.tls }}
   tls:
     - hosts:
-        - {{ .Values.ingress.hostname | quote }}
+        - {{ .Values.proxy.ingress.hostname | quote }}
 {{- end }}
   rules:
-    - host: {{ .Values.ingress.hostname | quote }}
+    - host: {{ .Values.proxy.ingress.hostname | quote }}
       http:
         paths:
           - path: /

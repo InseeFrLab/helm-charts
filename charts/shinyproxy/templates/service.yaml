@@ -5,9 +5,9 @@ metadata:
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.proxy.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.proxy.service.port }}
       targetPort: http
       protocol: TCP
       name: http

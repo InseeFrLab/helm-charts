@@ -7,110 +7,55 @@ metadata:
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.proxy.replicaCount }}
   selector:
     matchLabels:
       {{- include "library-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
-        {{- toYaml .Values.podAnnotations | nindent 8 }}
+        {{- toYaml .Values.proxy.podAnnotations | nindent 8 }}
       labels:
         {{- include "library-chart.selectorLabels" . | nindent 8 }}
-        {{- toYaml .Values.podLabels | nindent 8 }}
+        {{- toYaml .Values.proxy.podLabels | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.proxy.securityContext | nindent 12 }}
           image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
           imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
           env:
-          {{- if .Values.postgresql.enabled }}
-          - name: POSTGRESQL_DB_NAME
-            value: {{ .Values.postgresql.auth.database }}
-          - name: POSTGRESQL_DB_HOST
-            value: {{ .Values.postgresql.fullnameOverride }}
-          - name: POSTGRESQL_DB_PORT
-            value: {{ .Values.postgresql.containerPorts.postgresql | quote }}
-          - name: POSTGRESQL_DB_USER
-            value: {{ .Values.postgresql.auth.username }}
-          - name: POSTGRESQL_DB_PASSWORD
-            {{- if .Values.postgresql.auth.existingSecret }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.postgresql.auth.existingSecret }}
-                key: password
-            {{- else }}
-            value: {{ .Values.postgresql.auth.password }}
-            {{- end }}
-          - name: POSTGRESQL_DB_ADMIN_PASSWORD
-            {{- if .Values.postgresql.auth.existingSecret }}
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.postgresql.auth.existingSecret }}
-                key: postgres-password
-            {{- else }}
-            value: {{ .Values.postgresql.auth.postgresPassword }}
-            {{- end }}
-          {{- end }}
-          envFrom:
-            {{- if .Values.s3.enabled }}
-            {{- if .Values.s3.existingSecret }}
-            - secretRef:
-                name: {{ .Values.s3.existingSecret }}
-            {{- else }}
-            - configMapRef:
-                name: {{ include "library-chart.configMapNameS3" . }}
-            {{- end }}
-            {{- end }}
+            dsf
           ports:
             - name: http
               containerPort: 3838
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /actuator/health/liveness
+              port: 9090
+            periodSeconds: 1
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /actuator/health/readiness
+              port: 9090
+            periodSeconds: 1
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.proxy.resources | nindent 12 }}
       volumes:
         - name: {{$volumeName}}
           emptyDir: {}
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.proxy.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if .Values.postgresql.enabled }}
-      initContainers:
-        - name: wait-for-postgresql
-          image: "alpine"
-          imagePullPolicy: IfNotPresent
-          command:
-            - sh
-            - -c
-            - |
-              until printf "." && nc -z -w 2 {{ .Values.postgresql.fullnameOverride }} {{ .Values.postgresql.containerPorts.postgresql }}; do
-                  sleep 2;
-              done;
-              echo 'PostgreSQL OK ✓'
-      {{- end }}
-      {{- with .Values.nodeSelector }}
+        {{- toYaml .Values.proxy.podSecurityContext | nindent 8 }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
+        {{- toYaml .Values.proxy.nodeSelector | nindent 8 }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+        {{- toYaml .Values.proxy.affinity | nindent 8 }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- toYaml .Values.proxy.tolerations | nindent 8 }}
