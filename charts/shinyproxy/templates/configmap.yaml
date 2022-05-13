@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shinyproxy
+  labels:
+    {{- include "library-chart.labels" . | nindent 4 }}
+data:
+  application.yml: |-
+    proxy:
+      title: Open Analytics Shiny Proxy
+      logo-url: https://www.openanalytics.eu/shinyproxy/logo.png
+      test: {{ .Values.proxyConfig.authentication }}

@@ -7,26 +7,28 @@ metadata:
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.proxy.replicaCount }}
+  replicas: {{ .Values.proxyDeploy.replicaCount }}
   selector:
     matchLabels:
       {{- include "library-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
-        {{- toYaml .Values.proxy.podAnnotations | nindent 8 }}
+        {{- toYaml .Values.proxyDeploy.podAnnotations | nindent 8 }}
       labels:
         {{- include "library-chart.selectorLabels" . | nindent 8 }}
-        {{- toYaml .Values.proxy.podLabels | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
+          image: "{{ .Values.proxyDeploy.image.name }}:{{ .Values.proxyDeploy.image.tag }}"
+          imagePullPolicy: {{ .Values.proxyDeploy.image.pullPolicy }}
+          serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
           securityContext:
-            {{- toYaml .Values.proxy.securityContext | nindent 12 }}
-          image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
-          imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
-          env:
-            dsf
+            {{- toYaml .Values.proxyDeploy.podSecurityContext | nindent 12 }}
+          volumeMounts:
+            - name: app-conf
+              mountPath: /opt/shinyproxy/application.yml
+              subPath: application.yml
           ports:
             - name: http
               containerPort: 3838
@@ -42,20 +44,16 @@ spec:
               port: 9090
             periodSeconds: 1
           resources:
-            {{- toYaml .Values.proxy.resources | nindent 12 }}
+            {{- toYaml .Values.proxyDeploy.resources | nindent 12 }}
       volumes:
         - name: {{$volumeName}}
           emptyDir: {}
-      {{- with .Values.proxy.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.proxy.podSecurityContext | nindent 8 }}
+        - name: app-conf
+          configMap:
+            name: app-config
       nodeSelector:
-        {{- toYaml .Values.proxy.nodeSelector | nindent 8 }}
+        {{- toYaml .Values.proxyDeploy.nodeSelector | nindent 8 }}
       affinity:
-        {{- toYaml .Values.proxy.affinity | nindent 8 }}
+        {{- toYaml .Values.proxyDeploy.affinity | nindent 8 }}
       tolerations:
-        {{- toYaml .Values.proxy.tolerations | nindent 8 }}
+        {{- toYaml .Values.proxyDeploy.tolerations | nindent 8 }}
