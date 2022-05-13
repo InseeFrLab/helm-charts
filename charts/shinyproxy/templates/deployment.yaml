@@ -1,0 +1,116 @@
+{{- $fullName := include "library-chart.fullname" . -}}
+{{- $volumeName := printf "%s-%s" $fullName "data" | trunc 63 | trimSuffix "-" -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "library-chart.fullname" . }}
+  labels:
+    {{- include "library-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "library-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
+      labels:
+        {{- include "library-chart.selectorLabels" . | nindent 8 }}
+        {{- toYaml .Values.podLabels | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
+          imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+          env:
+          {{- if .Values.postgresql.enabled }}
+          - name: POSTGRESQL_DB_NAME
+            value: {{ .Values.postgresql.auth.database }}
+          - name: POSTGRESQL_DB_HOST
+            value: {{ .Values.postgresql.fullnameOverride }}
+          - name: POSTGRESQL_DB_PORT
+            value: {{ .Values.postgresql.containerPorts.postgresql | quote }}
+          - name: POSTGRESQL_DB_USER
+            value: {{ .Values.postgresql.auth.username }}
+          - name: POSTGRESQL_DB_PASSWORD
+            {{- if .Values.postgresql.auth.existingSecret }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.postgresql.auth.existingSecret }}
+                key: password
+            {{- else }}
+            value: {{ .Values.postgresql.auth.password }}
+            {{- end }}
+          - name: POSTGRESQL_DB_ADMIN_PASSWORD
+            {{- if .Values.postgresql.auth.existingSecret }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.postgresql.auth.existingSecret }}
+                key: postgres-password
+            {{- else }}
+            value: {{ .Values.postgresql.auth.postgresPassword }}
+            {{- end }}
+          {{- end }}
+          envFrom:
+            {{- if .Values.s3.enabled }}
+            {{- if .Values.s3.existingSecret }}
+            - secretRef:
+                name: {{ .Values.s3.existingSecret }}
+            {{- else }}
+            - configMapRef:
+                name: {{ include "library-chart.configMapNameS3" . }}
+            {{- end }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 3838
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: {{$volumeName}}
+          emptyDir: {}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.postgresql.enabled }}
+      initContainers:
+        - name: wait-for-postgresql
+          image: "alpine"
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              until printf "." && nc -z -w 2 {{ .Values.postgresql.fullnameOverride }} {{ .Values.postgresql.containerPorts.postgresql }}; do
+                  sleep 2;
+              done;
+              echo 'PostgreSQL OK ✓'
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

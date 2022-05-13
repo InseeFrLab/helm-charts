@@ -1,0 +1,14 @@
+proxy:
+  title: Open Analytics Shiny Proxy
+  landing-page: /
+  heartbeat-rate: 10000
+  heartbeat-timeout: 60000
+  port: 8080
+  authentication: none
+  admin-groups: admins
+  container-backend: kubernetes
+  kubernetes:
+    internal-networking: true
+  image:
+    name: inseefrlab/shinyproxy
+    tag: v2.6.1
