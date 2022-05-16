@@ -7,14 +7,16 @@ metadata:
 data:
   application.yml: |-
     proxy:
-      title: Open Analytics Shiny Proxy
-      logo-url: https://www.openanalytics.eu/shinyproxy/logo.png
       landing-page: {{ .Values.proxyConfig.landingPage }}
+      container-backend: kubernetes
+      container-log-path: ./shinyproxy-logs
+      kubernetes:
+        internal-networking: true
+        namespace: {{ .Release.Namespace }}
       heartbeat-rate: {{ .Values.proxyConfig.heartbeatRate }}
       heartbeat-timeout: {{ .Values.proxyConfig.heartbeatTimeout }}
       port: {{ .Values.proxyConfig.port }}
       authentication: {{ .Values.proxyConfig.authentication }}
-      admin-groups: {{ .Values.proxyConfig.adminGroups }}
       specs:
       - id: {{ .Values.app.id }}
         display-name: {{ .Values.app.displayName }}

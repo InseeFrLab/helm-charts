@@ -1,10 +1,7 @@
 proxyDeploy:
-  container-backend: kubernetes
-  kubernetes:
-    internal-networking: true
   image:
-    name: inseefrlab/shinyproxy
-    tag: v2.6.1
+    name: openanalytics/shinyproxy
+    tag: 2.6.1
     pullPolicy: Always
   replicaCount: 1
   resources: {}
@@ -65,7 +62,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-  hostname: testshinyproxy.lab.sspcloud.fr
+  hostname: testshinyproxy.kube.developpement.insee.fr
 
 service:
     type: ClusterIP
@@ -73,7 +70,7 @@ service:
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
