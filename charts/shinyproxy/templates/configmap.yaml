@@ -20,4 +20,4 @@ data:
         display-name: {{ .Values.app.displayName }}
         description: {{ .Values.app.description }}
         container-image: {{ .Values.app.image }}
-        container-cmd: {{- toYaml $.Values.app.cmd | nindent 10 }}
+        container-cmd: {{- toYaml $.Values.app.cmd | nindent 8 }}

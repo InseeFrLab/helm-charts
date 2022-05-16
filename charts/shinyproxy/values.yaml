@@ -42,9 +42,9 @@ proxyConfig:
   # adminGroups: admins
 
 app:
+  id: 01_hello
   image: openanalytics/shinyproxy-template
   cmd: ["R", "-e", "shiny::runApp('/root/euler')"]
-  id: 01_hello
   displayName: Hello Application
   description: Application which demonstrates the basics of a Shiny app
   resources: {}
