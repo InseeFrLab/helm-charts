@@ -22,7 +22,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.proxyDeploy.image.name }}:{{ .Values.proxyDeploy.image.tag }}"
           imagePullPolicy: {{ .Values.proxyDeploy.image.pullPolicy }}
-          serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
           securityContext:
             {{- toYaml .Values.proxyDeploy.podSecurityContext | nindent 12 }}
           volumeMounts:
@@ -31,18 +30,20 @@ spec:
               subPath: application.yml
           ports:
             - name: http
-              containerPort: 3838
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 9090
-            periodSeconds: 1
+            periodSeconds: 20
+            initialDelaySeconds: 5
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 9090
-            periodSeconds: 1
+            periodSeconds: 20
+            initialDelaySeconds: 5
           resources:
             {{- toYaml .Values.proxyDeploy.resources | nindent 12 }}
       volumes:
@@ -51,6 +52,7 @@ spec:
         - name: app-conf
           configMap:
             name: app-config
+      serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
       nodeSelector:
         {{- toYaml .Values.proxyDeploy.nodeSelector | nindent 8 }}
       affinity:

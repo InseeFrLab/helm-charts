@@ -5,7 +5,7 @@ proxyDeploy:
   image:
     name: inseefrlab/shinyproxy
     tag: v2.6.1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 1
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -34,30 +34,30 @@ proxyDeploy:
   affinity: {}
 
 proxyConfig:
-  landing-page: /
-  heartbeat-rate: 10000
-  heartbeat-timeout: 60000
+  landingPage: /
+  heartbeatRate: 10000
+  heartbeatTimeout: 60000
   port: 8080
   authentication: none
-  specs:
-  - id: 01_hello
-    display-name: Hello Application
-    description: Application which demonstrates the basics of a Shiny app
-    container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
-    container-image: openanalytics/shinyproxy-demo
+  # adminGroups: admins
 
 app:
+  image: openanalytics/shinyproxy-template
+  cmd: ["R", "-e", "shiny::runApp('/root/euler')"]
+  id: 01_hello
+  displayName: Hello Application
+  description: Application which demonstrates the basics of a Shiny app
   resources: {}
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 ingress:
   enabled: true
@@ -65,11 +65,11 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-  hostname: chart-example.local
+  hostname: testshinyproxy.lab.sspcloud.fr
 
 service:
     type: ClusterIP
-    port: 80
+    port: 8080
 
 serviceAccount:
   # Specifies whether a service account should be created

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: shinyproxy
+  name: app-config
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
 data:
@@ -9,4 +9,15 @@ data:
     proxy:
       title: Open Analytics Shiny Proxy
       logo-url: https://www.openanalytics.eu/shinyproxy/logo.png
-      test: {{ .Values.proxyConfig.authentication }}
+      landing-page: {{ .Values.proxyConfig.landingPage }}
+      heartbeat-rate: {{ .Values.proxyConfig.heartbeatRate }}
+      heartbeat-timeout: {{ .Values.proxyConfig.heartbeatTimeout }}
+      port: {{ .Values.proxyConfig.port }}
+      authentication: {{ .Values.proxyConfig.authentication }}
+      admin-groups: {{ .Values.proxyConfig.adminGroups }}
+      specs:
+      - id: {{ .Values.app.id }}
+        display-name: {{ .Values.app.displayName }}
+        description: {{ .Values.app.description }}
+        container-image: {{ .Values.app.image }}
+        container-cmd: {{- toYaml $.Values.app.cmd | nindent 10 }}
