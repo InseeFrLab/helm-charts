@@ -2,7 +2,7 @@ proxyDeploy:
   image:
     name: openanalytics/shinyproxy
     tag: 2.6.1
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -36,7 +36,6 @@ proxyConfig:
   heartbeatTimeout: 60000
   port: 8080
   authentication: none
-  # adminGroups: admins
 
 app:
   id: 01_hello
@@ -70,7 +69,7 @@ service:
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
