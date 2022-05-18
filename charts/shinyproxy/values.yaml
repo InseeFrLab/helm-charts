@@ -35,7 +35,13 @@ proxyConfig:
   heartbeatRate: 10000
   heartbeatTimeout: 60000
   port: 8080
-  authentication: none
+  authentication:
+    type: openid
+    openid:
+      authURL: https://auth.lab.sspcloud.fr/auth/realms/sspcloud/protocol/openid-connect/auth
+      tokenURL: https://auth.lab.sspcloud.fr/auth/realms/sspcloud/protocol/openid-connect/token
+      jwksURL: https://auth.lab.sspcloud.fr/auth/realms/sspcloud/protocol/openid-connect/certs
+      clientCredentialsSecretName: openid-credentials
 
 app:
   id: 01_hello

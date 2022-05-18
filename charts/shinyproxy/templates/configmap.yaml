@@ -16,7 +16,15 @@ data:
       heartbeat-rate: {{ .Values.proxyConfig.heartbeatRate }}
       heartbeat-timeout: {{ .Values.proxyConfig.heartbeatTimeout }}
       port: {{ .Values.proxyConfig.port }}
-      authentication: {{ .Values.proxyConfig.authentication }}
+      authentication: {{ .Values.proxyConfig.authentication.type }}
+      {{ if eq .Values.proxyConfig.authentication.type "openid" }}
+      openid:
+        auth-url: {{ .Values.proxyConfig.authentication.openid.authURL }}
+        token-url: {{ .Values.proxyConfig.authentication.openid.tokenURL }}
+        jwks-url: {{ .Values.proxyConfig.authentication.openid.jwksURL }}
+        client-id:
+        client-secret:
+      {{ end }}
       specs:
       - id: {{ .Values.app.id }}
         display-name: {{ .Values.app.displayName }}

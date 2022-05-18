@@ -28,6 +28,9 @@ spec:
             - name: app-conf
               mountPath: /opt/shinyproxy/application.yml
               subPath: application.yml
+            - name: oidc-secrets
+              mountPath: /opt/shinyproxy/openid-credentials.yml
+              subPath: openid-credentials.yml
           ports:
             - name: http
               containerPort: 8080
@@ -52,6 +55,11 @@ spec:
         - name: app-conf
           configMap:
             name: app-config
+        {{ if .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
+        - name: oidc-secrets
+          secret:
+            secretName: {{ .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
+        {{ end }}
       serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
       nodeSelector:
         {{- toYaml .Values.proxyDeploy.nodeSelector | nindent 8 }}
