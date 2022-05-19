@@ -1,5 +1,4 @@
 {{- $fullName := include "library-chart.fullname" . -}}
-{{- $volumeName := printf "%s-%s" $fullName "data" | trunc 63 | trimSuffix "-" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,18 +18,15 @@ spec:
         {{- include "library-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: shinyproxy
           image: "{{ .Values.proxyDeploy.image.name }}:{{ .Values.proxyDeploy.image.tag }}"
           imagePullPolicy: {{ .Values.proxyDeploy.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.proxyDeploy.podSecurityContext | nindent 12 }}
           volumeMounts:
-            - name: app-conf
+            - name: shinyproxy
               mountPath: /opt/shinyproxy/application.yml
               subPath: application.yml
-            - name: oidc-secrets
-              mountPath: /opt/shinyproxy/openid-credentials.yml
-              subPath: openid-credentials.yml
           ports:
             - name: http
               containerPort: 8080
@@ -40,26 +36,53 @@ spec:
               path: /actuator/health/liveness
               port: 9090
             periodSeconds: 20
-            initialDelaySeconds: 5
+            initialDelaySeconds: 2
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 9090
             periodSeconds: 20
-            initialDelaySeconds: 5
+            initialDelaySeconds: 2
           resources:
             {{- toYaml .Values.proxyDeploy.resources | nindent 12 }}
       volumes:
-        - name: {{$volumeName}}
+        - name: shinyproxy
           emptyDir: {}
         - name: app-conf
           configMap:
             name: app-config
-        {{ if .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
+        {{ if eq .Values.proxyConfig.authentication.type "openid" }}
         - name: oidc-secrets
           secret:
             secretName: {{ .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
         {{ end }}
+      {{ if eq .Values.proxyConfig.authentication.type "openid" }}
+      initContainers:
+        - name: init
+          image: "alpine"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: app-conf
+              mountPath: /etc/app-conf/application.yml
+              subPath: application.yml
+            - name: oidc-secrets
+              mountPath: /etc/oidc-secrets
+            - name: shinyproxy
+              mountPath: /etc/merge-conf
+          command:
+            - sh
+            - -c
+            - |
+              wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
+                   chmod +x /usr/bin/yq
+              
+              CLIENT_ID=`cat /etc/oidc-secrets/client-id`
+              CLIENT_SECRET=`cat /etc/oidc-secrets/client-secret`
+
+              cp /etc/app-conf/application.yml /etc/merge-conf/application.yml
+              yq -i e ".proxy.openid.client-id |= \"$CLIENT_ID\"" /etc/merge-conf/application.yml
+              yq -i e ".proxy.openid.client-secret |= \"$CLIENT_SECRET\"" /etc/merge-conf/application.yml
+      {{- end }}
       serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
       nodeSelector:
         {{- toYaml .Values.proxyDeploy.nodeSelector | nindent 8 }}

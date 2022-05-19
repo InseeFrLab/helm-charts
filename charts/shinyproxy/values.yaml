@@ -2,7 +2,7 @@ proxyDeploy:
   image:
     name: openanalytics/shinyproxy
     tag: 2.6.1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 1
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -34,6 +34,7 @@ proxyConfig:
   landingPage: /
   heartbeatRate: 10000
   heartbeatTimeout: 60000
+  containerWaitTime: 20000
   port: 8080
   authentication:
     type: openid
@@ -67,7 +68,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-  hostname: testshinyproxy.kube.developpement.insee.fr
+  hostname: testshinyproxy.lab.sspcloud.fr
 
 service:
     type: ClusterIP

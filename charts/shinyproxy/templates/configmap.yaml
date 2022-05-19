@@ -15,6 +15,7 @@ data:
         namespace: {{ .Release.Namespace }}
       heartbeat-rate: {{ .Values.proxyConfig.heartbeatRate }}
       heartbeat-timeout: {{ .Values.proxyConfig.heartbeatTimeout }}
+      container-wait-time: {{ .Values.proxyConfig.containerWaitTime }}
       port: {{ .Values.proxyConfig.port }}
       authentication: {{ .Values.proxyConfig.authentication.type }}
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}
