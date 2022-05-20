@@ -23,6 +23,9 @@ data:
         auth-url: {{ .Values.proxyConfig.authentication.openid.authURL }}
         token-url: {{ .Values.proxyConfig.authentication.openid.tokenURL }}
         jwks-url: {{ .Values.proxyConfig.authentication.openid.jwksURL }}
+        logout-url: {{ .Values.proxyConfig.authentication.openid.logoutURL }}
+        username-attribute: {{ .Values.proxyConfig.authentication.openid.usernameAttribute }}
+        roles-claim: {{ .Values.proxyConfig.authentication.openid.rolesClaim }}
         client-id:
         client-secret:
       {{ end }}

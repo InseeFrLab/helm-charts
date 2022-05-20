@@ -37,19 +37,24 @@ proxyConfig:
   containerWaitTime: 20000
   port: 8080
   authentication:
-    type: openid
-    openid:
-      authURL: https://auth.lab.sspcloud.fr/auth/realms/sspcloud/protocol/openid-connect/auth
-      tokenURL: https://auth.lab.sspcloud.fr/auth/realms/sspcloud/protocol/openid-connect/token
-      jwksURL: https://auth.lab.sspcloud.fr/auth/realms/sspcloud/protocol/openid-connect/certs
-      clientCredentialsSecretName: openid-credentials
+    type: none
+    # type: openid
+    # openid:
+    #   authURL: ""
+    #   tokenURL: ""
+    #   jwksURL: ""
+    #   logoutURL: ""
+    #   usernameAttribute: ""
+    #   rolesClaim: ""
+    #   clientCredentialsSecretName: ""
 
 app:
-  id: 01_hello
-  image: openanalytics/shinyproxy-template
-  cmd: ["R", "-e", "shiny::runApp('/root/euler')"]
-  displayName: Hello Application
-  description: Application which demonstrates the basics of a Shiny app
+  id: ""
+  image: ""
+  cmd: []
+  displayName: ""
+  description: ""
+  accessGroups: []
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -68,7 +73,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-  hostname: testshinyproxy.lab.sspcloud.fr
+  hostname: chart-example.local
 
 service:
     type: ClusterIP
