@@ -30,9 +30,4 @@ data:
         client-secret:
       {{ end }}
       specs:
-      - id: {{ .Values.app.id }}
-        display-name: {{ .Values.app.displayName }}
-        description: {{ .Values.app.description }}
-        container-image: {{ .Values.app.image }}
-        container-cmd: {{- toYaml $.Values.app.cmd | nindent 8 }}
-        access-groups: {{ .Values.app.accessGroups }}
+      {{- toYaml $.Values.apps | nindent 6 }}
