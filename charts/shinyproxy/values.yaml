@@ -1,14 +1,78 @@
-proxy:
-  title: Open Analytics Shiny Proxy
-  landing-page: /
-  heartbeat-rate: 10000
-  heartbeat-timeout: 60000
-  port: 8080
-  authentication: none
-  admin-groups: admins
-  container-backend: kubernetes
-  kubernetes:
-    internal-networking: true
+proxyDeploy:
   image:
-    name: inseefrlab/shinyproxy
-    tag: v2.6.1
+    name: openanalytics/shinyproxy
+    tag: 2.6.1
+    pullPolicy: Always
+  replicaCount: 1
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  podAnnotations: {}
+  podLabels: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+proxyConfig:
+  landingPage: /
+  heartbeatRate: 10000
+  heartbeatTimeout: 60000
+  containerWaitTime: 20000
+  port: 8080
+  authentication:
+    type: none
+    # type: openid
+    # openid:
+    #   authURL: ""
+    #   tokenURL: ""
+    #   jwksURL: ""
+    #   logoutURL: ""
+    #   usernameAttribute: ""
+    #   rolesClaim: ""
+    #   clientCredentialsSecretName: ""
+
+apps:
+  - id: ""
+    display-name: ""
+    description: ""
+    container-image: ""
+    container-cmd: []
+    access-groups: []
+
+ingress:
+  enabled: true
+  tls: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+  hostname: chart-example.local
+
+service:
+    type: ClusterIP
+    port: 8080
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""

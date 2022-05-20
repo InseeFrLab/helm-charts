@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  labels:
+    {{- include "library-chart.labels" . | nindent 4 }}
+data:
+  application.yml: |-
+    proxy:
+      landing-page: {{ .Values.proxyConfig.landingPage }}
+      container-backend: kubernetes
+      container-log-path: ./shinyproxy-logs
+      kubernetes:
+        internal-networking: true
+        namespace: {{ .Release.Namespace }}
+      heartbeat-rate: {{ .Values.proxyConfig.heartbeatRate }}
+      heartbeat-timeout: {{ .Values.proxyConfig.heartbeatTimeout }}
+      container-wait-time: {{ .Values.proxyConfig.containerWaitTime }}
+      port: {{ .Values.proxyConfig.port }}
+      authentication: {{ .Values.proxyConfig.authentication.type }}
+      {{ if eq .Values.proxyConfig.authentication.type "openid" }}
+      openid:
+        auth-url: {{ .Values.proxyConfig.authentication.openid.authURL }}
+        token-url: {{ .Values.proxyConfig.authentication.openid.tokenURL }}
+        jwks-url: {{ .Values.proxyConfig.authentication.openid.jwksURL }}
+        logout-url: {{ .Values.proxyConfig.authentication.openid.logoutURL }}
+        username-attribute: {{ .Values.proxyConfig.authentication.openid.usernameAttribute }}
+        roles-claim: {{ .Values.proxyConfig.authentication.openid.rolesClaim }}
+        client-id:
+        client-secret:
+      {{ end }}
+      specs:
+      {{- toYaml $.Values.apps | nindent 6 }}
