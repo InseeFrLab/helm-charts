@@ -1,0 +1,401 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-atlas-cm
+data:
+  atlas-application.properties: |
+
+    #########  Graph Database Configs  #########
+
+    {{- if .Values.atlasApp.hbase.enabled }}
+    atlas.graph.storage.backend=hbase2
+    atlas.graph.storage.hbase.table=apache_atlas_janus
+
+    #Hbase
+    #For standalone mode , specify localhost
+    #for distributed mode, specify zookeeper quorum here
+    atlas.graph.storage.hostname=localhost
+    atlas.graph.storage.hbase.regions-per-server={{ .Values.atlasApp.hbase.regionsPerServer }}
+    atlas.graph.storage.lock.wait-time={{ .Values.atlasApp.hbase.lockWaitTime }}
+    atlas.EntityAuditRepository.impl=org.apache.atlas.repository.audit.HBaseBasedAuditRepository
+    {{- end }}
+
+    # if Cassandra is used as a backend for audit from the above property, uncomment and set the following
+    # properties appropriately. If using the embedded cassandra profile, these properties can remain
+    # commented out.
+    # atlas.EntityAuditRepository.keyspace=atlas_audit
+    # atlas.EntityAuditRepository.replicationFactor=1
+
+
+    {{- if .Values.atlasApp.solr.enabled }}
+    # Graph Search Index
+    atlas.graph.index.search.backend=solr
+
+    #Solr
+    #Solr cloud mode properties
+    atlas.graph.index.search.solr.mode={{ .Values.atlasApp.solr.mode }}
+    atlas.graph.index.search.solr.zookeeper-url={{ .Values.atlasApp.solr.zookeeperUrl }}
+    atlas.graph.index.search.solr.zookeeper-connect-timeout={{ .Values.atlasApp.solr.connectTimeout }}
+    atlas.graph.index.search.solr.zookeeper-session-timeout={{ .Values.atlasApp.solr.sessionTimeout }}
+    atlas.graph.index.search.solr.wait-searcher={{ .Values.atlasApp.solr.waitSearcher }}
+
+    #Solr http mode properties
+    #atlas.graph.index.search.solr.mode=http
+    #atlas.graph.index.search.solr.http-urls=http://localhost:8983/solr
+
+    # Solr-specific configuration property
+    atlas.graph.index.search.max-result-set-size=150
+    {{- end }}
+    #########  Import Configs  #########
+    #atlas.import.temp.directory=/temp/import
+
+    #########  Notification Configs  #########
+    atlas.notification.embedded=true
+    atlas.kafka.data=${sys:atlas.home}/data/kafka
+    atlas.kafka.zookeeper.connect=localhost:9026
+    atlas.kafka.bootstrap.servers=localhost:9027
+    atlas.kafka.zookeeper.session.timeout.ms=400
+    atlas.kafka.zookeeper.connection.timeout.ms=200
+    atlas.kafka.zookeeper.sync.time.ms=20
+    atlas.kafka.auto.commit.interval.ms=1000
+    atlas.kafka.hook.group.id=atlas
+
+    atlas.kafka.enable.auto.commit=false
+    atlas.kafka.auto.offset.reset=earliest
+    atlas.kafka.session.timeout.ms=30000
+    atlas.kafka.offsets.topic.replication.factor=1
+    atlas.kafka.poll.timeout.ms=1000
+
+    atlas.notification.create.topics=true
+    atlas.notification.replicas=1
+    atlas.notification.topics=ATLAS_HOOK,ATLAS_ENTITIES
+    atlas.notification.log.failed.messages=true
+    atlas.notification.consumer.retry.interval=500
+    atlas.notification.hook.retry.interval=1000
+    # Enable for Kerberized Kafka clusters
+    #atlas.notification.kafka.service.principal=kafka/_HOST@EXAMPLE.COM
+    #atlas.notification.kafka.keytab.location=/etc/security/keytabs/kafka.service.keytab
+
+    ## Server port configuration
+    #atlas.server.http.port=21000
+    #atlas.server.https.port=21443
+
+    #########  Security Properties  #########
+
+    # SSL config
+    atlas.enableTLS=false
+
+    ########################### Authentication config ##################
+    atlas.authentication.method.kerberos={{ .Values.atlasApp.security.authKerberos }}
+    atlas.authentication.method.file={{ .Values.atlasApp.security.authFile.enabled  }}
+    ## keycloak auth configuration 
+    atlas.authentication.method.keycloak={{ .Values.atlasApp.security.authKeycloak.enabled }}
+    atlas.authentication.method.keycloak.file={{ .Values.atlasApp.security.authKeycloak.filePath }}
+    atlas.authentication.method.keycloak.ugi-groups={{ .Values.atlasApp.security.authKeycloak.ugiGroup }}
+
+
+    #### ldap.type= LDAP or AD
+    atlas.authentication.method.ldap.type=none
+
+    #### user credentials file
+    atlas.authentication.method.file.filename={{ .Values.atlasApp.security.authFile.filePath }}
+
+    #########  Server Properties  #########
+    atlas.rest.address={{ .Values.atlasApp.serverProperties.restUrl }}
+    # If enabled and set to true, this will run setup steps when the server starts
+    #atlas.server.run.setup.on.start=false
+
+    #########  Entity Audit Configs  #########
+    atlas.audit.hbase.tablename=apache_atlas_entity_audit
+    atlas.audit.zookeeper.session.timeout.ms=1000
+    atlas.audit.hbase.zookeeper.quorum=localhost:2181
+
+    #########  High Availability Configuration ########
+    atlas.server.ha.enabled=false
+    #### Enabled the configs below as per need if HA is enabled #####
+    #atlas.server.ids=id1
+    #atlas.server.address.id1=localhost:21000
+    #atlas.server.ha.zookeeper.connect=localhost:2181
+    #atlas.server.ha.zookeeper.retry.sleeptime.ms=1000
+    #atlas.server.ha.zookeeper.num.retries=3
+    #atlas.server.ha.zookeeper.session.timeout.ms=20000
+    ## if ACLs need to be set on the created nodes, uncomment these lines and set the values ##
+    #atlas.server.ha.zookeeper.acl=<scheme>:<id>
+    #atlas.server.ha.zookeeper.auth=<scheme>:<authinfo>
+
+
+
+    ######### Atlas Authorization #########
+    atlas.authorizer.impl={{ .Values.atlasApp.security.authorization.mode }}
+    atlas.authorizer.simple.authz.policy.file={{ .Values.atlasApp.security.authorization.policyFile }}
+
+    #########  Type Cache Implementation ########
+    # A type cache class which implements
+    # org.apache.atlas.typesystem.types.cache.TypeCache.
+    # The default implementation is org.apache.atlas.typesystem.types.cache.DefaultTypeCache which is a local in-memory type cache.
+    #atlas.TypeCache.impl=
+
+    #########  Performance Configs  #########
+    #atlas.graph.storage.lock.retries=10
+    #atlas.graph.storage.cache.db-cache-time=120000
+
+    #########  CSRF Configs  #########
+    atlas.rest-csrf.enabled=true
+    atlas.rest-csrf.browser-useragents-regex=^Mozilla.*,^Opera.*,^Chrome.*
+    atlas.rest-csrf.methods-to-ignore=GET,OPTIONS,HEAD,TRACE
+    atlas.rest-csrf.custom-header=X-XSRF-HEADER
+
+    ############ KNOX Configs ################
+    #atlas.sso.knox.browser.useragent=Mozilla,Chrome,Opera
+    #atlas.sso.knox.enabled=true
+    #atlas.sso.knox.providerurl=https://<knox gateway ip>:8443/gateway/knoxsso/api/v1/websso
+    #atlas.sso.knox.publicKey=
+
+    ############ Atlas Metric/Stats configs ################
+    # Format: atlas.metric.query.<key>.<name>
+    atlas.metric.query.cache.ttlInSecs=900
+
+    #########  Full Text Search Configuration  #########
+
+    #Set to false to disable full text search.
+    #atlas.search.fulltext.enable=true
+
+    #########  Gremlin Search Configuration  #########
+
+    #Set to false to disable gremlin search.
+    atlas.search.gremlin.enable=false
+
+    #########  UI Configuration ########
+
+    atlas.ui.default.version=v1
+    atlas.ui.editable.entity.types=*
+
+  atlas-env.sh: |
+    #!/usr/bin/env bash
+    #
+    # The java implementation to use. If JAVA_HOME is not found we expect java and jar to be in path
+    #export JAVA_HOME=
+
+    # any additional java opts you want to set. This will apply to both client and server operations
+    #export ATLAS_OPTS=
+
+    # any additional java opts that you want to set for client only
+    #export ATLAS_CLIENT_OPTS=
+
+    # java heap size we want to set for the client. Default is 1024MB
+    #export ATLAS_CLIENT_HEAP=
+
+    # any additional opts you want to set for atlas service.
+    #export ATLAS_SERVER_OPTS=
+
+    # indicative values for large number of metadata entities (equal or more than 10,000s)
+    #export ATLAS_SERVER_OPTS="-server -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+PrintTenuringDistribution -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=dumps/atlas_server.hprof -Xloggc:logs/gc-worker.log -verbose:gc -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=1m -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCTimeStamps"
+
+    # java heap size we want to set for the atlas server. Default is 1024MB
+    #export ATLAS_SERVER_HEAP=
+
+    # indicative values for large number of metadata entities (equal or more than 10,000s) for JDK 8
+    #export ATLAS_SERVER_HEAP="-Xms15360m -Xmx15360m -XX:MaxNewSize=5120m -XX:MetaspaceSize=100M -XX:MaxMetaspaceSize=512m"
+
+    # What is is considered as atlas home dir. Default is the base locaion of the installed software
+    #export ATLAS_HOME_DIR=
+
+    # Where log files are stored. Defatult is logs directory under the base install location
+    #export ATLAS_LOG_DIR=
+
+    # Where pid files are stored. Defatult is logs directory under the base install location
+    #export ATLAS_PID_DIR=
+
+    # where the atlas titan db data is stored. Defatult is logs/data directory under the base install location
+    #export ATLAS_DATA_DIR=
+
+    # Where do you want to expand the war file. By Default it is in /server/webapp dir under the base install dir.
+    #export ATLAS_EXPANDED_WEBAPP_DIR=
+
+    # indicates whether or not a local instance of HBase should be started for Atlas
+    export MANAGE_LOCAL_HBASE={{ .Values.atlasEnv.localHbase }}
+
+    # indicates whether or not a local instance of Solr should be started for Atlas
+    export MANAGE_LOCAL_SOLR={{ .Values.atlasEnv.localSolr }}
+
+    # indicates whether or not cassandra is the embedded backend for Atlas
+    export MANAGE_EMBEDDED_CASSANDRA={{ .Values.atlasEnv.localCassandra }}
+
+    # indicates whether or not a local instance of Elasticsearch should be started for Atlas
+    export MANAGE_LOCAL_ELASTICSEARCH={{ .Values.atlasEnv.localEc }}
+
+  keycloak.json: |
+    {"realm": "{{ .Values.keycloak.realm }}", 
+    "auth-server-url": "{{ .Values.keycloak.serverUrl }}", 
+    "ssl-required": "{{ .Values.keycloak.sslRequired }}",
+    "resource": "{{ .Values.keycloak.resource }}",
+    "public-client": {{ .Values.keycloak.publicClient }}, 
+    "confidential-port": {{ .Values.keycloak.confidentialPort }}, 
+    "principal-attribute": "{{ .Values.keycloak.principalAttribute }}", 
+    "autodetect-bearer-only": {{ .Values.keycloak.bearerOnly }} 
+    }
+  sspcloud-authorization-policy.json: |
+    {
+    "roles": {
+      "ROLE_ADMIN": {
+         "adminPermissions": [
+            {
+               "privileges": [
+                  ".*"
+               ]
+            }
+         ],
+         "typePermissions": [
+            {
+               "privileges": [
+                  ".*"
+               ],
+               "typeCategories": [
+                  ".*"
+               ],
+               "typeNames": [
+                  ".*"
+               ]
+            }
+         ],
+         "entityPermissions": [
+            {
+               "privileges": [
+                  ".*"
+               ],
+               "entityTypes": [
+                  ".*"
+               ],
+               "entityIds": [
+                  ".*"
+               ],
+               "classifications": [
+                  ".*"
+               ],
+               "labels": [
+                  ".*"
+               ],
+               "businessMetadata": [
+                  ".*"
+               ],
+               "attributes": [
+                  ".*"
+               ]
+            }
+         ],
+         "relationshipPermissions": [
+            {
+               "privileges": [
+                  ".*"
+               ],
+               "relationshipTypes": [
+                  ".*"
+               ],
+               "end1EntityType": [
+                  ".*"
+               ],
+               "end1EntityId": [
+                  ".*"
+               ],
+               "end1EntityClassification": [
+                  ".*"
+               ],
+               "end2EntityType": [
+                  ".*"
+               ],
+               "end2EntityId": [
+                  ".*"
+               ],
+               "end2EntityClassification": [
+                  ".*"
+               ]
+            }
+         ]
+      },
+      "DATA_SCIENTIST": {
+         "entityPermissions": [
+            {
+               "privileges": [
+                  "entity-read",
+                  "entity-read-classification"
+               ],
+               "entityTypes": [
+                  ".*"
+               ],
+               "entityIds": [
+                  ".*"
+               ],
+               "classifications": [
+                  ".*"
+               ]
+            }
+         ]
+      },
+      "DATA_STEWARD": {
+         "entityPermissions": [
+            {
+               "privileges": [
+                  "entity-read",
+                  "entity-create",
+                  "entity-update",
+                  "entity-read-classification",
+                  "entity-add-classification",
+                  "entity-update-classification",
+                  "entity-remove-classification"
+               ],
+               "entityTypes": [
+                  ".*"
+               ],
+               "entityIds": [
+                  ".*"
+               ],
+               "classifications": [
+                  ".*"
+               ]
+            }
+         ],
+         "relationshipPermissions": [
+            {
+               "privileges": [
+                  "add-relationship",
+                  "update-relationship",
+                  "remove-relationship"
+               ],
+               "relationshipTypes": [
+                  ".*"
+               ],
+               "end1EntityType": [
+                  ".*"
+               ],
+               "end1EntityId": [
+                  ".*"
+               ],
+               "end1EntityClassification": [
+                  ".*"
+               ],
+               "end2EntityType": [
+                  ".*"
+               ],
+               "end2EntityId": [
+                  ".*"
+               ],
+               "end2EntityClassification": [
+                  ".*"
+               ]
+            }
+         ]
+      }
+    },
+    "userRoles": {},
+    "groupRoles": {
+      "Atlas_role_admin": [
+         "ROLE_ADMIN"
+      ],
+      "Atlas_data_steward": [
+         "DATA_STEWARD"
+      ],
+      "Atlas_data_scientist": [
+         "DATA_SCIENTIST"
+      ]
+     }
+    }

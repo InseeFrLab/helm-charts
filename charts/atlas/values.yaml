@@ -1,0 +1,125 @@
+# Default values for atlas.
+
+############### Values for configmap ########################
+atlasApp:
+  hbase:
+    enabled: true
+    regionsPerServer: 1
+    lockWaitTime: 10000
+  solr:
+    enabled: true
+    mode: cloud
+    zookeeperUrl: localhost:2181
+    connectTimeout: 60000
+    sessionTimeout: 60000
+    waitSearcher: true
+  security:
+    authKerberos: false
+    authFile: 
+      enabled: false
+      filePath: ${sys:atlas.home}/conf/users-credentials.properties
+    authKeycloak: 
+      enabled: true
+      filePath: ${sys:atlas.home}/conf/keycloak.json
+      ugiGroup: false
+    authorization:
+      mode: simple
+      policyFile: ${sys:atlas.home}/conf/sspcloud-authorization-policy.json
+  serverProperties:
+    restUrl: http://localhost:21000
+
+atlasEnv: 
+  localHbase: true
+  localSolr: true
+  localCassandra: false
+  localEc: false
+
+keycloak:
+  realm: realm
+  serverUrl: https://change.me/auth
+  sslRequired: external
+  resource: atlas
+  publicClient: true
+  confidentialPort: 0
+  principalAttribute: preferred_username
+  bearerOnly: true
+############### Values for deployment ######################
+image:
+  name: sburn/apache-atlas
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+############### Values for pvc ####################
+pvc:
+  accessModes: [ReadWriteOnce]
+  volumeMode: Filesystem
+  storage: 8Gi
+  storageClassName: rook-ceph-block
+
+############### Values for service #################
+service:
+  type: ClusterIP
+  port: 21000
+  targetPort: 21000
+
+##############  Values for ingress ###############
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: [/]
+  tls: 
+    - hosts:
+        - chart-example.local
+     # secretName: chart-example-tls
+
+
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

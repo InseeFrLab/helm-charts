@@ -1,0 +1,12 @@
+apiVersion: v2
+name: atlas
+description: "A helm chart to install Apache Atlas: https://atlas.apache.org/"
+type: application
+version: 0.1.0
+appVersion: 2.1.0
+keywords:
+  - atlas
+  - data-management
+home: https://github.com/
+sources:
+  - https://github.com/apache/atlas

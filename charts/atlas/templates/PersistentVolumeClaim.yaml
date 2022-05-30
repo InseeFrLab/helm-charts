@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-atlas-data-claim
+spec:
+  accessModes:
+    {{- range .Values.pvc.accessModes }}
+    - {{ . }}
+    {{- end }}
+  volumeMode: {{ .Values.pvc.volumeMode }}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.storage }}
+# used to bind PV with the same class name, if you want the DefaultStorageClass create a PV dynamically, just put "".
+  storageClassName: {{ .Values.pvc.storageClassName }}
