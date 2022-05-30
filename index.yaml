@@ -32,6 +32,23 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/arc-0.1.0/arc-0.1.0.tgz
     version: 0.1.0
+  atlas:
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2022-05-30T07:20:48.320399702Z"
+    description: 'A helm chart to install Apache Atlas: https://atlas.apache.org/'
+    digest: a6c4a06c3d59f6e8c1f19008ad7f0937012754e5d435f355f0abbdb46c4c7220
+    home: https://github.com/
+    keywords:
+    - atlas
+    - data-management
+    name: atlas
+    sources:
+    - https://github.com/apache/atlas
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/atlas-0.1.0/atlas-0.1.0.tgz
+    version: 0.1.0
   census:
   - apiVersion: v2
     created: "2022-03-03T09:49:15.89413915Z"
@@ -891,4 +908,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-05-20T13:11:20.223472723Z"
+generated: "2022-05-30T07:20:48.320555202Z"
