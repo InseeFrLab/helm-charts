@@ -467,6 +467,24 @@ entries:
   shiny:
   - apiVersion: v2
     appVersion: 4.0.5
+    created: "2022-05-31T14:11:41.76760683Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.0.2
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-datascience
+      version: 2.0.20
+    description: A Helm chart for shiny
+    digest: d0e27864f6d17d5de351cff03e2ee0443b22f73abb17866692ecf8595e4341f6
+    name: shiny
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/shiny-0.16.0/shiny-0.16.0.tgz
+    version: 0.16.0
+  - apiVersion: v2
+    appVersion: 4.0.5
     created: "2022-05-31T08:13:23.066775731Z"
     dependencies:
     - condition: postgresql.enabled
@@ -926,4 +944,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-05-31T08:13:23.067109635Z"
+generated: "2022-05-31T14:11:41.771099155Z"
