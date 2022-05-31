@@ -46,7 +46,7 @@ ingress:
   tls: true
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
   hostname: chart-example.local
 
 resources: {}
