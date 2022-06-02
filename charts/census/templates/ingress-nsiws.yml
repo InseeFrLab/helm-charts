@@ -20,6 +20,7 @@ metadata:
     {{- include "census-nsiws.labels" . | nindent 4 }}
   {{- with .Values.nsiws.ingress.annotations }}
   annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"    
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:

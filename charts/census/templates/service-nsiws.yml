@@ -8,8 +8,8 @@ spec:
   type: {{ .Values.nsiws.service.type }}
   ports:
     - port: {{ .Values.nsiws.service.port }}
-      targetPort: 8080
+      targetPort: 8443
       protocol: TCP
-      name: http
+      name: https
   selector:
     {{- include "census-nsiws.selectorLabels" . | nindent 4 }}
