@@ -29,11 +29,20 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ .Values.maweb.image.repository }}:{{ .Values.maweb.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.maweb.image.pullPolicy }}
+          env:
+           {{- if .Values.maweb.env }}
+            {{- range $key, $value := .Values.maweb.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end -}}
+            {{- end }}
           ports:
             - containerPort: 8080
           volumeMounts: 
           - mountPath: /usr/local/tomcat/classpath/ma-params
             name: config-pvc-ma-params
+          resources:
+            {{- toYaml .Values.maweb.resources | nindent 12 }}
       initContainers:
       - name: setup-configs
         args:
