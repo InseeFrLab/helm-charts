@@ -3,7 +3,7 @@
 {{- $fullNameUi := include "onyxia.ui.fullname" . -}}
 {{- $fullName := include "onyxia.fullname" . -}}
 {{- $svcPortApi := .Values.api.service.port -}}
-{{- $svcPortUi := .Values.api.service.port -}}
+{{- $svcPortUi := .Values.ui.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
