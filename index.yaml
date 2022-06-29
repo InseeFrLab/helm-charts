@@ -237,6 +237,17 @@ entries:
   onyxia:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-06-29T11:59:08.047574954Z"
+    description: Onyxia is your datalab's hub.
+    digest: c4a3f908d0c4da999e0221830e00bc7a1e8746f4af2dcbbb77aeb0422a8e56ac
+    icon: https://onyxia.lab.sspcloud.fr/onyxia.svg
+    name: onyxia
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/onyxia-3.1.1/onyxia-3.1.1.tgz
+    version: 3.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-02-24T10:02:29.019465259Z"
     description: Onyxia is your datalab's hub.
     digest: 20acf57a881476338277e6b31691980e7cced7850457e00b670b029063993349
@@ -783,6 +794,20 @@ entries:
   shinyproxy:
   - apiVersion: v2
     appVersion: 2.6.1
+    created: "2022-06-29T11:59:08.173838822Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-datascience
+      version: 2.0.20
+    description: A Helm chart to deplo ShinyProxy (https://www.shinyproxy.io/)
+    digest: 4e3c0867553b73cb109d7f7ca859e5595139cd963be731509d056237679d848e
+    name: shinyproxy
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/shinyproxy-1.0.4/shinyproxy-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 2.6.1
     created: "2022-05-20T13:11:20.223337823Z"
     dependencies:
     - name: library-chart
@@ -944,4 +969,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-05-31T14:11:41.771099155Z"
+generated: "2022-06-29T11:59:08.17420652Z"
