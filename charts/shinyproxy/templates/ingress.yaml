@@ -23,5 +23,5 @@ spec:
               service:
                 name: {{ include "library-chart.fullname" . }}
                 port: 
-                  number: {{ .Values.service.port | quote }}
+                  number: {{ .Values.service.port }}
 {{- end }}
