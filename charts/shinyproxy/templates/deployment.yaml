@@ -46,12 +46,17 @@ spec:
           resources:
             {{- toYaml .Values.proxyDeploy.resources | nindent 12 }}
       volumes:
+        {{ if eq .Values.proxyConfig.authentication.type "none" }}
+        - name: shinyproxy
+          configMap:
+            name: {{ include "library-chart.fullname" . }}
+        {{ end }}
+        {{ if eq .Values.proxyConfig.authentication.type "openid" }}
         - name: shinyproxy
           emptyDir: {}
         - name: app-conf
           configMap:
             name: {{ include "library-chart.fullname" . }}
-        {{ if eq .Values.proxyConfig.authentication.type "openid" }}
         - name: oidc-secrets
           secret:
             secretName: {{ .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
