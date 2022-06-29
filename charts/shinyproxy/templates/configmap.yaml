@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-config
+  name: {{ include "library-chart.fullname" . }}
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
 data:

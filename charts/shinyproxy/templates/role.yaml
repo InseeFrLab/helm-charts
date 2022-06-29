@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: shinyproxy-role
+  name: {{ include "library-chart.fullname" . }}
 rules:
   - apiGroups: [""]       
     resources: ["pods"]

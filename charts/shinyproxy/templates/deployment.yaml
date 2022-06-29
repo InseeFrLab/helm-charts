@@ -50,7 +50,7 @@ spec:
           emptyDir: {}
         - name: app-conf
           configMap:
-            name: app-config
+            name: {{ include "library-chart.fullname" . }}
         {{ if eq .Values.proxyConfig.authentication.type "openid" }}
         - name: oidc-secrets
           secret:
