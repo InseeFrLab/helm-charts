@@ -9,6 +9,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "4.2.0"
   pullPolicy: IfNotPresent
+  containerPort: 3838
 
 imagePullSecrets: []
 nameOverride: ""

@@ -80,7 +80,7 @@ spec:
             {{- end }}
           ports:
             - name: http
-              containerPort: 3838
+              containerPort: {{ .Values.image.containerPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
