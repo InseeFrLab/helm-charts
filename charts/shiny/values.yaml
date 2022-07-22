@@ -67,6 +67,10 @@ tolerations: []
 
 affinity: {}
 
+startupProbe:
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+
 s3:
   enabled: false
   existingSecret: ""

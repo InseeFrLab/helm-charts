@@ -96,8 +96,7 @@ spec:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 5
-            timeoutSeconds: 3
+            {{- toYaml .Values.startupProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.postgresql.enabled }}
