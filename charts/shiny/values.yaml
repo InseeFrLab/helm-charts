@@ -68,9 +68,25 @@ tolerations: []
 
 affinity: {}
 
-startupProbe:
-  initialDelaySeconds: 5
-  timeoutSeconds: 5
+probe:
+  enabled: true
+  probeValue:
+    livenessProbe:
+      httpGet:
+        path: /
+        port: http
+      timeoutSeconds: 3
+    readinessProbe:
+      httpGet:
+        path: /
+        port: http
+      timeoutSeconds: 3
+    startupProbe:
+      httpGet:
+        path: /
+        port: http
+      initialDelaySeconds: 5
+      timeoutSeconds: 5
 
 s3:
   enabled: false

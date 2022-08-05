@@ -82,21 +82,9 @@ spec:
             - name: http
               containerPort: {{ .Values.image.containerPort }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-            timeoutSeconds: 3
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-            timeoutSeconds: 3
-          startupProbe:
-            httpGet:
-              path: /
-              port: http
-            {{- toYaml .Values.startupProbe | nindent 12 }}
+          {{- if .Values.probe.enabled }}
+          {{- toYaml .Values.probe.probeValue | nindent 10 }} 
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.postgresql.enabled }}
