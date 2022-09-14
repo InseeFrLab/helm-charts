@@ -5,15 +5,15 @@ metadata:
   labels:
     {{- include "census-maweb.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.maweb.autoscaling.enabled }}
+  replicas: {{ .Values.maweb.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "census-maweb.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.maweb.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -29,11 +29,20 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ .Values.maweb.image.repository }}:{{ .Values.maweb.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.maweb.image.pullPolicy }}
+          env:
+           {{- if .Values.maweb.env }}
+            {{- range $key, $value := .Values.maweb.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end -}}
+            {{- end }}
           ports:
             - containerPort: 8080
           volumeMounts: 
           - mountPath: /usr/local/tomcat/classpath/ma-params
             name: config-pvc-ma-params
+          resources:
+            {{- toYaml .Values.maweb.resources | nindent 12 }}
       initContainers:
       - name: setup-configs
         args:
@@ -54,19 +63,19 @@ spec:
       volumes:      
       - name: config-props
         configMap:
-          name: cm-maweb
+          name: {{ include "census-maweb.configMapName" . }}
       - name: config-pvc-ma-params  
         persistentVolumeClaim:
-          claimName: maweb-config-pvc
-      {{- with .Values.nodeSelector }}
+          claimName: {{ include "census-maweb.pvc" . }}
+      {{- with .Values.maweb.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.maweb.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.maweb.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

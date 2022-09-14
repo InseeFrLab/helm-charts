@@ -2,8 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: maweb
-  name: {{ include "census-maweb.pvc" . }}
+    app: nsiws
+  name: {{ include "census-nsiws.pvc" . }}
 spec:
   accessModes:
   - ReadWriteOnce

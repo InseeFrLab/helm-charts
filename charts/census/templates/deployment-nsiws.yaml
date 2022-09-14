@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "census-nsiws.fullname" . }}
+  labels:
+    {{- include "census-nsiws.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.nsiws.autoscaling.enabled }}
+  replicas: {{ .Values.nsiws.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "census-nsiws.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.nsiws.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "census-nsiws.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.nsiws.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "census-nsiws.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.nsiws.image.repository }}:{{ .Values.nsiws.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ .Values.nsiws.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+          - name : DB_ADDRESS
+            value : {{ .Release.Name }}-mariadb
+          - name : DB_MS_NAME
+            value : "msdb"
+          - name : DB_MS_USER
+            value : "root"
+          - name : DB_MS_PWD
+            value : {{.Values.mariadb.auth.rootPassword}}
+          - name : DB_AUTH_NAME
+            value : "authdb"
+          - name : DB_AUTH_USER
+            value : "root"
+          - name : DB_AUTH_PWD
+            value : {{.Values.mariadb.auth.rootPassword}}
+          # volumeMounts: 
+          # - mountPath: /usr/local/tomcat/classpath/nsiws-params
+          #   name: config-pvc-nsiws-params
+      # initContainers:
+      # - name: setup-configs-nsiws
+      #   args:
+      #   - ' echo ''Setting configmaps''  && cp -n /tmp/configmapfolder/async.properties /usr/local/tomcat/classpath/ma-params/async.properties  
+      #     && cp -n  /tmp/configmapfolder/default-options-config.json /usr/local/tomcat/classpath/ma-params/default-options-config.json
+      #     && cp -n  /tmp/configmapfolder/ms-config.xml /usr/local/tomcat/classpath/ma-params/ms-config.xml
+      #     && cp -n  /tmp/configmapfolder/authdb-config.xml /usr/local/tomcat/classpath/ma-params/authdb-config.xml'
+      #   command:
+      #   - sh
+      #   - -c
+      #   image: busybox:latest
+      #   imagePullPolicy: Always
+      #   volumeMounts:
+      #   - mountPath: /tmp/configmapfolder/
+      #     name: config-props
+      #   - mountPath: /usr/local/tomcat/classpath/ma-params
+      #     name: config-pvc-ma-params
+      # volumes:      
+      # - name: config-props
+      #   configMap:
+      #     name: {{ include "census-maweb.configMapName" . }}
+      # - name: config-pvc-ma-params  
+      #   persistentVolumeClaim:
+      #     claimName: {{ include "census-maweb.pvc" . }}
+      {{- with .Values.nsiws.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nsiws.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nsiws.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

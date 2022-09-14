@@ -1,9 +1,9 @@
-{{- if .Values.maweb.ingress.enabled -}}
-{{- $fullName := include "census-maweb.fullname" . -}}
-{{- $svcPort := .Values.maweb.service.port -}}
-{{- if and .Values.maweb.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.maweb.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.maweb.ingress.annotations "kubernetes.io/ingress.class" .Values.maweb.ingress.className}}
+{{- if .Values.nsiws.ingress.enabled -}}
+{{- $fullName := include "census-nsiws.fullname" . -}}
+{{- $svcPort := .Values.nsiws.service.port -}}
+{{- if and .Values.nsiws.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.nsiws.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.nsiws.ingress.annotations "kubernetes.io/ingress.class" .Values.nsiws.ingress.className}}
   {{- end }}
 {{- end }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -17,21 +17,19 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "census-maweb.labels" . | nindent 4 }}
-  {{- with .Values.maweb.ingress.annotations }}
+    {{- include "census-nsiws.labels" . | nindent 4 }}
+  {{- with .Values.nsiws.ingress.annotations }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"    
-    nginx.ingress.kubernetes.io/proxy-body-size: 32m
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.maweb.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.maweb.ingress.className }}
+  {{- if and .Values.nsiws.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.nsiws.ingress.className }}
   {{- end }}
-  {{- if .Values.maweb.ingress.tls }}
+  {{- if .Values.nsiws.ingress.tls }}
   tls:
-    {{- range .Values.maweb.ingress.tls }}
+    {{- range .Values.nsiws.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -40,7 +38,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.maweb.ingress.hosts }}
+    {{- range .Values.nsiws.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
