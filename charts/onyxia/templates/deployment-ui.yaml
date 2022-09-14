@@ -51,6 +51,9 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.ui.resources | nindent 12 }}
+          {{- if .Values.ui.extraVolumeMounts }}
+          volumeMounts: {{- toYaml .Values.ui.extraVolumeMounts | nindent 12 }}
+          {{- end }}
       {{- with .Values.ui.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -62,4 +65,7 @@ spec:
     {{- with .Values.ui.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if .Values.ui.extraVolumes }}
+    volumes: {{- toYaml .Values.ui.extraVolumes | nindent 6 }}
     {{- end }}
