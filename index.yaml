@@ -51,6 +51,19 @@ entries:
     version: 0.1.0
   census:
   - apiVersion: v2
+    created: "2022-09-14T19:47:34.580534128Z"
+    dependencies:
+    - name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.3.2
+    description: A Helm chart for SDMX-RI tools (maweb et nsi-ws), including mariadb
+    digest: 3b255465b8234d01fbf6826a707c82f1a3049daee9ed91e0fd442e1692a062b2
+    name: census
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/census-0.2.0/census-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     created: "2022-03-03T09:49:15.89413915Z"
     dependencies:
     - name: mariadb
@@ -1034,4 +1047,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-14T19:43:40.344864664Z"
+generated: "2022-09-14T19:47:34.580817144Z"
