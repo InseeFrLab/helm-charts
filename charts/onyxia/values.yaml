@@ -16,6 +16,8 @@ serviceAccount:
 
 ingress:
   enabled: false
+  # The name of the Ingress Class associated with this ingress
+  ingressClassName: ""
   annotations:
     {}
     # kubernetes.io/ingress.class: nginx
