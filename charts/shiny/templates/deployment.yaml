@@ -68,6 +68,9 @@ spec:
             value: {{ .Values.postgresql.auth.postgresPassword }}
             {{- end }}
           {{- end }}
+          {{- if .Values.env }}
+          {{- toYaml .Values.env | nindent 12 }}
+          {{- end }}
           envFrom:
             {{- if .Values.s3.enabled }}
             {{- if .Values.s3.existingSecret }}
