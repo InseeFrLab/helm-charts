@@ -78,6 +78,7 @@ api:
     name: inseefrlab/onyxia-api
     version: v0.17
     pullPolicy: IfNotPresent
+  contextPath: /api
   podLabels: {}
   podSecurityContext:
     {}

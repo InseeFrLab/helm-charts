@@ -8,6 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
+  server.servlet.context-path: {{ .Values.api.contextPath | quote }}
 {{- if .Values.api.env }}
 {{- range $key, $value := .Values.api.env }}
   {{ $key }}: {{ $value | quote }}
