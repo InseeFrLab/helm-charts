@@ -34,10 +34,9 @@ ui:
   replicaCount: 1
   image:
     name: inseefrlab/onyxia-web
-    version: latest
-    pullPolicy: Always
-  podLabels:
-    {}
+    version: 2.2.7
+    pullPolicy: IfNotPresent
+  podLabels: {}
   podSecurityContext:
     {}
     # fsGroup: 2000
@@ -77,10 +76,9 @@ api:
   replicaCount: 1
   image:
     name: inseefrlab/onyxia-api
-    version: latest
-    pullPolicy: Always
-  podLabels:
-    {}
+    version: v0.17
+    pullPolicy: IfNotPresent
+  podLabels: {}
   podSecurityContext:
     {}
     # fsGroup: 2000
