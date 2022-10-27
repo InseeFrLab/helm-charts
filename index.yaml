@@ -250,6 +250,17 @@ entries:
   onyxia:
   - apiVersion: v2
     appVersion: 2.2.7
+    created: "2022-10-27T14:08:52.787723764Z"
+    description: Onyxia is your datalab's hub.
+    digest: c889d9014b9fb91d8be309e59a64b27741003263c2886de420e30da70836d7e3
+    icon: https://onyxia.lab.sspcloud.fr/onyxia.svg
+    name: onyxia
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/onyxia-3.3.1/onyxia-3.3.1.tgz
+    version: 3.3.1
+  - apiVersion: v2
+    appVersion: 2.2.7
     created: "2022-10-27T12:51:57.8550894Z"
     description: Onyxia is your datalab's hub.
     digest: 6bd7b4907db28191b4508d37a16422ca555a6c12b4bc44cf8f17ac7ee1b62b9e
@@ -1087,4 +1098,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-27T12:51:57.855335701Z"
+generated: "2022-10-27T14:08:52.788088988Z"
