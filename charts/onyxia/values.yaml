@@ -34,7 +34,7 @@ ui:
   replicaCount: 1
   image:
     name: inseefrlab/onyxia-web
-    version: 2.2.7
+    version: 2.2.11
     pullPolicy: IfNotPresent
   podLabels: {}
   podSecurityContext:
