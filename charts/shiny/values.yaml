@@ -38,9 +38,11 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
+networking:
   type: ClusterIP
-  port: 80
+  clusterIP: None
+  service:
+    port: 80
 
 ingress:
   enabled: true
