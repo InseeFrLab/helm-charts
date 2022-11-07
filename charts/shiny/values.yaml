@@ -43,6 +43,8 @@ networking:
   clusterIP: None
   service:
     port: 80
+  user:
+    enabled: false
 
 ingress:
   enabled: true
