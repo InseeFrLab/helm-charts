@@ -11,6 +11,14 @@ image:
   pullPolicy: IfNotPresent
   containerPort: 3838
 
+security:
+  networkPolicy: 
+    enabled: false
+    from: []
+  allowlist:
+    enabled: true
+    ip: "0.0.0.0/0"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
