@@ -67,5 +67,5 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- if .Values.ui.extraVolumes }}
-    volumes: {{- toYaml .Values.ui.extraVolumes | nindent 6 }}
+      volumes: {{- toYaml .Values.ui.extraVolumes | nindent 6 }}
     {{- end }}
