@@ -28,6 +28,20 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+  
+route:
+  enabled: false
+  annotations:
+    {}
+    # route.openshift.io/termination: "reencrypt"
+  host: chart-example.local
+  tls:
+    termination: edge
+    # key:
+    # certificate:
+    # caCertificate:
+    # destinationCACertificate:
+  wildcardPolicy: None
 
 ui:
   name: ui
