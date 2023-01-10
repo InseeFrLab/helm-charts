@@ -19,6 +19,10 @@ spec:
 {{ toYaml . | indent 8 }}
 {{- end }}
     spec:
+    {{- with .Values.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
     {{- with .Values.api.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

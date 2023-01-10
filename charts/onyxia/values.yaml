@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 imagePullSecrets: []
+hostAliases: []
 
 serviceAccount:
   # Specifies whether a service account should be created
