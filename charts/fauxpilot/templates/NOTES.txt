@@ -1,0 +1,5 @@
+model: {{ .Values.model }}
+proxy url: http://{{ include "fauxpilot.fullnameProxy" . }}:5000
+triton http url: http://{{ include "fauxpilot.fullnameTriton" . }}:8000
+triton gRPC url: http://{{ include "fauxpilot.fullnameTriton" . }}:8001
+triton metrics url: http://{{ include "fauxpilot.fullnameTriton" . }}:8002

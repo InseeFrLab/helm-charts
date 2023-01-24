@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fauxpilot.fullnameProxy" . }}
+  labels:
+    {{- include "fauxpilot.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "fauxpilot.selectorLabelsProxy" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "fauxpilot.selectorLabelsProxy" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "fauxpilot.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.proxy.repository }}:{{ .Values.image.proxy.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.proxy.pullPolicy }}
+          env:
+          - name: NUM_GPUS
+            value: "1"
+          - name: TRITON_HOST
+            value: {{ include "fauxpilot.fullnameTriton" . }}
+          - name: TRITON_PORT
+            value: "8001"
+          - name: MODEL
+            value: {{ .Values.model }}
+          - name: TRITON_VERBOSITY
+            value: "True"
+          
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "fauxpilot.fullname" . }}-test-connection"
+  labels:
+    {{- include "fauxpilot.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "fauxpilot.fullnameProxy" . }}:5000']
+  restartPolicy: Never

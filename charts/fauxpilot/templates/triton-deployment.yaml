@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fauxpilot.fullnameTriton" . }}
+  labels:
+    {{- include "fauxpilot.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "fauxpilot.selectorLabelsTriton" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "fauxpilot.selectorLabelsTriton" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "fauxpilot.serviceAccountName" . }}
+      volumes:
+        - name: fauxpilot-s3
+          configMap:
+            name: fauxpilot-s3
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.triton.repository }}:{{ .Values.image.triton.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.triton.pullPolicy }}
+          env:
+          - name: AWS_ACCESS_KEY_ID
+            value: {{ .Values.s3.access_key_id }}
+          - name: AWS_SECRET_ACCESS_KEY
+            value: {{ .Values.s3.secret_access_key }}
+          - name: S3_ENDPOINT
+            value: {{ .Values.s3.endpoint }}
+          - name: AWS_DEFAULT_REGION
+            value: {{ .Values.s3.region }}
+          - name: AWS_S3_ENDPOINT
+            value: {{ .Values.s3.endpoint }}
+          command:
+            - sh
+            - -c
+            - |
+              wget -q https://dl.min.io/client/mc/release/linux-amd64/mc -O /usr/local/bin/mc && \
+              chmod +x /usr/local/bin/mc && \
+              mkdir /model && \
+              mc cp -r s3/mbenxsalha/diffusion/fauxpilot/{{ .Values.model }}/fastertransformer /model && mc cp -r s3/mbenxsalha/diffusion/fauxpilot/{{ .Values.model }}/huggingface /root/.cache && \
+              CUDA_VISIBLE_DEVICES=0 mpirun -n 1 --allow-run-as-root /opt/tritonserver/bin/tritonserver --model-repository=/model
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+            - name: grpc
+              containerPort: 8001
+            - name: metrics
+              containerPort: 8002
+          livenessProbe:
+            httpGet:
+              path: /v2/health/ready
+              port: http
+            initialDelaySeconds: 150
+          readinessProbe:
+            httpGet:
+              path: /v2/health/ready
+              port: http
+            initialDelaySeconds: 150
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: fauxpilot-s3
+              mountPath: /root/.mc/config.json
+              subPath: config.json
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

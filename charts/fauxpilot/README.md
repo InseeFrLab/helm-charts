@@ -1,0 +1,2 @@
+# fauxpilot-helm-chart
+To enable fauxpilot in code-server, use this extension: https://marketplace.visualstudio.com/items?itemName=Venthe.fauxpilot and change its settings (fauxpilot.server) to point to http://<proxy_url>:<proxy_port:=5000>/v1/engines . Then code-server must be restarted in order for the extension to work.

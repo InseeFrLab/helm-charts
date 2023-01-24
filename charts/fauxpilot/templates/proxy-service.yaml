@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fauxpilot.fullnameProxy" . }}
+  labels:
+    {{- include "fauxpilot.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+  selector:
+    {{- include "fauxpilot.selectorLabelsProxy" . | nindent 4 }}
