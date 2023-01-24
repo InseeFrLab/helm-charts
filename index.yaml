@@ -170,6 +170,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/docker-registry-1.9.6/docker-registry-1.9.6.tgz
     version: 1.9.6
+  fauxpilot:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-01-24T11:07:48.79465895Z"
+    description: A Helm chart for Kubernetes
+    digest: e42fc5e76bdb0f54671b0a1f7e9ebc64ba0ef747578abf004c3017bee9a804f0
+    name: fauxpilot
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/fauxpilot-0.1.0/fauxpilot-0.1.0.tgz
+    version: 0.1.0
   httpbin:
   - apiVersion: v2
     appVersion: latest
@@ -1301,4 +1312,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2023-01-24T10:17:11.830938461Z"
+generated: "2023-01-24T11:07:48.798801199Z"
