@@ -9,7 +9,6 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "4.2.0"
   pullPolicy: IfNotPresent
-  containerPort: 3838
 
 security:
   networkPolicy: 
@@ -48,9 +47,8 @@ securityContext: {}
 
 networking:
   type: ClusterIP
-  clusterIP: None
   service:
-    port: 80
+    port: 3838
   user:
     enabled: false
 
@@ -80,28 +78,17 @@ tolerations: []
 
 affinity: {}
 
-probe:
-  enabled: true
-  probeValue:
-    livenessProbe:
-      httpGet:
-        path: /
-        port: http
-      failureThreshold: 1
-      periodSeconds: 10
-    readinessProbe:
-      httpGet:
-        path: /
-        port: http
-      initialDelaySeconds: 5
-      periodSeconds: 5
-    startupProbe:
-      httpGet:
-        path: /
-        port: http
-      failureThreshold: 30
-      periodSeconds: 10
-
+probes:
+  livenessProbe:
+    failureThreshold: 1
+    periodSeconds: 10
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  startupProbe:
+    failureThreshold: 30
+    periodSeconds: 10
+    
 s3:
   enabled: false
   existingSecret: ""
