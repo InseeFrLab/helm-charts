@@ -29,7 +29,7 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
+  
 route:
   enabled: false
   annotations:
@@ -141,7 +141,7 @@ api:
   #     }
   #   }
   # ]
-  catalogs:# [
+  catalogs: # [
     #   {
     #     "id": "inseefrlab-helm-charts-datascience",
     #     "name": "Inseefrlab datascience",
