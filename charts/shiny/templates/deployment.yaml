@@ -81,13 +81,24 @@ spec:
                 name: {{ include "library-chart.configMapNameS3" . }}
             {{- end }}
             {{- end }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.image.containerPort }}
-              protocol: TCP
-          {{- if .Values.probe.enabled }}
-          {{- toYaml .Values.probe.probeValue | nindent 10 }} 
-          {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.networking.service.port }}
+            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.networking.service.port }}
+            initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds }}
+          startupProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.networking.service.port }}
+            failureThreshold: {{ .Values.probes.startupProbe.failureThreshold }}
+            periodSeconds: {{ .Values.probes.startupProbe.periodSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.postgresql.enabled }}
