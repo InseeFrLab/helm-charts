@@ -1,0 +1,14 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: onyxia-onboarding-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: onyxia-onboarding-operator
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "onyxia-onboarding-operator.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}

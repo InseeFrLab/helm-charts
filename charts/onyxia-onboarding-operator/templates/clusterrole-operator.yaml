@@ -1,0 +1,33 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: onyxia-onboarding-operator
+rules:
+- apiGroups:
+  - onyxia.onyxia.sh
+  resources:
+  - workspaces
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - onyxia.onyxia.sh
+  resources:
+  - workspaces/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - onyxia.onyxia.sh
+  resources:
+  - workspaces/status
+  verbs:
+  - get
+  - patch
+  - update
+{{- end }}
