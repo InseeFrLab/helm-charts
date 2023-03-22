@@ -523,6 +523,17 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/onyxia-1.0.0/onyxia-1.0.0.tgz
     version: 1.0.0
+  onyxia-onboarding-operator:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2023-03-22T16:08:01.769514971Z"
+    description: Operator for Onyxia
+    digest: 352fd4004659cdb970d31082c9817d50e2d111b1848ca6073625470d1eff4872
+    name: onyxia-onboarding-operator
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/onyxia-onboarding-operator-0.1.0/onyxia-onboarding-operator-0.1.0.tgz
+    version: 0.1.0
   opa:
   - apiVersion: v2
     appVersion: 1.16.0
@@ -1351,4 +1362,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2023-02-21T20:59:58.492859595Z"
+generated: "2023-03-22T16:08:01.769915988Z"
