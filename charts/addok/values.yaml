@@ -5,6 +5,7 @@
 replicaCount: 1
 
 workers: "21"
+workerTimeout: 30
 
 addokconf: |-
   ATTRIBUTION = "BAN"

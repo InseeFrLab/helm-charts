@@ -66,6 +66,8 @@ spec:
           env:
             - name: WORKERS
               value: {{ .Values.workers | quote }}
+            - name: WORKER_TIMEOUT
+              value: {{ .Values.workerTimeout | quote }}
             - name: REDIS_HOST
               value: {{ include "addok.redis.fullname" . | quote }}
             - name: REDIS_PORT
