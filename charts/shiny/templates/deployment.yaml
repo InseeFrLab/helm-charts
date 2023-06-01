@@ -81,24 +81,33 @@ spec:
                 name: {{ include "library-chart.configMapNameS3" . }}
             {{- end }}
             {{- end }}
+          {{- if .Values.probes.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
               path: /
               port: {{ .Values.networking.service.port }}
             failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds }}
+          {{- end }}
+          {{- if .Values.probes.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
               path: /
               port: {{ .Values.networking.service.port }}
             initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds }}
+          {{- end }}
+          {{- if .Values.probes.startupProbe.enabled }}
           startupProbe:
             httpGet:
               path: /
               port: {{ .Values.networking.service.port }}
             failureThreshold: {{ .Values.probes.startupProbe.failureThreshold }}
             periodSeconds: {{ .Values.probes.startupProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.startupProbe.timeoutSeconds }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- if .Values.postgresql.enabled }}
