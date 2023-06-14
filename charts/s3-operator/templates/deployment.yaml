@@ -33,7 +33,6 @@ spec:
         kubectl.kubernetes.io/default-container: manager
     spec:
       containers:
-      #- args: {{- toYaml .Values.controllerManager.manager.args | nindent 8 }}
       - args:
         - --health-probe-bind-address=:8081
         - --metrics-bind-address=127.0.0.1:8080
