@@ -1,0 +1,31 @@
+controllerManager:
+  manager:
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+    image:
+      repository: inseefrlab/s3-operator
+      tag: latest
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 512Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+  replicas: 1
+kubernetesClusterDomain: cluster.local
+s3:
+  endpointUrl: "localhost:9000"
+  accessKey: ""
+  secretKey: ""
+
+  # If both "caCertificate" parameters are present, only
+  # caCertificatesBase64 is used.
+
+  # caCertificateBundlePath: /path/to/ca-bundle.crt
+  # caCertificatesBase64: 
+  # - base64encodedPEMFormatCACertificate
+
