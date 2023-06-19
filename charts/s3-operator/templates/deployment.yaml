@@ -38,8 +38,6 @@ spec:
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --s3-endpoint-url={{ .Values.s3.endpointUrl }}
-        - --s3-access-key={{ .Values.s3.accessKey }}
-        - --s3-secret-key={{ .Values.s3.secretKey }}  
         {{- if .Values.s3.caCertificateBundlePath }}
         - --s3-ca-certificate-bundle-path={{ .Values.s3.caCertificateBundlePath }}
         {{- end }}
@@ -51,7 +49,26 @@ spec:
         env:
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
+        - name: S3_ACCESS_KEY
+          {{- if .Values.s3.existingSecret }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.s3.existingSecret }}
+              key: S3_ACCESS_KEY
+          {{- else }}
+          value: {{ .Values.s3.accessKey }}
+          {{- end }}
+        - name: S3_SECRET_KEY
+          {{- if .Values.s3.existingSecret }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.s3.existingSecret }}
+              key: S3_SECRET_KEY
+          {{- else }}
+          value: {{ .Values.s3.secretKey }}
+          {{- end }}
         image: {{ .Values.controllerManager.manager.image.repository }}:{{ .Values.controllerManager.manager.image.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.controllerManager.manager.imagePullPolicy | default "IfNotPresent" | quote }}
         livenessProbe:
           httpGet:
             path: /healthz
