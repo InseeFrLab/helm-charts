@@ -120,6 +120,10 @@ spec:
         - name: wait-for-postgresql
           image: "alpine"
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
           command:
             - sh
             - -c
