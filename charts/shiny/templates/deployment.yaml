@@ -42,6 +42,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.image.command }}
+          command: {{ .Values.image.command }}
+          {{- end }}
           env:
           {{- if .Values.postgresql.enabled }}
           - name: POSTGRESQL_DB_NAME
