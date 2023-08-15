@@ -46,7 +46,7 @@ spec:
           command: {{ .Values.image.command }}
           {{- end }}
           env:
-          {{- if .Values.postgresql.enabled }}
+          {{- if or (.Values.postgresql.enabled.internal) (.Values.postgresql.enabled.external) }}
           - name: POSTGRESQL_DB_NAME
             value: {{ .Values.postgresql.auth.database }}
           - name: POSTGRESQL_DB_HOST
@@ -118,7 +118,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | default "" | nindent 12 }}
-      {{- if .Values.postgresql.enabled }}
+      {{- if .Values.postgresql.enabled.internal }}
       initContainers:
         - name: wait-for-postgresql
           image: "alpine"

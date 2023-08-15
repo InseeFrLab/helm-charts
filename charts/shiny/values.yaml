@@ -108,7 +108,9 @@ s3:
   sessionToken: ""
 
 postgresql:
-  enabled: false
+  enabled:
+    internal: false
+    external: false
   auth:
     username: ""
     database: ""
