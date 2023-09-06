@@ -48,8 +48,8 @@ ui:
   name: ui
   replicaCount: 1
   image:
-    name: inseefrlab/onyxia-web
-    version: 2.13.53
+    repository: inseefrlab/onyxia-web
+    tag: 2.13.53
     pullPolicy: IfNotPresent
   podLabels: {}
   podSecurityContext:
@@ -90,8 +90,8 @@ api:
   name: api
   replicaCount: 1
   image:
-    name: inseefrlab/onyxia-api
-    version: v0.27
+    repository: inseefrlab/onyxia-api
+    tag: v0.27
     pullPolicy: IfNotPresent
   contextPath: /api
   podLabels: {}
