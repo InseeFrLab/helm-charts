@@ -1,9 +1,9 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullNameApi := include "onyxia.api.fullname" . -}}
-{{- $fullNameUi := include "onyxia.ui.fullname" . -}}
+{{- $fullNameWeb := include "onyxia.web.fullname" . -}}
 {{- $fullName := include "onyxia.fullname" . -}}
 {{- $svcPortApi := .Values.api.service.port -}}
-{{- $svcPortUi := .Values.ui.service.port -}}
+{{- $svcPortWeb := .Values.web.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -45,8 +45,8 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ $fullNameUi }}
+                name: {{ $fullNameWeb }}
                 port:
-                  number: {{ $svcPortUi }}
+                  number: {{ $svcPortWeb }}
     {{- end }}
 {{- end }}
