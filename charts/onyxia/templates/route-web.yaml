@@ -1,10 +1,10 @@
 {{- if .Values.route.enabled -}}
-{{- $fullNameUi := include "onyxia.ui.fullname" . -}}
+{{- $fullNameWeb := include "onyxia.web.fullname" . -}}
 {{- $fullName := include "onyxia.fullname" . -}}
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ $fullName }}-ui
+  name: {{ $fullName }}-web
   labels:
     {{- include "onyxia.labels" . | nindent 4 }}
   annotations:
@@ -16,7 +16,7 @@ spec:
   path: /
   to:
     kind: Service
-    name: {{ $fullNameUi }}
+    name: {{ $fullNameWeb }}
   tls:
     termination: {{ .Values.route.tls.termination }}
     {{- if .Values.route.tls.key }}

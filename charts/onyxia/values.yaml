@@ -44,12 +44,12 @@ route:
     # destinationCACertificate:
   wildcardPolicy: None
 
-ui:
-  name: ui
+web:
+  name: web
   replicaCount: 1
   image:
-    name: inseefrlab/onyxia-web
-    version: 2.13.53
+    repository: inseefrlab/onyxia-web
+    tag: 2.28.0
     pullPolicy: IfNotPresent
   podLabels: {}
   podSecurityContext:
@@ -90,8 +90,8 @@ api:
   name: api
   replicaCount: 1
   image:
-    name: inseefrlab/onyxia-api
-    version: v0.27
+    repository: inseefrlab/onyxia-api
+    tag: v0.29
     pullPolicy: IfNotPresent
   contextPath: /api
   podLabels: {}
