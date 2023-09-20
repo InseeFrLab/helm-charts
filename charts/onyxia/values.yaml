@@ -55,6 +55,12 @@ web:
     repository: inseefrlab/onyxia-web
     tag: 2.28.0
     pullPolicy: IfNotPresent
+
+  ## Pod priority settings
+  ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+  ##
+  priorityClassName: ""
+
   podLabels: {}
   podSecurityContext:
     {}
@@ -97,6 +103,12 @@ api:
     repository: inseefrlab/onyxia-api
     tag: v0.30
     pullPolicy: IfNotPresent
+
+  ## Pod priority settings
+  ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+  ##
+  priorityClassName: ""
+  
   contextPath: /api
   podLabels: {}
   podSecurityContext:

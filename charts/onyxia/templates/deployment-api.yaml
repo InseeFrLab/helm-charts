@@ -70,4 +70,7 @@ spec:
     {{- end }}
     {{- if .Values.api.extraVolumes }}
       volumes: {{- toYaml .Values.api.extraVolumes | nindent 6 }}
+    {{- end }}    
+    {{- if .Values.api.priorityClassName }}
+    priorityClassName: "{{ .Values.api.priorityClassName }}"
     {{- end }}
