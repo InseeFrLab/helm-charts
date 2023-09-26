@@ -1,3 +1,6 @@
+> 🛑 DEPRECATED: The Onyxia Chart is now hosted [here](https://github.com/InseeFrLab/onyxia/tree/main/helm-chart).  
+> Checkout [the migration guide](https://docs.onyxia.sh/migration-guides/migrating-to-the-new-helm-repo). 
+
 # Helm chart for [Onyxia](https://www.onyxia.sh/)  
 
 ## Breaking changes  
