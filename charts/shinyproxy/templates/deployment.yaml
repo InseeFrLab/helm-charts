@@ -61,11 +61,23 @@ spec:
           secret:
             secretName: {{ .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
         {{ end }}
+        {{ if  .Values.secretApps.name }}
+        - name: apps-secrets
+          secret:
+            secretName: {{ .Values.secretApps.name }}
+        {{ end }}
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}
       initContainers:
         - name: init
-          image: "alpine"
+          image: "inseefrlab/onyxia-base:latest"
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 10000Mi
+            requests:
+              cpu: 500m
+              memory: 3000Mi          
           volumeMounts:
             - name: app-conf
               mountPath: /etc/app-conf/application.yml
@@ -78,15 +90,14 @@ spec:
             - sh
             - -c
             - |
-              wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
-                   chmod +x /usr/bin/yq
               
               CLIENT_ID=`cat /etc/oidc-secrets/client-id`
               CLIENT_SECRET=`cat /etc/oidc-secrets/client-secret`
 
               cp /etc/app-conf/application.yml /etc/merge-conf/application.yml
-              yq -i e ".proxy.openid.client-id |= \"$CLIENT_ID\"" /etc/merge-conf/application.yml
-              yq -i e ".proxy.openid.client-secret |= \"$CLIENT_SECRET\"" /etc/merge-conf/application.yml
+              sed -i "s/client-id:.*/client-id: $CLIENT_ID/" /etc/merge-conf/application.yml
+              sed -i "s/client-secret:.*/client-secret: $CLIENT_SECRET/" /etc/merge-conf/application.yml
+              cat /etc/merge-conf/application.yml
       {{- end }}
       serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
       nodeSelector:
