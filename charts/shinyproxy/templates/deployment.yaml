@@ -27,8 +27,8 @@ spec:
             - name: shinyproxy
               mountPath: /opt/shinyproxy/application.yml
               subPath: application.yml
-            {{ if  .Values.secretFichierApps.name }}
-            - name: apps-secrets-fichier
+            {{ if  .Values.secretFilesApps.name }}
+            - name: apps-secret-files
               mountPath: /opt/shinyproxy/conf
             {{ end }}
           ports:
@@ -65,10 +65,10 @@ spec:
           secret:
             secretName: {{ .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
         {{ end }}
-        {{ if  .Values.secretFichierApps.name }}
-        - name: apps-secrets-fichier
+        {{ if  .Values.secretFilesApps.name }}
+        - name: apps-secret-files
           secret:
-            secretName: {{ .Values.secretFichierApps.name }}
+            secretName: {{ .Values.secretFilesApps.name }}
         {{ end }}
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}
       initContainers:

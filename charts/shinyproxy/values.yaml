@@ -57,7 +57,7 @@ apps:
     access-groups: []
 
 
-secretFichierApps:
+secretFilesApps:
   name: 
 
 
