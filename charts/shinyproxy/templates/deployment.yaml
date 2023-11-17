@@ -86,6 +86,8 @@ spec:
               mountPath: /etc/oidc-secrets
             - name: shinyproxy
               mountPath: /etc/merge-conf
+            - name: apps-secrets
+              mountPath: /etc/apps-secrets
           command:
             - sh
             - -c
@@ -97,7 +99,23 @@ spec:
               cp /etc/app-conf/application.yml /etc/merge-conf/application.yml
               sed -i "s/client-id:.*/client-id: $CLIENT_ID/" /etc/merge-conf/application.yml
               sed -i "s/client-secret:.*/client-secret: $CLIENT_SECRET/" /etc/merge-conf/application.yml
+
+              if [ "$(ls -A /etc/apps-secrets)" ]; then
+              echo  yty
+              for secret in /etc/apps-secrets/*
+              do
+              KEY=$(basename $secret)
+              VALUE=`cat $secret`
+              echo $KEY
+              echo $VALUE
+              sed -i "s/$KEY:.*/$KEY: $VALUE/" /etc/merge-conf/application.yml
+              done
+              fi
               cat /etc/merge-conf/application.yml
+
+
+
+
       {{- end }}
       serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
       nodeSelector:
