@@ -1,7 +1,7 @@
 proxyDeploy:
   image:
     name: openanalytics/shinyproxy
-    tag: 2.6.1
+    tag: 3.0.2
     pullPolicy: Always
   replicaCount: 1
   resources: {}
@@ -46,7 +46,7 @@ proxyConfig:
     #   logoutURL: ""
     #   usernameAttribute: ""
     #   rolesClaim: ""
-    #   clientCredentialsSecretName: ""
+    #   existingClientCredentialsSecretName: ""
 
 apps:
   - id: ""
@@ -55,6 +55,10 @@ apps:
     container-image: ""
     container-cmd: []
     access-groups: []
+
+
+existingAppsSecretName:
+
 
 ingress:
   enabled: true

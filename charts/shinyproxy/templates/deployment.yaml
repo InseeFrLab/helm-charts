@@ -27,6 +27,10 @@ spec:
             - name: shinyproxy
               mountPath: /opt/shinyproxy/application.yml
               subPath: application.yml
+            {{ if  .Values.existingAppsSecretName }}
+            - name: apps-secret-files
+              mountPath: /opt/shinyproxy/conf
+            {{ end }}
           ports:
             - name: http
               containerPort: 8080
@@ -59,13 +63,25 @@ spec:
             name: {{ include "library-chart.fullname" . }}
         - name: oidc-secrets
           secret:
-            secretName: {{ .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
+            secretName: {{ .Values.proxyConfig.authentication.openid.existingClientCredentialsSecretName }}
+        {{ end }}
+        {{ if  .Values.existingAppsSecretName }}
+        - name: apps-secret-files
+          secret:
+            secretName: {{ .Values.existingAppsSecretName }}
         {{ end }}
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}
       initContainers:
         - name: init
-          image: "alpine"
+          image: "inseefrlab/onyxia-base:latest"
           imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 512Mi          
           volumeMounts:
             - name: app-conf
               mountPath: /etc/app-conf/application.yml
@@ -78,15 +94,14 @@ spec:
             - sh
             - -c
             - |
-              wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
-                   chmod +x /usr/bin/yq
               
               CLIENT_ID=`cat /etc/oidc-secrets/client-id`
               CLIENT_SECRET=`cat /etc/oidc-secrets/client-secret`
 
               cp /etc/app-conf/application.yml /etc/merge-conf/application.yml
-              yq -i e ".proxy.openid.client-id |= \"$CLIENT_ID\"" /etc/merge-conf/application.yml
-              yq -i e ".proxy.openid.client-secret |= \"$CLIENT_SECRET\"" /etc/merge-conf/application.yml
+              sed -i "s/client-id:.*/client-id: $CLIENT_ID/" /etc/merge-conf/application.yml
+              sed -i "s/client-secret:.*/client-secret: $CLIENT_SECRET/" /etc/merge-conf/application.yml
+
       {{- end }}
       serviceAccountName: {{ include "library-chart.serviceAccountName" . }}
       nodeSelector:
