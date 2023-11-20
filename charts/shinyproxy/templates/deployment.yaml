@@ -27,7 +27,7 @@ spec:
             - name: shinyproxy
               mountPath: /opt/shinyproxy/application.yml
               subPath: application.yml
-            {{ if  .Values.secretFilesApps.name }}
+            {{ if  .Values.existingAppsSecretName }}
             - name: apps-secret-files
               mountPath: /opt/shinyproxy/conf
             {{ end }}
@@ -63,12 +63,12 @@ spec:
             name: {{ include "library-chart.fullname" . }}
         - name: oidc-secrets
           secret:
-            secretName: {{ .Values.proxyConfig.authentication.openid.clientCredentialsSecretName }}
+            secretName: {{ .Values.proxyConfig.authentication.openid.existingClientCredentialsSecretName }}
         {{ end }}
-        {{ if  .Values.secretFilesApps.name }}
+        {{ if  .Values.existingAppsSecretName }}
         - name: apps-secret-files
           secret:
-            secretName: {{ .Values.secretFilesApps.name }}
+            secretName: {{ .Values.existingAppsSecretName }}
         {{ end }}
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}
       initContainers:
@@ -77,11 +77,11 @@ spec:
           imagePullPolicy: IfNotPresent
           resources:
             limits:
-              cpu: 1000m
-              memory: 10000Mi
-            requests:
               cpu: 500m
-              memory: 3000Mi          
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 512Mi          
           volumeMounts:
             - name: app-conf
               mountPath: /etc/app-conf/application.yml

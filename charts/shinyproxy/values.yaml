@@ -46,7 +46,7 @@ proxyConfig:
     #   logoutURL: ""
     #   usernameAttribute: ""
     #   rolesClaim: ""
-    #   clientCredentialsSecretName: ""
+    #   existingClientCredentialsSecretName: ""
 
 apps:
   - id: ""
@@ -57,8 +57,7 @@ apps:
     access-groups: []
 
 
-secretFilesApps:
-  name: 
+existingAppsSecretName:
 
 
 ingress:
