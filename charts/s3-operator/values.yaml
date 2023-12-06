@@ -13,7 +13,7 @@ controllerManager:
         - ALL
     image:
       repository: inseefrlab/s3-operator
-      tag: latest
+      tag: v0.3.0
     imagePullPolicy: IfNotPresent
     resources:
       limits:
