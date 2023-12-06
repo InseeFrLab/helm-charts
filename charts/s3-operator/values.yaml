@@ -3,7 +3,7 @@ crds:
   install: true
   # -- Keep CRDs on chart uninstall
   keep: true
-  
+
 controllerManager:
   manager:
     containerSecurityContext:
@@ -15,6 +15,7 @@ controllerManager:
       repository: inseefrlab/s3-operator
       tag: latest
     imagePullPolicy: IfNotPresent
+    imagePullSecrets: []
     resources:
       limits:
         cpu: 1000m
@@ -27,12 +28,12 @@ kubernetesClusterDomain: cluster.local
 s3:
   endpointUrl: "localhost:9000"
 
-  # To manage access/secret keys, two options : 
+  # To manage access/secret keys, two options :
   #   - (Poor) Directly set them using the accessKey/secretKey parameters below.
   #   This makes them directly visible to anyone with enough rights on your k8s.
   #   - (Better) Use the existingSecret parameter to reference a k8s secret, which
   #   needs to contain at least two environment variables : S3_ACCESS_KEY and S3_SECRET_KEY.
-  #   This in turn allows you to use another mechanism to further protect these, 
+  #   This in turn allows you to use another mechanism to further protect these,
   #   eg sealed secrets.
   existingSecret: "my-s3-operator-auth-secret"
   # accessKey: ""
@@ -42,6 +43,5 @@ s3:
   # caCertificatesBase64 is used.
 
   # caCertificateBundlePath: /path/to/ca-bundle.crt
-  # caCertificatesBase64: 
+  # caCertificatesBase64:
   # - base64encodedPEMFormatCACertificate
-
