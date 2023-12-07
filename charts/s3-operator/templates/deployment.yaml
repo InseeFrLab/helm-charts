@@ -69,6 +69,10 @@ spec:
           {{- end }}
         image: {{ .Values.controllerManager.manager.image.repository }}:{{ .Values.controllerManager.manager.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.controllerManager.manager.imagePullPolicy | default "IfNotPresent" | quote }}
+        {{- with  .Values.controllerManager.manager.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}  
         livenessProbe:
           httpGet:
             path: /healthz
