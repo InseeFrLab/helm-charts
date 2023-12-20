@@ -30,6 +30,8 @@ s3:
   disableTls: false
   # mountCertsFromSecret:
   # mountCertsFromSecretKey 
+  accessKeyName: S3_ACCESS_KEY
+  secretKeyName: S3_SECRET_KEY
 
   # To manage access/secret keys, two options :
   #   - (Poor) Directly set them using the accessKey/secretKey parameters below.
