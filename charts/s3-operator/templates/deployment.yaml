@@ -36,6 +36,19 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}  
+      {{- if .Values.s3.mountCertsFromSecret }}
+      volumes:
+        - name: caCerts
+          secret:
+            secretName: "{{.Values.s3.mountCertsFromSecret}}"
+      {{- end }}
+      containers:
+        {{- if .Values.s3.mountCertsFromSecret }}
+        volumeMounts:
+          - name: caCerts
+            mountPath: "{{.Values.s3.caCertificateBundlePath}}"
+            subPath: "{{.Values.s3.mountCertsFromSecretKey | default('public.crt') }}"
+        {{- end }}
       containers:
       - args:
         - --health-probe-bind-address=:8081
@@ -44,6 +57,9 @@ spec:
         - --s3-endpoint-url={{ .Values.s3.endpointUrl }}
         {{- if .Values.s3.caCertificateBundlePath }}
         - --s3-ca-certificate-bundle-path={{ .Values.s3.caCertificateBundlePath }}
+        {{- end }}
+        {{- if .Values.s3.disableTls }}
+        - --useSsl=false
         {{- end }}
         {{- range .Values.s3.caCertificatesBase64 }}
         - --s3-ca-certificate-base64={{ . }}
