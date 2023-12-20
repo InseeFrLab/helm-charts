@@ -27,6 +27,9 @@ controllerManager:
 kubernetesClusterDomain: cluster.local
 s3:
   endpointUrl: "localhost:9000"
+  disableTls: false
+  # mountCertsFromSecret:
+  # mountCertsFromSecretKey 
 
   # To manage access/secret keys, two options :
   #   - (Poor) Directly set them using the accessKey/secretKey parameters below.
