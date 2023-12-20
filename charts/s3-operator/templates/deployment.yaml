@@ -47,7 +47,7 @@ spec:
         volumeMounts:
           - name: caCerts
             mountPath: "{{.Values.s3.caCertificateBundlePath}}"
-            subPath: "{{.Values.s3.mountCertsFromSecretKey | default('public.crt') }}"
+            subPath: {{.Values.s3.mountCertsFromSecretKey }}
         {{- end }}
       containers:
       - args:
@@ -74,7 +74,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.s3.existingSecret }}
-              key: {{ .Values.s3.secretKeyName | default 'S3_ACCESS_KEY'}}
+              key: {{ .Values.s3.secretKeyName }}
           {{- else }}
           value: {{ .Values.s3.accessKey }}
           {{- end }}
@@ -83,7 +83,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.s3.existingSecret }}
-              key: {{ .Values.s3.accessKeyName | default 'S3_SECRET_KEY'}}  
+              key: {{ .Values.s3.accessKeyName }}  
           {{- else }}
           value: {{ .Values.s3.secretKey }}
           {{- end }}
