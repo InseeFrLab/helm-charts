@@ -38,16 +38,16 @@ spec:
       {{- end }}  
       {{- if .Values.s3.mountCertsFromSecret }}
       volumes:
-        - name: caCerts
+        - name: ca-certs
           secret:
             secretName: "{{.Values.s3.mountCertsFromSecret}}"
       {{- end }}
       containers:
         {{- if .Values.s3.mountCertsFromSecret }}
         volumeMounts:
-          - name: caCerts
+          - name: ca-certs
             mountPath: "{{.Values.s3.caCertificateBundlePath}}"
-            subPath: {{.Values.s3.mountCertsFromSecretKey }}
+            subPath: {{.Values.s3.mountCertsFromSecretKey | default "public.crt" }}
         {{- end }}
       containers:
       - args:
