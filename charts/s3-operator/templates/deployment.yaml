@@ -58,7 +58,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.s3.existingSecret }}
-              key: S3_ACCESS_KEY
+              key: {{ .Values.s3.secretKeyName | default 'S3_ACCESS_KEY'}}
           {{- else }}
           value: {{ .Values.s3.accessKey }}
           {{- end }}
@@ -67,7 +67,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.s3.existingSecret }}
-              key: S3_SECRET_KEY
+              key: {{ .Values.s3.accessKeyName | default 'S3_SECRET_KEY'}}  
           {{- else }}
           value: {{ .Values.s3.secretKey }}
           {{- end }}
