@@ -49,7 +49,6 @@ spec:
             mountPath: "{{.Values.s3.caCertificateBundlePath}}"
             subPath: {{.Values.s3.mountCertsFromSecretKey | default "public.crt" }}
         {{- end }}
-      containers:
       - args:
         - --health-probe-bind-address=:8081
         - --metrics-bind-address=127.0.0.1:8080
