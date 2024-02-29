@@ -10,7 +10,7 @@ controllerManager:
       allowPrivilegeEscalation: false
       capabilities:
         drop:
-        - ALL
+          - ALL
     image:
       repository: inseefrlab/s3-operator
       tag: latest
@@ -23,6 +23,8 @@ controllerManager:
       requests:
         cpu: 50m
         memory: 64Mi
+    extraArgs: []
+    extraEnv: {}
   replicas: 1
 kubernetesClusterDomain: cluster.local
 
