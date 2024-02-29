@@ -1,6 +1,6 @@
 # s3-operator
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.7.0](https://img.shields.io/badge/AppVersion-0.7.0-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.8.0](https://img.shields.io/badge/AppVersion-0.8.0-informational?style=flat-square)
 
 A Helm chart for deploying an operator to manage S3 resources (eg buckets, policies)
 
@@ -22,6 +22,9 @@ A Helm chart for deploying an operator to manage S3 resources (eg buckets, polic
 | crds.install | bool | `true` | Install and upgrade CRDs |
 | crds.keep | bool | `true` | Keep CRDs on chart uninstall |
 | kubernetesClusterDomain | string | `"cluster.local"` |  |
+| s3.deletion.bucket | bool | `false` |  |
+| s3.deletion.path | bool | `false` |  |
+| s3.deletion.policy | bool | `false` |  |
 | s3.endpointUrl | string | `"localhost:9000"` |  |
 | s3.existingSecret | string | `"my-s3-operator-auth-secret"` |  |
 
