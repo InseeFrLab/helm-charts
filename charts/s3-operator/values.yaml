@@ -25,6 +25,7 @@ controllerManager:
         memory: 64Mi
   replicas: 1
 kubernetesClusterDomain: cluster.local
+
 s3:
   endpointUrl: "localhost:9000"
 
@@ -45,3 +46,9 @@ s3:
   # caCertificateBundlePath: /path/to/ca-bundle.crt
   # caCertificatesBase64:
   # - base64encodedPEMFormatCACertificate
+
+  # Should the operator try to delete the resource from the S3 backend upon CR deletion ?
+  deletion:
+    bucket: false
+    path: false
+    policy: false
