@@ -1,0 +1,82 @@
+{{- if .Values.apache.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apache
+data:
+  httpd.conf: |
+    ServerRoot "/usr/local/apache2"
+
+    Listen 80
+
+    LoadModule mpm_event_module modules/mod_mpm_event.so
+    LoadModule authn_file_module modules/mod_authn_file.so
+    LoadModule authn_core_module modules/mod_authn_core.so
+    LoadModule authz_host_module modules/mod_authz_host.so
+    LoadModule authz_groupfile_module modules/mod_authz_groupfile.so
+    LoadModule authz_user_module modules/mod_authz_user.so
+    LoadModule authz_core_module modules/mod_authz_core.so
+    LoadModule access_compat_module modules/mod_access_compat.so
+    LoadModule auth_basic_module modules/mod_auth_basic.so
+    LoadModule reqtimeout_module modules/mod_reqtimeout.so
+    LoadModule filter_module modules/mod_filter.so
+    LoadModule mime_module modules/mod_mime.so
+    LoadModule log_config_module modules/mod_log_config.so
+    LoadModule env_module modules/mod_env.so
+    LoadModule headers_module modules/mod_headers.so
+    LoadModule setenvif_module modules/mod_setenvif.so
+    LoadModule version_module modules/mod_version.so
+    LoadModule proxy_module modules/mod_proxy.so
+    LoadModule proxy_connect_module modules/mod_proxy_connect.so
+    LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+    LoadModule proxy_http_module modules/mod_proxy_http.so
+    LoadModule proxy_fcgi_module modules/mod_proxy_fcgi.so
+    LoadModule proxy_scgi_module modules/mod_proxy_scgi.so
+    LoadModule proxy_uwsgi_module modules/mod_proxy_uwsgi.so
+    LoadModule proxy_fdpass_module modules/mod_proxy_fdpass.so
+    LoadModule proxy_wstunnel_module modules/mod_proxy_wstunnel.so
+    LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+    LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+    LoadModule proxy_express_module modules/mod_proxy_express.so
+    LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
+    LoadModule unixd_module modules/mod_unixd.so
+    LoadModule status_module modules/mod_status.so
+    LoadModule autoindex_module modules/mod_autoindex.so
+    LoadModule dir_module modules/mod_dir.so
+    LoadModule alias_module modules/mod_alias.so
+    LoadModule rewrite_module modules/mod_rewrite.so
+    LoadModule auth_openidc_module modules/mod_auth_openidc.so
+
+
+    ErrorLog /proc/self/fd/2
+    LogLevel debug
+    ProxyRequests On
+
+    <VirtualHost *:80>
+      OIDCProviderMetadataURL  {{ .Values.apache.confighost.OIDCProviderMetadataURL }}
+      OIDCClientID {{ .Values.apache.confighost.OIDCClientID }}
+      OIDCClientSecret {{ .Values.apache.confighost.OIDCClientSecret }}
+      OIDCRedirectURI {{ .Values.apache.confighost.OIDCRedirectURI }}
+      OIDCCryptoPassphrase supermdp
+      OIDCRemoteUserClaim preferred_username
+      OIDCXForwardedHeaders X-Forwarded-Host X-Forwarded-Port X-Forwarded-Proto        
+      <Location />
+        AuthType openid-connect
+        
+        # Si juste rajouter Authentification pour tous, décommenter ci dessous
+        Require valid-user
+
+        # Si ajouter Authentification pour tous + filtrage par groupe, attention le groupe doit etre présent dans l'idtoken décommenter ci dessous
+        # <RequireAll>
+        #   Require claim groups:poc-apache-rshiny_K8S-DEV
+        # </RequireAll>
+
+        ProxyPreserveHost on
+        ProxyPass http://localhost:{{ .Values.apache.port.shiny }}/
+        ProxyPassReverse http://localhost:{{ .Values.apache.port.shiny }}/
+        ProxyPass ws://localhost:{{ .Values.apache.port.shiny }}/
+        ProxyPassReverse ws://localhost:{{ .Values.apache.port.shiny }}/
+
+      </Location>
+    </VirtualHost>
+{{- end }}

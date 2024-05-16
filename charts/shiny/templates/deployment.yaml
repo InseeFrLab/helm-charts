@@ -1,5 +1,13 @@
 {{- $fullName := include "library-chart.fullname" . -}}
 {{- $volumeName := printf "%s-%s" $fullName "data" | trunc 63 | trimSuffix "-" -}}
+{{ $shinyPort := "null" }}
+{{- if .Values.apache.enabled -}}
+{{- $shinyPort =  .Values.apache.port.shiny  -}}
+{{- else }}
+{{- $shinyPort =  .Values.networking.service.port -}}
+{{- end }}
+
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,6 +37,14 @@ spec:
         {{- if .Values.volumes }}
         {{- toYaml .Values.volumes | default "" | nindent 8 }}
         {{- end }}
+        {{- if .Values.apache.enabled }}
+        - name: httpd-conf
+          configMap:
+            name: apache
+            items:
+              - key: httpd.conf
+                path: httpd.conf
+        {{- end }}   
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -114,11 +130,31 @@ spec:
             periodSeconds: {{ .Values.probes.startupProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.probes.startupProbe.timeoutSeconds }}
           {{- end }}
+          ports:
+            - name: shiny-http
+              containerPort: {{ $shinyPort }} 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | default "" | nindent 12 }}
-      {{- if .Values.postgresql.enabled.internal }}
+        {{- if .Values.apache.enabled }}
+        - name: apache
+          securityContext:
+            {{- toYaml .Values.apache.securityContext | nindent 12 }}
+          image: {{ .Values.apache.image }}
+          imagePullPolicy: {{ .Values.apache.pullPolicy }}
+          resources:
+            {{- toYaml .Values.apache.resources | nindent 12 }}
+          ports:
+            - name: apache-http
+              containerPort: {{ .Values.networking.service.port }} 
+          envFrom: 
+            - secretRef:
+                name : {{ .Values.apache.existingSecretOIDC.name }}            
+          volumeMounts:
+            {{- toYaml .Values.apache.volumeMounts | default "" | nindent 12 }}
+        {{- end }}      
+      {{- if .Values.postgresql.enabled.internal }}   
       initContainers:
         - name: wait-for-postgresql
           image: "alpine"

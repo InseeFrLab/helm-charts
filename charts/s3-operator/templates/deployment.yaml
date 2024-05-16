@@ -32,18 +32,28 @@ spec:
       annotations:
         kubectl.kubernetes.io/default-container: manager
     spec:
+      {{- with  .Values.controllerManager.manager.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}  
       containers:
       - args:
         - --health-probe-bind-address=:8081
         - --metrics-bind-address=127.0.0.1:8080
         - --leader-elect
         - --s3-endpoint-url={{ .Values.s3.endpointUrl }}
+        - --bucket-deletion={{ .Values.s3.deletion.bucket }}
+        - --path-deletion={{ .Values.s3.deletion.path }}
+        - --policy-deletion={{ .Values.s3.deletion.policy }}
         {{- if .Values.s3.caCertificateBundlePath }}
         - --s3-ca-certificate-bundle-path={{ .Values.s3.caCertificateBundlePath }}
         {{- end }}
         {{- range .Values.s3.caCertificatesBase64 }}
         - --s3-ca-certificate-base64={{ . }}
         {{- end }} 
+        {{- if .Values.controllerManager.manager.extraArgs }}
+        {{- toYaml .Values.controllerManager.manager.extraArgs | nindent 8 }}
+        {{- end }}
         command:
         - /manager
         env:
@@ -67,6 +77,10 @@ spec:
           {{- else }}
           value: {{ .Values.s3.secretKey }}
           {{- end }}
+        {{- range $k, $v := .Values.controllerManager.manager.extraEnv }}
+        - name: {{ $k }}
+          value: {{ $v | quote }}
+        {{- end }}
         image: {{ .Values.controllerManager.manager.image.repository }}:{{ .Values.controllerManager.manager.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.controllerManager.manager.imagePullPolicy | default "IfNotPresent" | quote }}
         livenessProbe:
