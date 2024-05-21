@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: shinyproxy-service-monitor
+  namespace:  {{ .Release.Namespace }}
+  labels:
+    release: prometheus-stack
+    app.kubernetes.io/name: shinyproxy
+spec:
+  # namespaceSelector:
+  #   matchNames:
+  #   - projet-exemple
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: shinyproxy-coucou
+      app.kubernetes.io/name: shinyproxy
+  endpoints:
+    - interval: 30s
+      path: /actuator/prometheus
+      targetPort: 9090
