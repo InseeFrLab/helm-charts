@@ -1,0 +1,18 @@
+{{- if .Values.monitor.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "library-chart.fullname" . }}-metrics
+  labels:
+    {{- include "library-chart.labels" . | nindent 4 }}
+    servicename: {{ include "library-chart.fullname" . }}-metrics
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: monitor
+      port: 9090
+      targetPort: {{ .Values.monitor.port }}
+      protocol: TCP
+  selector:
+    {{- include "library-chart.selectorLabels" . | nindent 4 }}
+{{- end }}

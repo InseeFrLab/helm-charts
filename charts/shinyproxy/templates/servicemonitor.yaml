@@ -1,20 +1,21 @@
+{{- if .Values.monitor.enabled -}}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: shinyproxy-service-monitor
+  name: {{ include "library-chart.fullname" . }}-monitor
   namespace:  {{ .Release.Namespace }}
   labels:
-    release: prometheus-stack
-    app.kubernetes.io/name: shinyproxy
+    release: {{ .Values.monitor.metadata.labels.release }}
+    app.kubernetes.io/name: {{ include "library-chart.fullname" . }}
 spec:
-  # namespaceSelector:
-  #   matchNames:
-  #   - projet-exemple
+  endpoints:
+  - port: monitor
+    interval: {{ .Values.monitor.interval }}
+    path: /actuator/prometheus
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      app.kubernetes.io/instance: shinyproxy-coucou
-      app.kubernetes.io/name: shinyproxy
-  endpoints:
-    - interval: 30s
-      path: /actuator/prometheus
-      targetPort: 9090
+      servicename: {{ include "library-chart.fullname" . }}-metrics
+{{- end }}

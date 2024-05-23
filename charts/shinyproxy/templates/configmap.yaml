@@ -6,12 +6,15 @@ metadata:
     {{- include "library-chart.labels" . | nindent 4 }}
 data:
   application.yml: |-
+    {{ if .Values.monitor.enabled }}
+    usage-stats-micrometer-prefix: {{ .Values.monitor.micrometer.prefix }}
+    usage-stats-url: micrometer
     management:
       prometheus:
         metrics:
           export:
-            enabled: true
-    usage-stats-url: micrometer
+            enabled: {{ .Values.monitor.enabled }}
+    {{ end }}
     proxy:
       landing-page: {{ .Values.proxyConfig.landingPage }}
       container-backend: kubernetes
