@@ -5,7 +5,7 @@ Security
 
 With or without oidc, if using oidc pay attention to deploy yourself a secret that contains:
 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -21,7 +21,7 @@ You can customized the application.yml file in the apps helm values.
 
 If you want to add some env variable you cas use container-env if you want to protect secret you can deploy yourself a secret like this, let say you have 2 applications:
 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
