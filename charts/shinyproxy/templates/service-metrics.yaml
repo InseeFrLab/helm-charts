@@ -9,9 +9,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: monitor
+    - name: {{ .Values.monitor.port.name }}
       port: 9090
-      targetPort: {{ .Values.monitor.port }}
+      targetPort: {{ .Values.monitor.port.number }}
       protocol: TCP
   selector:
     {{- include "library-chart.selectorLabels" . | nindent 4 }}

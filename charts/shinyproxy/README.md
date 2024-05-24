@@ -60,8 +60,12 @@ monitor:
   metadata:
     labels:
       release: "prometheus-stack"
-  port: 9090
+  port:
+    number: 9090
+    name: monitor
   interval: 10s
   micrometer:
     prefix: "shinyproxy"
 ```
+
+The _servicemonitor.yaml_ needs to fetch infos of a specific service (port, labels, ...). Since the _service.yaml_ we have is already used by the _ingress.yaml_, we made a second one called _service-metrics.yaml_ for ths purpose.

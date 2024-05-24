@@ -86,7 +86,9 @@ monitor:
   metadata:
     labels:
       release: ""
-  port: 9090
+  port:
+    name: ""
+    number: 9090
   interval: 10s
   micrometer:
     prefix: ""

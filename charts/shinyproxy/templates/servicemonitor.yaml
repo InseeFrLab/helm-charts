@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: {{ include "library-chart.fullname" . }}
 spec:
   endpoints:
-  - port: monitor
+  - port: {{ .Values.monitor.port.name }}
     interval: {{ .Values.monitor.interval }}
     path: /actuator/prometheus
   namespaceSelector:
