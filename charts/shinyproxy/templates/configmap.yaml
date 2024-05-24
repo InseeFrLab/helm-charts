@@ -13,7 +13,7 @@ data:
       prometheus:
         metrics:
           export:
-            enabled: {{ .Values.monitor.enabled }}
+            enabled: true
     {{ end }}
     proxy:
       landing-page: {{ .Values.proxyConfig.landingPage }}
