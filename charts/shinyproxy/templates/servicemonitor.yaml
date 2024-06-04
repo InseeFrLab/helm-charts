@@ -1,0 +1,21 @@
+{{- if .Values.monitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "library-chart.fullname" . }}-monitor
+  namespace:  {{ .Release.Namespace }}
+  labels:
+    release: {{ .Values.monitor.metadata.labels.release }}
+    app.kubernetes.io/name: {{ include "library-chart.fullname" . }}
+spec:
+  endpoints:
+  - port: {{ .Values.monitor.port.name }}
+    interval: {{ .Values.monitor.interval }}
+    path: /actuator/prometheus
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      servicename: {{ include "library-chart.fullname" . }}-metrics
+{{- end }}
