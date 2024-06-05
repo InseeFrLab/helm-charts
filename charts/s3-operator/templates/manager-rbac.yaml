@@ -83,6 +83,36 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - s3user
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - s3user/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - s3user/status
+  verbs:
+  - get
+  - patch
+  - update  
+- apiGroups: [""]
+  resources: [ "secrets" ]
+  verbs: ["create" , "patch" , "update" ,"delete"]
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
