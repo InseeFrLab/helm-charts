@@ -45,6 +45,8 @@ spec:
         - --bucket-deletion={{ .Values.s3.deletion.bucket }}
         - --path-deletion={{ .Values.s3.deletion.path }}
         - --policy-deletion={{ .Values.s3.deletion.policy }}
+        - --s3user-deletion={{ .Values.s3.deletion.s3userDeletion }}
+        - --override-existing-secret={{ .Values.s3user.override-existing-secret }}
         {{- if .Values.s3.caCertificateBundlePath }}
         - --s3-ca-certificate-bundle-path={{ .Values.s3.caCertificateBundlePath }}
         {{- end }}
