@@ -54,7 +54,7 @@ s3:
     bucket: false
     path: false
     policy: false
-    s3userDeletion: false 
+    s3user: false 
 
   s3user:
-    override-existing-secret: false 
+    overrideExistingSecret: false 
