@@ -111,11 +111,7 @@ rules:
   - update  
 - apiGroups: [""]
   resources: [ "secrets" ]
-<<<<<<< HEAD
-  verbs: ["list","create" , "patch" , "update" ,"delete"]
-=======
-  verbs: ["create" , "patch" , "update" ,"delete"]
->>>>>>> 14129f0ea631847a40ee71cd99c2dafabbc3a378
+  verbs: ["list", "create" , "patch" , "update" ,"delete"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
