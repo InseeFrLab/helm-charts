@@ -710,6 +710,17 @@ entries:
   s3-operator:
   - apiVersion: v2
     appVersion: 0.8.0
+    created: "2024-06-07T11:57:37.803243083Z"
+    description: A Helm chart for deploying an operator to manage S3 resources (eg
+      buckets, policies)
+    digest: 7aa1b335df4035f725f29933ed836daf6bce50b0bead62bc228cb5425dc149e4
+    name: s3-operator
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/s3-operator-0.5.4/s3-operator-0.5.4.tgz
+    version: 0.5.4
+  - apiVersion: v2
+    appVersion: 0.8.0
     created: "2024-06-06T08:37:48.918009889Z"
     description: A Helm chart for deploying an operator to manage S3 resources (eg
       buckets, policies)
@@ -1673,4 +1684,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2024-06-06T08:37:48.91830959Z"
+generated: "2024-06-07T11:57:37.80348348Z"
