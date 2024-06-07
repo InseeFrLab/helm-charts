@@ -86,7 +86,7 @@ rules:
 - apiGroups:
   - s3.onyxia.sh
   resources:
-  - s3user
+  - s3users
   verbs:
   - create
   - delete
@@ -98,20 +98,20 @@ rules:
 - apiGroups:
   - s3.onyxia.sh
   resources:
-  - s3user/finalizers
+  - s3users/finalizers
   verbs:
   - update
 - apiGroups:
   - s3.onyxia.sh
   resources:
-  - s3user/status
+  - s3users/status
   verbs:
   - get
   - patch
   - update  
 - apiGroups: [""]
   resources: [ "secrets" ]
-  verbs: ["list", "create" , "patch" , "update" ,"delete"]
+  verbs: ["list", "create" , "patch" , "update" ,"delete", "watch", "get"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
