@@ -1,7 +1,7 @@
 proxyDeploy:
   image:
     name: openanalytics/shinyproxy
-    tag: 3.1.0
+    tag: 3.1.1
     pullPolicy: Always
   replicaCount: 1
   resources: {}
@@ -61,10 +61,10 @@ existingAppsSecretName:
 
 
 ingress:
+  ingressClassName: ""
   enabled: true
   tls: true
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
   hostname: chart-example.local
 
