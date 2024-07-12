@@ -35,6 +35,7 @@ proxyConfig:
   heartbeatRate: 10000
   heartbeatTimeout: 60000
   containerWaitTime: 20000
+  defaultMaxInstances: 1
   port: 8080
   authentication:
     type: none
