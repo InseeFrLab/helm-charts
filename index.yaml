@@ -1480,6 +1480,19 @@ entries:
     version: 0.1.0
   shinyproxy:
   - apiVersion: v2
+    created: "2024-07-15T08:17:47.572933228Z"
+    dependencies:
+    - name: library-chart
+      repository: https://inseefrlab.github.io/helm-charts-interactive-services
+      version: 1.5.23
+    description: A Helm chart to deplo ShinyProxy (https://www.shinyproxy.io/)
+    digest: 49196a39663dd67484f34171498de37e9d6ee32f8823ac9aba77caa0c2b26188
+    name: shinyproxy
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/shinyproxy-2.1.3/shinyproxy-2.1.3.tgz
+    version: 2.1.3
+  - apiVersion: v2
     created: "2024-07-12T15:25:15.575293303Z"
     dependencies:
     - name: library-chart
@@ -1711,4 +1724,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2024-07-12T15:25:15.575477377Z"
+generated: "2024-07-15T08:17:47.573197562Z"
