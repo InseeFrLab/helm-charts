@@ -29,6 +29,7 @@ data:
       authentication: {{ .Values.proxyConfig.authentication.type }}
       admin-groups: {{ .Values.proxyConfig.adminGroups }}
       title: {{ .Values.proxyConfig.title }}
+      hide-navbar: {{ .Values.proxyConfig.hideNavbar }}
       default-max-instances: {{ .Values.proxyConfig.defaultMaxInstances }}
       default-proxy-max-lifetime: {{ .Values.proxyConfig.defaultProxyMaxLifeTime }}
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}

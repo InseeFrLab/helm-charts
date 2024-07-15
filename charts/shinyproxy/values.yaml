@@ -32,6 +32,7 @@ proxyDeploy:
 
 proxyConfig:
   landingPage: /
+  hideNavbar: true
   heartbeatRate: 10000
   heartbeatTimeout: 60000
   containerWaitTime: 20000
