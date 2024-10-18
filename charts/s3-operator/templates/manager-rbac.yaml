@@ -5,6 +5,32 @@ metadata:
   labels:
   {{- include "s3-operator.labels" . | nindent 4 }}
 rules:
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - secrets/status
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - s3.onyxia.sh
   resources:
@@ -27,32 +53,6 @@ rules:
   - s3.onyxia.sh
   resources:
   - buckets/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - s3.onyxia.sh
-  resources:
-  - policies
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - s3.onyxia.sh
-  resources:
-  - policies/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - s3.onyxia.sh
-  resources:
-  - policies/status
   verbs:
   - get
   - patch
@@ -86,6 +86,58 @@ rules:
 - apiGroups:
   - s3.onyxia.sh
   resources:
+  - policies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - policies/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - policies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - s3instances
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - s3instances/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
+  - s3instances/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - s3.onyxia.sh
+  resources:
   - s3users
   verbs:
   - create
@@ -108,11 +160,7 @@ rules:
   verbs:
   - get
   - patch
-  - update  
-- apiGroups: [""]
-  resources: [ "secrets" ]
-  verbs: ["list", "create" , "patch" , "update" ,"delete", "watch", "get"]
-
+  - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

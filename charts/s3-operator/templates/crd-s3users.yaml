@@ -2,27 +2,27 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: paths.s3.onyxia.sh
   annotations:
     {{- if .Values.crds.keep }}
-    "helm.sh/resource-policy": keep
+    helm.sh/resource-policy: keep
     {{- end }}
     controller-gen.kubebuilder.io/version: v0.11.1
   labels:
   {{- include "s3-operator.labels" . | nindent 4 }}
+  name: s3users.s3.onyxia.sh
 spec:
   group: s3.onyxia.sh
   names:
-    kind: Path
-    listKind: PathList
-    plural: paths
-    singular: path
+    kind: S3User
+    listKind: S3UserList
+    plural: s3users
+    singular: s3user
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Path is the Schema for the paths API
+        description: S3User is the Schema for the S3Users API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -37,21 +37,31 @@ spec:
           metadata:
             type: object
           spec:
-            description: PathSpec defines the desired state of Path
+            description: S3UserSpec defines the desired state of S3User
             properties:
-              bucketName:
-                description: Name of the bucket
+              accessKey:
+                description: Name of the S3User
                 type: string
-              paths:
-                description: Paths (folders) to create inside the bucket
+              policies:
+                description: Policies associated to the S3User
                 items:
                   type: string
                 type: array
+              s3InstanceRef:
+                default: s3-operator/default
+                description: s3InstanceRef where create the user
+                type: string
+                x-kubernetes-validations:
+                - message: s3InstanceRef is immutable
+                  rule: self == oldSelf
+              secretName:
+                description: SecretName associated to the S3User
+                type: string
             required:
-            - bucketName
+            - accessKey
             type: object
           status:
-            description: PathStatus defines the observed state of Path
+            description: S3UserStatus defines the observed state of S3User
             properties:
               conditions:
                 description: 'Status management using Conditions. See also : https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties'
