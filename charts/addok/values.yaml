@@ -145,3 +145,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+volumes:
+  dataVolume:
+  - name: data
+    emptyDir: {}
