@@ -11,7 +11,7 @@ spec:
       labels: {{- include "addok.redis.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-        {{- toYaml .Values.volumes.dataVolume | nindent 8 }}
+        {{- toYaml .Values.volumes.redisDataVolume | nindent 8 }}
       {{- if .Values.redis.init.enabled }}
       initContainers:
         - name: download-data

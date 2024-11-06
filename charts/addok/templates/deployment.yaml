@@ -27,7 +27,7 @@ spec:
             items:
               - key: addok.conf
                 path: addok.conf
-        {{- toYaml .Values.volumes.dataVolume | nindent 8 }}
+        {{- toYaml .Values.volumes.addokDataVolume | nindent 8 }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
