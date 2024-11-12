@@ -3,6 +3,16 @@ entries:
   addok:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-11-12T15:10:56.777593143Z"
+    description: A Helm chart for Kubernetes
+    digest: e59763cd163d2ba75231159fe338c1eb5c8e930a8c169d45fdd8289445cea063
+    name: addok
+    type: application
+    urls:
+    - https://github.com/InseeFrLab/helm-charts/releases/download/addok-0.1.5/addok-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-10-31T19:15:03.031843768Z"
     description: A Helm chart for Kubernetes
     digest: cc71479e21eb62fe7c18966eafb1b4449b6d8b4d20a2ca786dd493b1b967b61b
@@ -1758,4 +1768,4 @@ entries:
     urls:
     - https://github.com/InseeFrLab/helm-charts/releases/download/vtl-lab-0.0.1/vtl-lab-0.0.1.tgz
     version: 0.0.1
-generated: "2024-10-31T19:15:03.032489163Z"
+generated: "2024-11-12T15:10:56.77784531Z"
