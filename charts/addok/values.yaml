@@ -147,6 +147,9 @@ tolerations: []
 affinity: {}
 
 volumes:
-  dataVolume:
+  addokDataVolume:
+  - name: data
+    emptyDir: {}
+  redisDataVolume:
   - name: data
     emptyDir: {}
