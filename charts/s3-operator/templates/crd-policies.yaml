@@ -3,22 +3,26 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
+    {{- if .Values.crds.keep }}
+    helm.sh/resource-policy: keep
+    {{- end }}
     controller-gen.kubebuilder.io/version: v0.11.1
-  creationTimestamp: null
-  name: s3users.s3.onyxia.sh
+  labels:
+  {{- include "s3-operator.labels" . | nindent 4 }}
+  name: policies.s3.onyxia.sh
 spec:
   group: s3.onyxia.sh
   names:
-    kind: S3User
-    listKind: S3UserList
-    plural: s3users
-    singular: s3user
+    kind: Policy
+    listKind: PolicyList
+    plural: policies
+    singular: policy
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: S3User is the Schema for the S3Users API
+        description: Policy is the Schema for the policies API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -33,24 +37,30 @@ spec:
           metadata:
             type: object
           spec:
-            description: S3UserSpec defines the desired state of S3User
+            description: PolicySpec defines the desired state of Policy
             properties:
-              accessKey:
-                description: Name of the S3User
+              name:
+                description: Name of the policy
                 type: string
-              policies:
-                description: Policies associated to the S3User
-                items:
-                  type: string
-                type: array
-              secretName:
-                description: SecretName associated to the S3User
+              policyContent:
+                description: Content of the policy (IAM JSON format)
                 type: string
+              s3InstanceRef:
+                default: s3-operator/default
+                description: s3InstanceRef where create the Policy
+                maxLength: 127
+                minLength: 1
+                pattern: ^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?(/[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?)?$
+                type: string
+                x-kubernetes-validations:
+                - message: s3InstanceRef is immutable
+                  rule: self == oldSelf
             required:
-            - accessKey
+            - name
+            - policyContent
             type: object
           status:
-            description: S3UserStatus defines the observed state of S3User
+            description: PolicyStatus defines the observed state of Policy
             properties:
               conditions:
                 description: 'Status management using Conditions. See also : https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties'
