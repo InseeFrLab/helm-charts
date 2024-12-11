@@ -35,7 +35,11 @@ spec:
       {{- with  .Values.controllerManager.manager.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
-      {{- end }}  
+      {{- end }}
+      {{- with .Values.controllerManager.manager.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - args:
         - --health-probe-bind-address=:8081
@@ -85,6 +89,10 @@ spec:
         {{- end }}
         image: {{ .Values.controllerManager.manager.image.repository }}:{{ .Values.controllerManager.manager.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.controllerManager.manager.imagePullPolicy | default "IfNotPresent" | quote }}
+        {{- with .Values.controllerManager.manager.volumeMounts }}
+        volumeMounts:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         livenessProbe:
           httpGet:
             path: /healthz
