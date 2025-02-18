@@ -37,10 +37,10 @@ spec:
               value: {{ printf "http://%s/%s" .Values.ingress.hostname "api/" | quote }}
             {{- end}}
           {{- end}}
-            {{- range .Values.ui.env }}
-          - name: {{ .name }}
-            value: {{ .value }}
-            {{- end }}
+          {{- range .Values.ui.env }}
+            - name: {{ .name }}
+              value: {{ .value }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 80
