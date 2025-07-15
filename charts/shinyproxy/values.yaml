@@ -38,6 +38,7 @@ proxyConfig:
   containerWaitTime: 20000
   defaultMaxInstances: 1
   defaultProxyMaxLifeTime: 120
+  defaultWebSocketReconnectionMode: None
   port: 8080
   authentication:
     type: none

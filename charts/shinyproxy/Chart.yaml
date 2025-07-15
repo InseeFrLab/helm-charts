@@ -1,6 +1,6 @@
 apiVersion: v2
 name: shinyproxy
-description: A Helm chart to deplo ShinyProxy (https://www.shinyproxy.io/)
+description: A Helm chart to deploy ShinyProxy (https://www.shinyproxy.io/)
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,7 +15,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 2.2.1
+version: 2.3.0
 
 dependencies:
 - name: library-chart

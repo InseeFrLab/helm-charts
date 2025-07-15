@@ -32,6 +32,7 @@ data:
       hide-navbar: {{ .Values.proxyConfig.hideNavbar }}
       default-max-instances: {{ .Values.proxyConfig.defaultMaxInstances }}
       default-proxy-max-lifetime: {{ .Values.proxyConfig.defaultProxyMaxLifeTime }}
+      default-webSocket-reconnection-mode: {{ .Values.proxyConfig.defaultWebSocketReconnectionMode }}
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}
       openid:
         auth-url: {{ .Values.proxyConfig.authentication.openid.authURL }}
