@@ -95,3 +95,13 @@ monitor:
   interval: 10s
   micrometer:
     prefix: ""
+
+livenessProbe:
+  enabled: true
+  periodSeconds: 20
+  initialDelaySeconds: 2
+  failureThreshold: 3
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 2
+  periodSeconds: 20

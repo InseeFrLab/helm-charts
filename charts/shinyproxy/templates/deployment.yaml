@@ -35,18 +35,23 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
               port: 9090
-            periodSeconds: 20
-            initialDelaySeconds: 2
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
               port: 9090
-            periodSeconds: 20
-            initialDelaySeconds: 2
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            initialDelaySeconds:  {{ .Values.readinessProbe.initialDelaySeconds }}
+          {{- end }}
           resources:
             {{- toYaml .Values.proxyDeploy.resources | nindent 12 }}
       volumes:
