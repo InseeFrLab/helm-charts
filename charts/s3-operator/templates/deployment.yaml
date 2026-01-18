@@ -36,6 +36,12 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}  
+      {{- if .Values.s3.mountCertsFromSecret }}
+      volumes:
+        - name: ca-certs
+          secret:
+            secretName: "{{.Values.s3.mountCertsFromSecret}}"
+      {{- end }}
       containers:
       - args:
         - --health-probe-bind-address=:8081
@@ -50,6 +56,9 @@ spec:
         {{- if .Values.s3.caCertificateBundlePath }}
         - --s3-ca-certificate-bundle-path={{ .Values.s3.caCertificateBundlePath }}
         {{- end }}
+        {{- if .Values.s3.disableTls }}
+        - --useSsl=false
+        {{- end }}
         {{- range .Values.s3.caCertificatesBase64 }}
         - --s3-ca-certificate-base64={{ . }}
         {{- end }} 
@@ -58,6 +67,12 @@ spec:
         {{- end }}
         command:
         - /manager
+        {{- if .Values.s3.mountCertsFromSecret }}
+        volumeMounts:
+          - name: ca-certs
+            mountPath: "{{.Values.s3.caCertificateBundlePath}}"
+            subPath: {{.Values.s3.mountCertsFromSecretKey | default "public.crt" }}
+        {{- end }}
         env:
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
@@ -66,7 +81,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.s3.existingSecret }}
-              key: S3_ACCESS_KEY
+              key: {{ .Values.s3.accessKeyName }}
           {{- else }}
           value: {{ .Values.s3.accessKey }}
           {{- end }}
@@ -75,7 +90,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Values.s3.existingSecret }}
-              key: S3_SECRET_KEY
+              key: {{ .Values.s3.secretKeyName }}  
           {{- else }}
           value: {{ .Values.s3.secretKey }}
           {{- end }}
