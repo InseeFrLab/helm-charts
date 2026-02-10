@@ -18,7 +18,7 @@ data:
     proxy:
       landing-page: {{ .Values.proxyConfig.landingPage }}
       container-backend: kubernetes
-      container-log-path: ./shinyproxy-logs
+      container-log-path: {{ .Values.proxyConfig.containerLogPath }}
       kubernetes:
         internal-networking: true
         namespace: {{ .Release.Namespace }}
@@ -41,8 +41,12 @@ data:
         logout-url: {{ .Values.proxyConfig.authentication.openid.logoutURL }}
         username-attribute: {{ .Values.proxyConfig.authentication.openid.usernameAttribute }}
         roles-claim: {{ .Values.proxyConfig.authentication.openid.rolesClaim }}
+        scopes: {{ .Values.proxyConfig.authentication.openid.scopes }}
         client-id:
         client-secret:
       {{ end }}
       specs:
       {{- toYaml $.Values.apps | nindent 6 }}
+    logging:
+      level:
+        root: {{ .Values.logging.level }}
