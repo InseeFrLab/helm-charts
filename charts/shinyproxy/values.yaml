@@ -1,7 +1,7 @@
 proxyDeploy:
   image:
     name: openanalytics/shinyproxy
-    tag: 3.1.1
+    tag: 3.2.3
     pullPolicy: Always
   replicaCount: 1
   resources: {}
@@ -32,6 +32,7 @@ proxyDeploy:
 
 proxyConfig:
   landingPage: /
+  containerLogPath: ./shinyproxy-logs
   hideNavbar: true
   heartbeatRate: 10000
   heartbeatTimeout: 60000
@@ -51,6 +52,7 @@ proxyConfig:
 #   usernameAttribute: ""
 #   rolesClaim: ""
 #   existingClientCredentialsSecretName: ""
+#   scopes: "offline_access"
 
 apps:
 - id: ""
@@ -60,6 +62,8 @@ apps:
   container-cmd: []
   access-groups: []
 
+logging:
+  level: INFO
 
 existingAppsSecretName:
 
