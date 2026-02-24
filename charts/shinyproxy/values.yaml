@@ -67,6 +67,10 @@ logging:
 
 existingAppsSecretName:
 
+initContainer:
+  image: inseefrlab/onyxia-base
+  tag: latest
+  pullPolicy: IfNotPresent
 
 ingress:
   ingressClassName: ""
