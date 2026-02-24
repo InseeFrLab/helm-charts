@@ -78,8 +78,8 @@ spec:
       {{ if eq .Values.proxyConfig.authentication.type "openid" }}
       initContainers:
         - name: init
-          image: "inseefrlab/onyxia-base:latest"
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.initContainer.image }}:{{ .Values.initContainer.tag }}"
+          imagePullPolicy: {{ .Values.initContainer.pullPolicy }}
           resources:
             limits:
               cpu: 500m
