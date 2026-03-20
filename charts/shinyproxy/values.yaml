@@ -55,12 +55,12 @@ proxyConfig:
 #   scopes: "offline_access"
 
 apps:
-- id: ""
-  display-name: ""
-  description: ""
-  container-image: ""
-  container-cmd: []
-  access-groups: []
+  - id: ""
+    display-name: ""
+    description: ""
+    container-image: ""
+    container-cmd: []
+    access-groups: []
 
 logging:
   level: INFO
@@ -76,6 +76,7 @@ ingress:
   ingressClassName: ""
   enabled: true
   tls: true
+  tlsSecretName: ""
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
   hostname: chart-example.local
