@@ -15,6 +15,9 @@ spec:
   tls:
     - hosts:
         - {{ .Values.ingress.hostname | quote }}
+      {{- if .Values.ingress.tlsSecretName }}
+      secretName: {{ .Values.ingress.tlsSecretName | quote }}
+      {{- end }}
 {{- end }}
   rules:
     - host: {{ .Values.ingress.hostname | quote }}
