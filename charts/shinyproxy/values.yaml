@@ -43,16 +43,19 @@ proxyConfig:
   port: 8080
   authentication:
     type: none
-    # type: openid
-# openid:
-#   authURL: ""
-#   tokenURL: ""
-#   jwksURL: ""
-#   logoutURL: ""
-#   usernameAttribute: ""
-#   rolesClaim: ""
-#   existingClientCredentialsSecretName: ""
-#   scopes: "offline_access"
+  # type: openid
+  # openid:
+  #   authURL: ""
+  #   tokenURL: ""
+  #   jwksURL: ""
+  #   logoutURL: ""
+  #   usernameAttribute: ""
+  #   rolesClaim: ""
+  #   existingClientCredentialsSecretName: ""
+  #   scopes: "offline_access"
+# kubernetes:
+# Allowed values: Never, IfNotPresent, Always
+#   imagePullPolicy: IfNotPresent
 
 apps:
   - id: ""
