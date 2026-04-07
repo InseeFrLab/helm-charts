@@ -5,6 +5,10 @@ metadata:
   name: {{ include "library-chart.fullname" . }}
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
+  {{- with .Values.proxyDeploy.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.proxyDeploy.replicaCount }}
   selector:

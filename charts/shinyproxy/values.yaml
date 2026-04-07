@@ -3,6 +3,7 @@ proxyDeploy:
     name: openanalytics/shinyproxy
     tag: 3.2.3
     pullPolicy: Always
+  deploymentAnnotations: {}
   replicaCount: 1
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
