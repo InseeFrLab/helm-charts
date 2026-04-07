@@ -18,7 +18,9 @@ data:
     proxy:
       landing-page: {{ .Values.proxyConfig.landingPage }}
       container-backend: kubernetes
+      {{ if .Values.proxyConfig.containerLogPath }}
       container-log-path: {{ .Values.proxyConfig.containerLogPath }}
+      {{ end }}
       kubernetes:
         internal-networking: true
         namespace: {{ .Release.Namespace }}
