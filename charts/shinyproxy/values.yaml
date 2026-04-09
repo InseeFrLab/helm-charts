@@ -3,6 +3,7 @@ proxyDeploy:
     name: openanalytics/shinyproxy
     tag: 3.2.3
     pullPolicy: Always
+  deploymentAnnotations: {}
   replicaCount: 1
   resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -43,16 +44,19 @@ proxyConfig:
   port: 8080
   authentication:
     type: none
-    # type: openid
-# openid:
-#   authURL: ""
-#   tokenURL: ""
-#   jwksURL: ""
-#   logoutURL: ""
-#   usernameAttribute: ""
-#   rolesClaim: ""
-#   existingClientCredentialsSecretName: ""
-#   scopes: "offline_access"
+  # type: openid
+  # openid:
+  #   authURL: ""
+  #   tokenURL: ""
+  #   jwksURL: ""
+  #   logoutURL: ""
+  #   usernameAttribute: ""
+  #   rolesClaim: ""
+  #   existingClientCredentialsSecretName: ""
+  #   scopes: "offline_access"
+# kubernetes:
+# Allowed values: Never, IfNotPresent, Always
+#   imagePullPolicy: IfNotPresent
 
 apps:
   - id: ""

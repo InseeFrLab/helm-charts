@@ -5,6 +5,10 @@ metadata:
   name: {{ include "library-chart.fullname" . }}
   labels:
     {{- include "library-chart.labels" . | nindent 4 }}
+  {{- with .Values.proxyDeploy.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.proxyDeploy.replicaCount }}
   selector:
@@ -13,7 +17,10 @@ spec:
   template:
     metadata:
       annotations:
-        {{- toYaml .Values.proxyDeploy.podAnnotations | nindent 8 }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- with .Values.proxyDeploy.podAnnotations }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "library-chart.selectorLabels" . | nindent 8 }}
     spec:

@@ -18,10 +18,15 @@ data:
     proxy:
       landing-page: {{ .Values.proxyConfig.landingPage }}
       container-backend: kubernetes
+      {{ if .Values.proxyConfig.containerLogPath }}
       container-log-path: {{ .Values.proxyConfig.containerLogPath }}
+      {{ end }}
       kubernetes:
         internal-networking: true
         namespace: {{ .Release.Namespace }}
+        {{ if and .Values.proxyConfig.kubernetes .Values.proxyConfig.kubernetes.imagePullPolicy }}
+        image-pull-policy: {{ .Values.proxyConfig.kubernetes.imagePullPolicy }}
+        {{ end }}
       heartbeat-rate: {{ .Values.proxyConfig.heartbeatRate }}
       heartbeat-timeout: {{ .Values.proxyConfig.heartbeatTimeout }}
       container-wait-time: {{ .Values.proxyConfig.containerWaitTime }}
