@@ -93,7 +93,9 @@ spec:
               memory: 1024Mi
             requests:
               cpu: 100m
-              memory: 512Mi          
+              memory: 512Mi  
+          securityContext:
+            {{- toYaml .Values.proxyDeploy.initContainerSecurityContext | nindent 12 }}        
           volumeMounts:
             - name: app-conf
               mountPath: /etc/app-conf/application.yml

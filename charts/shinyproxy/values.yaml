@@ -21,6 +21,7 @@ proxyDeploy:
   podSecurityContext: {}
   # fsGroup: 2000
   securityContext: {}
+  initContainerSecurityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -54,9 +55,9 @@ proxyConfig:
   #   rolesClaim: ""
   #   existingClientCredentialsSecretName: ""
   #   scopes: "offline_access"
-# kubernetes:
-# Allowed values: Never, IfNotPresent, Always
-#   imagePullPolicy: IfNotPresent
+  # kubernetes:
+  #   # Allowed values: Never, IfNotPresent, Always
+  #   imagePullPolicy: IfNotPresent
 
 apps:
   - id: ""
